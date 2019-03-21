@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -20,12 +19,12 @@ import { FileSizePipe } from './pipes/file-size.pipe';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { DownloadHandlerComponent } from './download-handler/download-handler.component';
 import { FileThumbnailComponent } from './file-thumbnail/file-thumbnail.component';
-import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth-service';
 import { EnvironmentConfig } from './models/environment-config';
 import { AuthConfig } from './models/auth-config';
 import { AuthInterceptor } from './services/auth-interceptor';
 import { SvgIconComponent } from './svg-icon/svg-icon.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
     imports: [
@@ -43,11 +42,7 @@ import { SvgIconComponent } from './svg-icon/svg-icon.component';
         NgxsLoggerPluginModule.forRoot({
             disabled: environment.production
         }),
-        RouterModule.forRoot([
-            { path: '',            component: HomeComponent,  canActivate: [AuthGuardService] },
-            { path: 'auth',        loadChildren: './auth/auth.module#AuthModule' },
-            { path: '**',          redirectTo: '/' },
-        ])
+        AppRoutingModule
     ],
     declarations: [
         // pipes
@@ -65,7 +60,6 @@ import { SvgIconComponent } from './svg-icon/svg-icon.component';
     ],
     providers: [
         AuthService,
-        AuthGuardService,
         AuthStoreManagerService,
         EnvironmentConfig,
         {
