@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth-service';
 //import { SettingsService } from 'src/app/core/services/settings.service';
-import { AuthService } from '../../services/auth-service';
 
 @Component({
     selector: 'app-spa-signin',

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { UploadService } from '../services/upload.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UploadService } from '../core/services/upload.service';
 
 @Component({
     selector: 'app-file-thumbnail',

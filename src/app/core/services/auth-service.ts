@@ -5,7 +5,9 @@ import { AuthConfig } from '../models/auth-config';
 import { BehaviorSubject } from 'rxjs';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthService {
     private _mgr: UserManager;
     private _user: User;

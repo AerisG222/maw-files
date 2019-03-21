@@ -2,16 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 
-import { LoadServerFiles, DownloadServerFiles, DeleteServerFiles } from '../state/upload.actions';
-import { UploadState } from '../state/upload.state';
-import { IFileInfo } from '../models/ifile-info';
-import { FileSizePipe } from '../pipes/file-size.pipe';
-import { RelativeDatePipe } from '../pipes/relative-date.pipe';
-import { AuthState } from '../state/auth.state';
 import { FileViewModel } from './file-view-model';
 import { map, takeUntil } from 'rxjs/operators';
-import { listItemAnimation } from '../animations/animations';
-import { SvgIcon } from '../svg-icon/svg-icon.enum';
+import { FileSizePipe } from '../shared/pipes/file-size.pipe';
+import { RelativeDatePipe } from '../shared/pipes/relative-date.pipe';
+import { listItemAnimation } from '../shared/animations/animations';
+import { SvgIcon } from '../shared/svg-icon/svg-icon.enum';
+import { UploadState } from '../core/state/upload.state';
+import { IFileInfo } from '../core/models/ifile-info';
+import { AuthState } from '../core/state/auth.state';
+import { LoadServerFiles, DownloadServerFiles, DeleteServerFiles } from '../core/state/upload.actions';
 
 @Component({
     selector: 'app-file-listing',

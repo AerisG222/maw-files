@@ -4,7 +4,9 @@ import { UpdateUser, ShowUsername } from '../state/auth.actions';
 import { User } from 'oidc-client';
 import { AuthService } from './auth-service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthStoreManagerService {
     constructor(private _store: Store,
                 private _authService: AuthService) {
