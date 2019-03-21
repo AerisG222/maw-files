@@ -1,5 +1,5 @@
-import { IFileInfo } from '../core/models/ifile-info';
-import { IFileLocation } from '../core/models/ifile-location';
+import { IFileInfo } from '../../core/models/ifile-info';
+import { IFileLocation } from '../../core/models/ifile-location';
 
 export class FileViewModel implements IFileInfo {
     constructor(public location: IFileLocation,

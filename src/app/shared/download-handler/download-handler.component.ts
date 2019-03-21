@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { UploadState } from '../core/state/upload.state';
+import { UploadState } from '../../core/state/upload.state';
 
 @Component({
     selector: 'app-download-handler',

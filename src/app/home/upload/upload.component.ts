@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { FileSizePipe } from '../shared/pipes/file-size.pipe';
-import { listItemAnimation } from '../shared/animations/animations';
-import { SvgIcon } from '../shared/svg-icon/svg-icon.enum';
-import { UploadState } from '../core/state/upload.state';
-import { InitializeUploader } from '../core/state/upload.actions';
+
+import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
+import { listItemAnimation } from '../../shared/animations/animations';
+import { SvgIcon } from '../../shared/svg-icon/svg-icon.enum';
+import { UploadState } from '../../core/state/upload.state';
+import { InitializeUploader } from '../../core/state/upload.actions';
 
 @Component({
     selector: 'app-upload',
