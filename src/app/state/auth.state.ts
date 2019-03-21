@@ -1,8 +1,8 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { User } from 'oidc-client';
 import { CompleteSignin, UpdateUser, ShowUsername } from './auth.actions';
-import { AuthService } from 'maw-auth';
 import { AuthStoreManagerService } from '../services/auth-store-manager.service';
+import { AuthService } from '../services/auth-service';
 
 export interface AuthStateModel {
     user: User;

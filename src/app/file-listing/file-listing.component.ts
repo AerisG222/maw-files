@@ -11,7 +11,7 @@ import { AuthState } from '../state/auth.state';
 import { FileViewModel } from './file-view-model';
 import { map, takeUntil } from 'rxjs/operators';
 import { listItemAnimation } from '../animations/animations';
-import { SvgIcon } from 'maw-common';
+import { SvgIcon } from '../svg-icon/svg-icon.enum';
 
 @Component({
     selector: 'app-file-listing',

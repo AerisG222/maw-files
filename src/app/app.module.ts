@@ -10,7 +10,6 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { AuthStoreManagerService } from './services/auth-store-manager.service';
-import { SignInComponent } from './sign-in/sign-in.component';
 import { HomeComponent } from './home/home.component';
 import { FileListingComponent } from './file-listing/file-listing.component';
 import { UploadComponent } from './upload/upload.component';
@@ -21,9 +20,12 @@ import { FileSizePipe } from './pipes/file-size.pipe';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { DownloadHandlerComponent } from './download-handler/download-handler.component';
 import { FileThumbnailComponent } from './file-thumbnail/file-thumbnail.component';
-import { MawCommonModule, EnvironmentConfig, } from 'maw-common';
-import { MawAuthModule, AuthConfig, AuthGuardService, AuthInterceptor, AuthService } from 'maw-auth';
-
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth-service';
+import { EnvironmentConfig } from './models/environment-config';
+import { AuthConfig } from './models/auth-config';
+import { AuthInterceptor } from './services/auth-interceptor';
+import { SvgIconComponent } from './svg-icon/svg-icon.component';
 
 @NgModule({
     imports: [
@@ -31,9 +33,6 @@ import { MawAuthModule, AuthConfig, AuthGuardService, AuthInterceptor, AuthServi
         FileUploadModule,
         FormsModule,
         HttpClientModule,
-        MawAuthModule,
-        MawCommonModule,
-        // NgbModule.forRoot(),
         NgxsModule.forRoot([
             AuthState,
             UploadState
@@ -46,7 +45,7 @@ import { MawAuthModule, AuthConfig, AuthGuardService, AuthInterceptor, AuthServi
         }),
         RouterModule.forRoot([
             { path: '',            component: HomeComponent,  canActivate: [AuthGuardService] },
-            { path: 'signin-oidc', component: SignInComponent },
+            { path: 'auth',        loadChildren: './auth/auth.module#AuthModule' },
             { path: '**',          redirectTo: '/' },
         ])
     ],
@@ -59,10 +58,10 @@ import { MawAuthModule, AuthConfig, AuthGuardService, AuthInterceptor, AuthServi
         AppComponent,
         FileListingComponent,
         HomeComponent,
-        SignInComponent,
         UploadComponent,
         DownloadHandlerComponent,
-        FileThumbnailComponent
+        FileThumbnailComponent,
+        SvgIconComponent
     ],
     providers: [
         AuthService,
@@ -74,10 +73,10 @@ import { MawAuthModule, AuthConfig, AuthGuardService, AuthInterceptor, AuthServi
             useFactory: (env: EnvironmentConfig) => {
                 return new AuthConfig(
                     env.authUrl,
-                    'maw_upload',
-                    env.wwwUrl,
-                    `${env.wwwUrl}/upload/signin-oidc`,
-                    `${env.wwwUrl}/account/spa-silent-signin`
+                    'maw-files',
+                    env.filesUrl,
+                    `${env.filesUrl}/auth`,
+                    `${env.filesUrl}/auth/silent`
                 );
             },
             deps: [ EnvironmentConfig ]

@@ -6,10 +6,10 @@ import { filter, switchMap, map } from 'rxjs/operators';
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 
 import { IFileInfo } from '../models/ifile-info';
-import { EnvironmentConfig } from 'maw-common';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { IFileOperationResult } from '../models/ifile-operation-result';
 import { FileAdded, FileDeleted } from '../state/upload.actions';
+import { EnvironmentConfig } from '../models/environment-config';
 
 @Injectable({
     providedIn: 'root'
