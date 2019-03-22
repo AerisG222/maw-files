@@ -6,7 +6,7 @@ import { UploadService } from '../../core/services/upload.service';
 @Component({
     selector: 'app-file-thumbnail',
     templateUrl: './file-thumbnail.component.html',
-    styleUrls: ['./file-thumbnail.component.css']
+    styleUrls: ['./file-thumbnail.component.scss']
 })
 export class FileThumbnailComponent {
     show$ = new BehaviorSubject<boolean>(false);

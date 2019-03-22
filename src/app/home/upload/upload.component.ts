@@ -11,7 +11,7 @@ import { InitializeUploader } from '../../core/state/upload.actions';
 @Component({
     selector: 'app-upload',
     templateUrl: './upload.component.html',
-    styleUrls: ['./upload.component.css'],
+    styleUrls: ['./upload.component.scss'],
     providers: [
         FileSizePipe
     ],

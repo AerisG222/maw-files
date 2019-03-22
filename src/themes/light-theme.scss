@@ -1,0 +1,6 @@
+$maw-light-primary: mat-palette($mat-pink, A200, A100, A400);
+$maw-light-accent:  mat-palette($mat-pink, A200, A100, A400);
+$maw-light-warn:    mat-palette($mat-red);
+$maw-light-theme: mat-light-theme($maw-light-primary, $maw-light-accent, $maw-light-warn);
+
+@include angular-material-theme($maw-light-theme);

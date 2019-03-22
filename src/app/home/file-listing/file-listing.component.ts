@@ -15,7 +15,7 @@ import { LoadServerFiles, DownloadServerFiles, DeleteServerFiles } from '../../c
 @Component({
     selector: 'app-file-listing',
     templateUrl: './file-listing.component.html',
-    styleUrls: ['./file-listing.component.css'],
+    styleUrls: ['./file-listing.component.scss'],
     providers: [
         FileSizePipe,
         RelativeDatePipe

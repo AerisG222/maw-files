@@ -1,0 +1,75 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+@import 'themes/dark-theme';
+@import 'themes/deep-blue-theme';
+@import 'themes/light-theme';
+@import 'themes/mulled-wine-theme';
+@import 'themes/ocean-theme';
+@import 'themes/pale-night-theme';
+
+// https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
+// @import 'app/app.component.theme';
+// @import 'app/help/help/help.component.theme';
+
+@mixin mat-tooltip-background-override($theme) {
+    $accent: map-get($theme, accent);
+
+    mat-tooltip-component .mat-tooltip {
+        background-color: mat-color($accent, 900) !important;
+    }
+}
+
+// you only have to add additional componenets here (instead of in every theme class)
+@mixin custom-components-theme($theme) {
+    // @include app-component-theme($theme);
+
+    // @include app-help-component-theme($theme);
+
+    @include mat-tooltip-background-override($theme);
+}
+
+.maw-dark-theme {
+    @include angular-material-theme($maw-dark-theme);
+    @include custom-components-theme($maw-dark-theme);
+}
+
+.maw-deep-blue-theme {
+    @include angular-material-theme($maw-deep-blue-theme);
+    @include custom-components-theme($maw-deep-blue-theme);
+}
+
+.maw-light-theme {
+    @include angular-material-theme($maw-light-theme);
+    @include custom-components-theme($maw-light-theme);
+}
+
+.maw-mulled-wine-theme {
+    @include angular-material-theme($maw-mulled-wine-theme);
+    @include custom-components-theme($maw-mulled-wine-theme);
+}
+
+.maw-ocean-theme {
+    @include angular-material-theme($maw-ocean-theme);
+    @include custom-components-theme($maw-ocean-theme);
+}
+
+.maw-pale-night-theme {
+    @include angular-material-theme($maw-pale-night-theme);
+    @include custom-components-theme($maw-pale-night-theme);
+}
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+}

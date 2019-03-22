@@ -1,0 +1,252 @@
+/* For use in src/lib/core/theming/_palette.scss */
+/* https://www.uplabs.com/posts/android-fluent-design */
+$md-mulled-wine: (
+    50 : #eae9eb,
+    100 : #c9c8cc,
+    200 : #a6a3aa,
+    300 : #827e88,
+    400 : #67626f,
+    500 : #4c4655,
+    600 : #453f4e,
+    700 : #3c3744,
+    800 : #332f3b,
+    900 : #24202a,
+    A100 : #a374ff,
+    A200 : #8141ff,
+    A400 : #5f0eff,
+    A700 : #5100f4,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$md-topaz: (
+    50 : #f0eff1,
+    100 : #d9d8dd,
+    200 : #c0bec7,
+    300 : #a7a3b0,
+    400 : #94909f,
+    500 : #817c8e,
+    600 : #797486,
+    700 : #6e697b,
+    800 : #645f71,
+    900 : #514c5f,
+    A100 : #d3c5fd,
+    A200 : #af93fb,
+    A400 : #875dff,
+    A700 : #7543ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$md-venus: (
+    50 : #f3eff0,
+    100 : #e2d6da,
+    200 : #cebbc1,
+    300 : #baa0a8,
+    400 : #ac8b96,
+    500 : #9d7783,
+    600 : #956f7b,
+    700 : #8b6470,
+    800 : #815a66,
+    900 : #6f4753,
+    A100 : #ffcddc,
+    A200 : #ff9ab7,
+    A400 : #ff6793,
+    A700 : #ff4d81,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-mountainberry: (
+    50 : #f3f0f1,
+    100 : #e2d9dd,
+    200 : #cfbfc7,
+    300 : #bca5b0,
+    400 : #ad929f,
+    500 : #9f7f8e,
+    600 : #977786,
+    700 : #8d6c7b,
+    800 : #836271,
+    900 : #724f5f,
+    A100 : #ffd6e8,
+    A200 : #ffa3cc,
+    A400 : #ff70b0,
+    A700 : #ff57a1,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-shadylady: (
+    50 : #f4f3f4,
+    100 : #e5e0e3,
+    200 : #d3ccd0,
+    300 : #c1b7bd,
+    400 : #b4a7af,
+    500 : #a798a1,
+    600 : #9f9099,
+    700 : #96858f,
+    800 : #8c7b85,
+    900 : #7c6a74,
+    A100 : #fff6fb,
+    A200 : #fcc6e5,
+    A400 : #ff90d0,
+    A700 : #ff76c5,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-aluminum: (
+    50 : #f1f1f2,
+    100 : #dbddde,
+    200 : #c3c6c8,
+    300 : #abafb1,
+    400 : #999ea1,
+    500 : #878d90,
+    600 : #7f8588,
+    700 : #747a7d,
+    800 : #6a7073,
+    900 : #575d61,
+    A100 : #d1ebfc,
+    A200 : #a1d6f8,
+    A400 : #68c2ff,
+    A700 : #4eb8ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$mat-mulled-wine-theme-background: (
+  status-bar: black,
+  app-bar:    map_get($md-mulled-wine, 900),
+  background: map_get($md-mulled-wine, 900),
+  hover:      rgba(#9f7f8e, 0.04), // TODO(kara): check style with Material Design UX
+  card:       map_get($md-mulled-wine, 800),
+  dialog:     map_get($md-mulled-wine, 800),
+  disabled-button: rgba(#9f7f8e, 0.12),
+  raised-button: map-get($md-mulled-wine, 800),
+  focused-button: $light-focused,
+  selected-button: map_get($md-mulled-wine, 900),
+  selected-disabled-button: map_get($md-mulled-wine, 800),
+  disabled-button-toggle: black,
+  unselected-chip: map_get($md-mulled-wine, 700),
+  disabled-list-option: black,
+);
+
+$mat-mulled-wine-theme-foreground: (
+  base:              map-get($md-venus, 500),
+  divider:           $light-dividers,
+  dividers:          $light-dividers,
+  disabled:          $light-disabled-text,
+  disabled-button:   rgba(white, 0.3),
+  disabled-text:     $light-disabled-text,
+  elevation:         black,
+  hint-text:         $light-disabled-text,
+  secondary-text:    $light-secondary-text,
+  icon:              map-get($md-venus, 300),
+  icons:             map-get($md-venus, 300),
+  text:              map-get($md-venus, 300),
+  slider-min:        map-get($md-venus, 300),
+  slider-off:        rgba(white, 0.3),
+  slider-off-active: rgba(white, 0.3),
+);
+
+@function mat-mulled-wine-theme($primary, $accent, $warn: mat-palette($mat-red)) {
+    @return (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
+      is-dark: true,
+      foreground: $mat-mulled-wine-theme-foreground,
+      background: $mat-mulled-wine-theme-background,
+    );
+  }
+
+$maw-mulled-wine-primary: mat-palette($md-venus, A400, A200, A700);
+$maw-mulled-wine-accent:  mat-palette($md-venus, A400, A200, A700);
+$maw-mulled-wine-warn:    mat-palette($mat-red);
+$maw-mulled-wine-theme:   mat-mulled-wine-theme($maw-mulled-wine-primary, $maw-mulled-wine-accent, $maw-mulled-wine-warn);
+
+@include angular-material-theme($maw-mulled-wine-theme);
