@@ -5,7 +5,11 @@ import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
 import { DownloadHandlerComponent } from './download-handler/download-handler.component';
-import { MatIconModule } from '@angular/material';
+import {
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule
+} from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -18,11 +22,16 @@ import { MatIconModule } from '@angular/material';
         CommonModule,
         FormsModule,
 
+        MatButtonModule,
+        MatDividerModule,
         MatIconModule
     ],
     exports: [
         FileUploadModule,
         FormsModule,
+
+        MatButtonModule,
+        MatDividerModule,
         MatIconModule,
 
         FileSizePipe,
