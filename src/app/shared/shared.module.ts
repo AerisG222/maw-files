@@ -9,7 +9,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {
     MatButtonModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatTooltipModule
 } from '@angular/material';
 
 @NgModule({
@@ -26,7 +28,9 @@ import {
         FlexLayoutModule,
         MatButtonModule,
         MatDividerModule,
-        MatIconModule
+        MatIconModule,
+        MatSidenavModule,
+        MatTooltipModule
     ],
     exports: [
         FileUploadModule,
@@ -36,6 +40,8 @@ import {
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
+        MatSidenavModule,
+        MatTooltipModule,
 
         FileSizePipe,
         RelativeDatePipe,
