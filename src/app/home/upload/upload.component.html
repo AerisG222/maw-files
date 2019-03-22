@@ -19,43 +19,48 @@
         <h3>Upload Queue</h3>
         <p>Queue length: {{ uploader?.queue?.length }}</p>
 
-        <table class="table table-striped table-hover table-sm">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th *ngIf="uploader.options.isHTML5">Size</th>
-                    <th *ngIf="uploader.options.isHTML5">Progress</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of uploader.queue; trackBy: trackByFile" [@listItemAnimation]>
-                    <td class="align-middle"><strong>{{ item?.file?.name }}</strong></td>
-                    <td class="align-middle" *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size | fileSize }}</td>
-                    <td class="align-middle" *ngIf="uploader.options.isHTML5">
-                        <div class="progress" style="margin-bottom: 0;">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                        </div>
-                    </td>
-                    <td class="text-center align-middle">
-                        <span *ngIf="item.isSuccess">ok</span>
-                        <span *ngIf="item.isCancel">cancelled</span>
-                        <span *ngIf="item.isError">removed</span>
-                    </td>
-                    <td class="align-middle text-right" nowrap>
-                        <button type="button" mat-button (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <mat-icon [inline]="true">cloud_upload</mat-icon> Upload
-                        </button>
-                        <button type="button" mat-button (click)="item.cancel()" [disabled]="!item.isUploading">
-                            <mat-icon [inline]="true">close</mat-icon> Cancel
-                        </button>
-                        <button type="button" mat-button (click)="item.remove()">
-                            <mat-icon [inline]="true">delete</mat-icon> Remove
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
+        <table mat-table [dataSource]="uploader?.queue">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let item">{{ item.file.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="size">
+                <th mat-header-cell *matHeaderCellDef>Size</th>
+                <td mat-cell *matCellDef="let item">{{ item?.file?.size | fileSize }}</td>
+            </ng-container>
+            <ng-container matColumnDef="progress">
+                <th mat-header-cell *matHeaderCellDef>Progress</th>
+                <td mat-cell *matCellDef="let item">
+                    <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let item">
+                    <span *ngIf="item.isSuccess">ok</span>
+                    <span *ngIf="item.isCancel">cancelled</span>
+                    <span *ngIf="item.isError">removed</span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let item">
+                    <button type="button" mat-button (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                        <mat-icon [inline]="true">cloud_upload</mat-icon> Upload
+                    </button>
+                    <button type="button" mat-button (click)="item.cancel()" [disabled]="!item.isUploading">
+                        <mat-icon [inline]="true">close</mat-icon> Cancel
+                    </button>
+                    <button type="button" mat-button (click)="item.remove()">
+                        <mat-icon [inline]="true">delete</mat-icon> Remove
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
         </table>
 
         <div class="row my-1">

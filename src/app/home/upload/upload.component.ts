@@ -21,6 +21,7 @@ import { InitializeUploader } from '../../core/state/upload.actions';
 })
 export class UploadComponent implements OnInit {
     hasBaseDropZoneOver = false;
+    columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'actions' ];
 
     @Select(UploadState.getUploader) uploader$: Observable<FileUploader>;
 

@@ -11,7 +11,8 @@ import {
     MatDividerModule,
     MatIconModule,
     MatSidenavModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTableModule
 } from '@angular/material';
 
 @NgModule({
@@ -30,6 +31,7 @@ import {
         MatDividerModule,
         MatIconModule,
         MatSidenavModule,
+        MatTableModule,
         MatTooltipModule
     ],
     exports: [
@@ -41,6 +43,7 @@ import {
         MatDividerModule,
         MatIconModule,
         MatSidenavModule,
+        MatTableModule,
         MatTooltipModule,
 
         FileSizePipe,

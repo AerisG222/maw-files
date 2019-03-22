@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, filter, tap } from 'rxjs/operators';
 
 import { FileViewModel } from './file-view-model';
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
@@ -37,12 +37,11 @@ export class FileListingComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.sourceFiles$
             .pipe(
-                takeUntil(this._unsubscribe),
-                map(files => this.generateViewModel(files))
-            )
-            .subscribe(
-                files => this.files = files
-            );
+                filter(files => !!files),
+                map(files => this.generateViewModel(files)),
+                tap(files => this.files = files),
+                takeUntil(this._unsubscribe)
+            ).subscribe();
 
         this._store.dispatch(new LoadServerFiles());
     }
