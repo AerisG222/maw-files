@@ -5,7 +5,6 @@ import { Select, Store } from '@ngxs/store';
 
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
-import { SvgIcon } from '../../shared/svg-icon/svg-icon.enum';
 import { UploadState } from '../../core/state/upload.state';
 import { InitializeUploader } from '../../core/state/upload.actions';
 
@@ -21,7 +20,6 @@ import { InitializeUploader } from '../../core/state/upload.actions';
     ]
 })
 export class UploadComponent implements OnInit {
-    svgIcon = SvgIcon;
     hasBaseDropZoneOver = false;
 
     @Select(UploadState.getUploader) uploader$: Observable<FileUploader>;
