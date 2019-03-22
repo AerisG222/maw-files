@@ -1,6 +1,6 @@
-<div class="row" *ngIf="uploader$ | async as uploader">
-    <div class="col-3">
-        <h3>Select Files to Upload</h3>
+<div *ngIf="uploader$ | async as uploader">
+    <div class="file-select">
+        <h2>Upload Files</h2>
 
         <div class="form-group">
             <input type="file" ng2FileSelect [uploader]="uploader" multiple />
@@ -10,12 +10,14 @@
              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
              (fileOver)="fileOverBase($event)"
              [uploader]="uploader"
-             class="well my-drop-zone p-4">
-            Drop Files Here
+             class="my-drop-zone"
+             fxLayout="row"
+             fxLayoutAlign="center center">
+            <span>Drop Files Here</span>
         </div>
     </div>
 
-    <div class="col">
+    <div class="queue">
         <h3>Upload Queue</h3>
         <p>Queue length: {{ uploader?.queue?.length }}</p>
 
@@ -63,17 +65,17 @@
             <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
         </table>
 
-        <div class="row my-1">
-            <div class="col">
+        <div>
+            <div>
                 Queue progress:
-                <div class="progress" style="">
+                <div class="progress">
                     <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
                 </div>
             </div>
         </div>
 
-        <div class="row my-1">
-            <div class="col text-right">
+        <div>
+            <div>
                 <button type="button" mat-button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                     <mat-icon [inline]="true">cloud_upload</mat-icon> Upload all
                 </button>

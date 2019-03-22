@@ -1,5 +1,17 @@
-.my-drop-zone { border: dotted 3px lightgray; }
-.nv-file-over { border: dotted 3px cyan; }
+.my-drop-zone {
+    height: 20vh;
+    margin-top: 12px;
+    border: dotted 3px lightgray;
+}
+
+.nv-file-over {
+    border: dotted 3px cyan;
+}
+
+.queue {
+    margin-top: 12px;
+}
+
 table {
     width: 100%
 }

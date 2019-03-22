@@ -1,32 +1,32 @@
-<h2>Available Files</h2>
+<h2>Remote Files</h2>
 
 <p *ngIf="(sourceFiles$ | async).length == 0">No files available</p>
 
 <table *ngIf="(sourceFiles$ | async).length > 0">
     <tr>
-        <th *ngIf="showUsername$ | async">User</th>
-        <th></th>
-        <th>Filename</th>
-        <th>Uploaded</th>
-        <th>Size</th>
+        <th class="text-left" *ngIf="showUsername$ | async">User</th>
+        <th class="text-left"></th>
+        <th class="text-left">Filename</th>
+        <th class="text-right">Uploaded</th>
+        <th class="text-right">Size</th>
         <th class="text-center">Download</th>
         <th class="text-center">Delete</th>
         <th class="text-center"><input type="checkbox" class="align-middle" (click)="toggleFiles(toggle.checked)" #toggle /></th>
     </tr>
 
     <tr *ngFor="let file of files; trackBy: trackByFile" [@listItemAnimation]>
-        <td *ngIf="showUsername$ | async" class="align-middle">{{file.location.username}}</td>
-        <td class="align-middle"><app-file-thumbnail [relativeFilePath]="file.location.relativePath"></app-file-thumbnail></td>
-        <td class="align-middle">{{file.location.filename}}</td>
-        <td class="align-middle">{{file.creationTime | relativeDate}}</td>
-        <td class="align-middle">{{file.sizeInBytes | fileSize}}</td>
-        <td class="align-middle text-center text-success">
+        <td class="text-left" *ngIf="showUsername$ | async">{{file.location.username}}</td>
+        <td class="text-left"><app-file-thumbnail [relativeFilePath]="file.location.relativePath"></app-file-thumbnail></td>
+        <td class="text-left">{{file.location.filename}}</td>
+        <td class="text-right">{{file.creationTime | relativeDate}}</td>
+        <td class="text-right">{{file.sizeInBytes | fileSize}}</td>
+        <td class="text-center text-success">
             <mat-icon [inline]="true" (click)="downloadSingle(file)">cloud_download</mat-icon>
         </td>
-        <td class="align-middle text-center text-danger">
+        <td class="text-center text-danger">
             <mat-icon [inline]="true" (click)="deleteSingle(file)">delete</mat-icon>
         </td>
-        <td class="align-middle text-center"><input type="checkbox" class="mt-2" [(ngModel)]="file.isChecked" /></td>
+        <td class="text-center"><input type="checkbox" class="mt-2" [(ngModel)]="file.isChecked" /></td>
     </tr>
 
     <tr>
