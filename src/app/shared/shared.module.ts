@@ -5,6 +5,7 @@ import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
 import { DownloadHandlerComponent } from './download-handler/download-handler.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import {
     MatButtonModule,
     MatDividerModule,
@@ -22,6 +23,7 @@ import {
         CommonModule,
         FormsModule,
 
+        FlexLayoutModule,
         MatButtonModule,
         MatDividerModule,
         MatIconModule
@@ -30,6 +32,7 @@ import {
         FileUploadModule,
         FormsModule,
 
+        FlexLayoutModule,
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
