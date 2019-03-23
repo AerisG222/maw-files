@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+
+@mixin app-file-listing-component-theme($theme) {
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .download-button {
+        color: mat-color($accent);
+    }
+
+    .delete-button {
+        color: mat-color($warn);
+    }
+}

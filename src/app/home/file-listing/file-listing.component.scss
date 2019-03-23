@@ -2,6 +2,11 @@ table {
     width: 100%;
 }
 
+.download-button,
+.delete-button {
+    cursor: pointer;
+}
+
 .text-left {
     text-align: left;
 }
