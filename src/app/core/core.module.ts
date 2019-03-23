@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SkipSelf, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
@@ -11,6 +11,7 @@ import { AuthConfig } from './models/auth-config';
 import { AuthState } from './state/auth.state';
 import { UploadState } from './state/upload.state';
 import { environment } from '../../environments/environment';
+import { throwIfAlreadyLoaded } from './module-import.guard';
 
 @NgModule({
     declarations: [],
@@ -50,4 +51,8 @@ import { environment } from '../../environments/environment';
         }
     ]
 })
-export class CoreModule { }
+export class CoreModule {
+    constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+        throwIfAlreadyLoaded(parentModule, 'CoreModule');
+    }
+}
