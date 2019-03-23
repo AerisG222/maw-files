@@ -2,17 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileSizePipe } from './pipes/file-size.pipe';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
 import { DownloadHandlerComponent } from './download-handler/download-handler.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
     MatButtonModule,
+    MatCardModule,
     MatDividerModule,
     MatIconModule,
+    MatSelectModule,
     MatSidenavModule,
+    MatTabsModule,
+    MatTableModule,
     MatTooltipModule,
-    MatTableModule
 } from '@angular/material';
 
 @NgModule({
@@ -25,24 +28,32 @@ import {
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
 
         FlexLayoutModule,
         MatButtonModule,
+        MatCardModule,
         MatDividerModule,
         MatIconModule,
+        MatSelectModule,
         MatSidenavModule,
+        MatTabsModule,
         MatTableModule,
         MatTooltipModule
     ],
     exports: [
         FileUploadModule,
         FormsModule,
+        ReactiveFormsModule,
 
         FlexLayoutModule,
         MatButtonModule,
+        MatCardModule,
         MatDividerModule,
         MatIconModule,
+        MatSelectModule,
         MatSidenavModule,
+        MatTabsModule,
         MatTableModule,
         MatTooltipModule,
 

@@ -1,0 +1,51 @@
+mat-icon {
+    vertical-align: middle;
+}
+
+h3 {
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+mat-tab-group {
+    width: 100%;
+}
+
+.icon {
+    width: 156px;
+    height: 156px;
+}
+
+.title,
+.version {
+    font-family: 'Tangerine';
+    margin-top: 18px;
+}
+
+.title {
+    font-size: 56px;
+
+    & ~ .title {
+        margin-top: 32px;
+    }
+}
+
+.version {
+    font-size: 36px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.android_text {
+    margin-top: 12px;
+}
+
+.android_link {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.android_icon {
+    font-size: 56px;
+}

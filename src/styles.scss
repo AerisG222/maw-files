@@ -17,7 +17,7 @@
 
 // https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
 // @import 'app/app.component.theme';
-// @import 'app/help/help/help.component.theme';
+@import 'app/help/help/help.component.theme';
 
 @mixin mat-tooltip-background-override($theme) {
     $accent: map-get($theme, accent);
@@ -31,7 +31,7 @@
 @mixin custom-components-theme($theme) {
     // @include app-component-theme($theme);
 
-    // @include app-help-component-theme($theme);
+    @include app-help-component-theme($theme);
 
     @include mat-tooltip-background-override($theme);
 }

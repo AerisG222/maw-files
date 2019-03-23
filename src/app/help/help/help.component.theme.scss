@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@mixin app-help-component-theme($theme) {
+    $accent: map-get($theme, accent);
+
+    app-help {
+        & .version {
+            color: mat-color($accent, 500);
+        }
+    }
+}
