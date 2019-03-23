@@ -19,6 +19,7 @@
 @import 'app/app.component.theme';
 @import 'app/help/help/help.component.theme';
 @import 'app/home/file-listing/file-listing.component.theme';
+@import 'app/home/upload/upload.component.theme';
 
 @mixin mat-tooltip-background-override($theme) {
     $accent: map-get($theme, accent);
@@ -35,6 +36,7 @@
     @include app-help-component-theme($theme);
 
     @include app-file-listing-component-theme($theme);
+    @include app-upload-component-theme($theme);
 
     @include mat-tooltip-background-override($theme);
 }
