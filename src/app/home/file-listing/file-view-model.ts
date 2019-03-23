@@ -1,8 +1,8 @@
-import { IFileInfo } from '../../core/models/ifile-info';
-import { IFileLocation } from '../../core/models/ifile-location';
+import { FileInfo } from '../../core/models/file-info';
+import { FileLocation } from '../../core/models/file-location';
 
-export class FileViewModel implements IFileInfo {
-    constructor(public location: IFileLocation,
+export class FileViewModel implements FileInfo {
+    constructor(public location: FileLocation,
                 public creationTime: Date,
                 public sizeInBytes: number,
                 public isChecked = false) {

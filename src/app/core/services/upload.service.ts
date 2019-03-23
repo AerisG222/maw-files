@@ -1,15 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { User } from 'oidc-client';
+import { Store } from '@ngrx/store';
 import { Observable, from, BehaviorSubject } from 'rxjs';
 import { filter, switchMap, map } from 'rxjs/operators';
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 
-import { IFileInfo } from '../models/ifile-info';
+import { FileInfo } from '../models/file-info';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { IFileOperationResult } from '../models/ifile-operation-result';
-import { FileAdded, FileDeleted } from '../state/upload.actions';
+import { FileOperationResult } from '../models/file-operation-result';
 import { EnvironmentConfig } from '../models/environment-config';
+import { RootStoreState } from '../root-store';
+import { AuthService } from './auth-service';
+import { FileAddedAction, FileDeletedAction } from '../root-store/remote-file-store/actions';
 
 @Injectable({
     providedIn: 'root'
@@ -19,15 +20,13 @@ export class UploadService {
 
     constructor(private _cfg: EnvironmentConfig,
                 private _http: HttpClient,
-                private _store: Store,
+                private _authSvc: AuthService,
+                private _store: Store<RootStoreState.State>,
                 private _zone: NgZone) {
-        console.log('creating upload service');
-        console.log(_store);
+
     }
 
-    getServerFiles(): Observable<IFileInfo[]> {
-        console.log('getserverfiles');
-
+    getServerFiles(): Observable<FileInfo[]> {
         this.ensureHubConnected();
 
         return this._hubReady$
@@ -37,7 +36,7 @@ export class UploadService {
             );
     }
 
-    deleteFiles(files: string[]): Observable<IFileOperationResult[]> {
+    deleteFiles(files: string[]): Observable<FileOperationResult[]> {
         if (!!files === false || files.length === 0) {
             return;
         }
@@ -89,20 +88,13 @@ export class UploadService {
             return;
         }
 
-        const user = this._store.selectSnapshot(state => state.auth.user);
-
-        if (!!user === false) {
-            console.log('user is not defined, unable to get hub!');
-            return;
-        }
-
-        await this.setupSignalrHub(user);
+        await this.setupSignalrHub(this._authSvc.getAuthorizationToken());
     }
 
-    private async setupSignalrHub(user: User) {
+    private async setupSignalrHub(token: string) {
         console.log('setting up signalr hub...');
 
-        const tokenValue = `?token=${user.access_token}`;
+        const tokenValue = `?token=${token}`;
         const url = `${this.getAbsoluteUrl('uploadr')}${tokenValue}`;
 
         const hub = new HubConnectionBuilder()
@@ -112,16 +104,16 @@ export class UploadService {
             // .withHubProtocol(new MessagePackHubProtocol())
             .build();
 
-        hub.on('FileAdded', (addedFile: IFileInfo) => {
+        hub.on('FileAdded', (addedFile: FileInfo) => {
             console.log('file added: ', addedFile);
 
-            this._zone.run(() => this._store.dispatch(new FileAdded(addedFile)));
+            this._zone.run(() => this._store.dispatch(new FileAddedAction({ file: addedFile })));
         });
 
-        hub.on('FileDeleted', (deletedFile: IFileInfo) => {
+        hub.on('FileDeleted', (deletedFile: FileInfo) => {
             console.log('file deleted: ', deletedFile);
 
-            this._zone.run(() => this._store.dispatch(new FileDeleted(deletedFile)));
+            this._zone.run(() => this._store.dispatch(new FileDeletedAction({ file: deletedFile })));
         });
 
         hub.start()

@@ -30,8 +30,16 @@ export class AuthService {
         return this._user != null && !this._user.expired;
     }
 
+    isAdmin(): boolean {
+        return this.getClaims().role.includes('admin');
+    }
+
     getClaims(): any {
         return this._user.profile;
+    }
+
+    getAuthorizationToken(): string {
+        return this._user.access_token;
     }
 
     getAuthorizationHeaderValue(): string {

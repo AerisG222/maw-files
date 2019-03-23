@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
-import { UploadState } from '../../core/state/upload.state';
+import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
 
 @Component({
     selector: 'app-download-handler',
@@ -10,7 +10,13 @@ import { UploadState } from '../../core/state/upload.state';
     styleUrls: ['./download-handler.component.scss']
 })
 export class DownloadHandlerComponent {
-    @Select(UploadState.getDownloadError) error$: Observable<any>;
+    error$: Observable<any>;
 
-    constructor() { }
+    constructor(
+        private _store: Store<RootStoreState.State>
+    ) {
+        this.error$ = this._store.pipe(
+            select(RemoteFileStoreSelectors.selectRemoteFileError)
+        );
+    }
 }

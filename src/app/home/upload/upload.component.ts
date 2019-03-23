@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { Observable } from 'rxjs';
-import { Select, Store } from '@ngxs/store';
+import { Store, select } from '@ngrx/store';
 
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
-import { UploadState } from '../../core/state/upload.state';
-import { InitializeUploader } from '../../core/state/upload.actions';
+import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
+import { InitializeUploaderRequestAction } from '../../core/root-store/remote-file-store/actions';
 
 @Component({
     selector: 'app-upload',
@@ -22,15 +22,20 @@ import { InitializeUploader } from '../../core/state/upload.actions';
 export class UploadComponent implements OnInit {
     hasBaseDropZoneOver = false;
     columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'actions' ];
+    uploader$: Observable<FileUploader>;
 
-    @Select(UploadState.getUploader) uploader$: Observable<FileUploader>;
-
-    constructor(private _store: Store) {
+    constructor(
+        private _store: Store<RootStoreState.State>
+    ) {
 
     }
 
     ngOnInit() {
-        this._store.dispatch(new InitializeUploader());
+        this.uploader$ = this._store.pipe(
+            select(RemoteFileStoreSelectors.selectRemoteFileUploader)
+        );
+
+        this._store.dispatch(new InitializeUploaderRequestAction());
     }
 
     fileOverBase(e: any): void {

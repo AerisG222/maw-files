@@ -143,5 +143,8 @@
             }
         }
     },
-    "defaultProject": "maw-files"
+    "defaultProject": "maw-files",
+    "cli": {
+        "defaultCollection": "@ngrx/schematics"
+    }
 }

@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { UploadComponent } from './upload/upload.component';
 import { FileThumbnailComponent } from './file-thumbnail/file-thumbnail.component';
 import { SharedModule } from '../shared/shared.module';
-import { CoreModule } from '../core/core.module';
 
 @NgModule({
     declarations: [
@@ -18,7 +17,6 @@ import { CoreModule } from '../core/core.module';
     ],
     imports: [
         CommonModule,
-        CoreModule,
         SharedModule,
         HomeRoutingModule
     ]

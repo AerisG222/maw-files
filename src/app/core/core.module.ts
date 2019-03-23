@@ -1,33 +1,21 @@
 import { NgModule, SkipSelf, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgxsModule } from '@ngxs/store';
-import { NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
-import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { AuthInterceptor } from './services/auth-interceptor';
 import { EnvironmentConfig } from './models/environment-config';
 import { AuthConfig } from './models/auth-config';
-import { AuthState } from './state/auth.state';
-import { UploadState } from './state/upload.state';
-import { environment } from '../../environments/environment';
 import { throwIfAlreadyLoaded } from './module-import.guard';
+import { RootStoreModule } from './root-store';
 
 @NgModule({
     declarations: [],
     imports: [
         CommonModule,
         HttpClientModule,
-        NgxsModule.forRoot([
-            AuthState,
-            UploadState
-        ]),
-        NgxsReduxDevtoolsPluginModule.forRoot({
-            disabled: environment.production
-        }),
-        NgxsLoggerPluginModule.forRoot({
-            disabled: environment.production
-        }),
+        NgxWebstorageModule.forRoot({ prefix: 'maw-files' }),
+        RootStoreModule
     ],
     providers: [
         EnvironmentConfig,

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, filter, tap } from 'rxjs/operators';
 
@@ -7,10 +7,10 @@ import { FileViewModel } from './file-view-model';
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { RelativeDatePipe } from '../../shared/pipes/relative-date.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
-import { UploadState } from '../../core/state/upload.state';
-import { IFileInfo } from '../../core/models/ifile-info';
-import { AuthState } from '../../core/state/auth.state';
-import { LoadServerFiles, DownloadServerFiles, DeleteServerFiles } from '../../core/state/upload.actions';
+import { FileInfo } from '../../core/models/file-info';
+import { AuthService } from '../../core/services/auth-service';
+import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
+import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '../../core/root-store/remote-file-store/actions';
 
 @Component({
     selector: 'app-file-listing',
@@ -27,23 +27,29 @@ import { LoadServerFiles, DownloadServerFiles, DeleteServerFiles } from '../../c
 export class FileListingComponent implements OnInit, OnDestroy {
     private _unsubscribe: Subject<void> = new Subject();
     files: FileViewModel[] = [];
-    @Select(UploadState.getServerFiles) sourceFiles$: Observable<IFileInfo[]>;
-    @Select(AuthState.getShowUsername) showUsername$: Observable<boolean>;
+    sourceFiles$: Observable<FileInfo[]>;
+    showUsername: boolean;
 
-    constructor(private _store: Store) {
+    constructor(
+        private _store: Store<RootStoreState.State>,
+        private _authSvc: AuthService
+    ) {
 
     }
 
     ngOnInit(): void {
-        this.sourceFiles$
+        this.sourceFiles$ = this._store
             .pipe(
+                select(RemoteFileStoreSelectors.selectAllRemoteFiles),
                 filter(files => !!files),
                 map(files => this.generateViewModel(files)),
                 tap(files => this.files = files),
                 takeUntil(this._unsubscribe)
-            ).subscribe();
+            );
 
-        this._store.dispatch(new LoadServerFiles());
+        this.showUsername = this._authSvc.isAdmin();
+
+        this._store.dispatch(new LoadRequestAction());
     }
 
     ngOnDestroy(): void {
@@ -52,23 +58,23 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     downloadSingle(file: FileViewModel) {
-        this._store.dispatch(new DownloadServerFiles(file.location.relativePath));
+        this._store.dispatch(new DownloadRequestAction({ files: file.location.relativePath }));
     }
 
     deleteSingle(file: FileViewModel) {
-        this._store.dispatch(new DeleteServerFiles(file.location.relativePath));
+        this._store.dispatch(new DeleteRequestAction({ files: file.location.relativePath }));
     }
 
     downloadSelected(): void {
         const list = this.getSelected();
 
-        this._store.dispatch(new DownloadServerFiles(list));
+        this._store.dispatch(new DownloadRequestAction({ files: list }));
     }
 
     deleteSelected(): void {
         const list = this.getSelected();
 
-        this._store.dispatch(new DeleteServerFiles(list));
+        this._store.dispatch(new DeleteRequestAction({ files: list }));
     }
 
     getSelected(): string[] {
@@ -77,7 +83,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
             .map(x => x.location.relativePath);
     }
 
-    generateViewModel(files: IFileInfo[]): FileViewModel[] {
+    generateViewModel(files: FileInfo[]): FileViewModel[] {
         const result = [];
 
         for (const file of files) {
