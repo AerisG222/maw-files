@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
+
 import { Theme } from '../../core/models/theme.model';
 import { Settings } from '../../core/models/settings.model';
-
-
+import { RootStoreState, SettingsStoreActions, SettingsStoreSelectors } from '../../core/root-store';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-settings',
@@ -15,6 +17,7 @@ export class SettingsComponent implements OnInit {
     themes = Theme.allThemes;
     constructor(
         private _formBuilder: FormBuilder,
+        private _store$: Store<RootStoreState.State>
     ) {
 
     }
@@ -24,6 +27,13 @@ export class SettingsComponent implements OnInit {
             appTheme: ['', Validators.required],
         });
 
+        this._store$
+            .pipe(
+                select(SettingsStoreSelectors.selectSettings),
+                tap(settings => this.updateForm(settings))
+            )
+            .subscribe();
+
         this.loadSettings();
     }
 
@@ -32,9 +42,9 @@ export class SettingsComponent implements OnInit {
             appTheme: Theme.forName(this.form.get('appTheme').value)
         };
 
-        // this._store$.dispatch(
-        //     new SettingsStoreActions.SaveRequestAction({ settings: settings })
-        // );
+        this._store$.dispatch(
+            new SettingsStoreActions.SaveRequestAction({ settings: settings })
+        );
     }
 
     onCancel(): void {
@@ -42,9 +52,9 @@ export class SettingsComponent implements OnInit {
     }
 
     private loadSettings(): void {
-        // this._store$.dispatch(
-        //     new SettingsStoreActions.LoadRequestAction()
-        // );
+        this._store$.dispatch(
+            new SettingsStoreActions.LoadRequestAction()
+        );
     }
 
     private updateForm(settings: Settings): void {
