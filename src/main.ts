@@ -5,8 +5,16 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+platformBrowserDynamic()
+    .bootstrapModule(AppModule)
+    .then(ref => {
+        // Ensure Angular destroys itself on hot reloads.
+        if (window['ngRef']) {
+            window['ngRef'].destroy();
+        }
+        window['ngRef'] = ref;
+    })
+    .catch(err => console.error(err));
