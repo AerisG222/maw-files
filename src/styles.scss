@@ -16,7 +16,7 @@
 @import 'themes/pale-night-theme';
 
 // https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
-// @import 'app/app.component.theme';
+@import 'app/app.component.theme';
 @import 'app/help/help/help.component.theme';
 
 @mixin mat-tooltip-background-override($theme) {
@@ -29,7 +29,7 @@
 
 // you only have to add additional componenets here (instead of in every theme class)
 @mixin custom-components-theme($theme) {
-    // @include app-component-theme($theme);
+    @include app-component-theme($theme);
 
     @include app-help-component-theme($theme);
 
