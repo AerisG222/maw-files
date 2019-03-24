@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FileUploader } from 'ng2-file-upload';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTable } from '@angular/material';
+import { FileUploader, FileItem } from 'ng2-file-upload';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
@@ -7,6 +8,7 @@ import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
 import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
 import { InitializeUploaderRequestAction } from '../../core/root-store/remote-file-store/actions';
+import { tap, filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-upload',
@@ -24,6 +26,8 @@ export class UploadComponent implements OnInit {
     columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'actions' ];
     uploader$: Observable<FileUploader>;
 
+    @ViewChild('uploadTable') uploadTable: MatTable<FileItem>;
+
     constructor(
         private _store: Store<RootStoreState.State>
     ) {
@@ -32,7 +36,9 @@ export class UploadComponent implements OnInit {
 
     ngOnInit() {
         this.uploader$ = this._store.pipe(
-            select(RemoteFileStoreSelectors.selectRemoteFileUploader)
+            select(RemoteFileStoreSelectors.selectRemoteFileUploader),
+            filter(uploader => !!uploader),
+            tap(uploader => this.trackChanges(uploader))
         );
 
         this._store.dispatch(new InitializeUploaderRequestAction());
@@ -44,5 +50,21 @@ export class UploadComponent implements OnInit {
 
     trackByFile(index, item) {
         return item.file.name;
+    }
+
+    private trackChanges(uploader: FileUploader): void {
+        uploader.onAfterAddingAll = () => this.updateTable();
+        uploader.onAfterAddingFile = () => this.updateTable();
+        uploader.onCancelItem = () => this.updateTable();
+        uploader.onCompleteAll = () => this.updateTable();
+        uploader.onCompleteItem = () => this.updateTable();
+        uploader.onErrorItem = () => this.updateTable();
+        uploader.onProgressAll = () => this.updateTable();
+        uploader.onProgressItem = () => this.updateTable();
+        uploader.onSuccessItem = () => this.updateTable();
+    }
+
+    private updateTable(): void {
+        this.uploadTable.renderRows();
     }
 }
