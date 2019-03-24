@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MatTable } from '@angular/material';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, filter, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil, filter, tap } from 'rxjs/operators';
 
 import { FileViewModel } from './file-view-model';
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
@@ -11,7 +12,6 @@ import { FileInfo } from '../../core/models/file-info';
 import { AuthService } from '../../core/services/auth-service';
 import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
 import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '../../core/root-store/remote-file-store/actions';
-import { MatTable } from '@angular/material';
 
 @Component({
     selector: 'app-file-listing',
@@ -25,7 +25,7 @@ import { MatTable } from '@angular/material';
         listItemAnimation
     ]
 })
-export class FileListingComponent implements AfterViewInit, OnDestroy {
+export class FileListingComponent implements OnInit, OnDestroy {
     private _unsubscribe: Subject<void> = new Subject();
 
     @ViewChild('fileTable') fileTable: MatTable<FileViewModel>;
@@ -46,7 +46,7 @@ export class FileListingComponent implements AfterViewInit, OnDestroy {
         this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
     }
 
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
         this._store
             .pipe(
                 select(RemoteFileStoreSelectors.selectAllRemoteFiles),
@@ -90,6 +90,7 @@ export class FileListingComponent implements AfterViewInit, OnDestroy {
     }
 
     updateViewModel(files: FileInfo[]): void {
+        // if display table does not have a file in source, add it
         for (const file of files) {
             if (!this.files.some((f, i) => f.location.relativePath === file.location.relativePath)) {
                 this.files.push(new FileViewModel(file.location,
@@ -97,7 +98,26 @@ export class FileListingComponent implements AfterViewInit, OnDestroy {
                     file.sizeInBytes)
                 );
 
-                this.fileTable.renderRows();
+                this.updateTable();
+            }
+        }
+
+        const toRemove = [];
+
+        // if display table has file not in source, remove it
+        for (const file of this.files) {
+            if (!files.some((f, i) => f.location.relativePath === file.location.relativePath)) {
+                toRemove.push(file);
+            }
+        }
+
+        for (const file of toRemove) {
+            const index = this.files.indexOf(file, 0);
+
+            if (index > -1) {
+                this.files.splice(index, 1);
+
+                this.updateTable();
             }
         }
     }
@@ -110,5 +130,11 @@ export class FileListingComponent implements AfterViewInit, OnDestroy {
 
     trackByFile(index, item): number {
         return item.location.relativePath;
+    }
+
+    private updateTable() {
+        if (!!this.fileTable) {
+            this.fileTable.renderRows();
+        }
     }
 }
