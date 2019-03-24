@@ -27,8 +27,8 @@
                 <td mat-cell *matCellDef="let item">{{ item.file.name }}</td>
             </ng-container>
             <ng-container matColumnDef="size">
-                <th mat-header-cell *matHeaderCellDef>Size</th>
-                <td mat-cell *matCellDef="let item">{{ item?.file?.size | fileSize }}</td>
+                <th mat-header-cell *matHeaderCellDef class="text-right">Size</th>
+                <td mat-cell *matCellDef="let item" class="text-right">{{ item?.file?.size | fileSize }}</td>
             </ng-container>
             <ng-container matColumnDef="progress">
                 <th mat-header-cell *matHeaderCellDef>Progress</th>
@@ -46,17 +46,27 @@
                     <span *ngIf="item.isError">removed</span>
                 </td>
             </ng-container>
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let item">
+            <ng-container matColumnDef="upload">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Upload</th>
+                <td mat-cell *matCellDef="let item" class="text-center">
                     <button type="button" mat-button (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess" class="upload-button">
-                        <mat-icon [inline]="true">cloud_upload</mat-icon> Upload
+                        <mat-icon [inline]="true">cloud_upload</mat-icon>
                     </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="cancel">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Cancel</th>
+                <td mat-cell *matCellDef="let item" class="text-center">
                     <button type="button" mat-button (click)="item.cancel()" [disabled]="!item.isUploading" class="cancel-button">
-                        <mat-icon [inline]="true">close</mat-icon> Cancel
+                        <mat-icon [inline]="true">close</mat-icon>
                     </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="remove">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Remove</th>
+                <td mat-cell *matCellDef="let item" class="text-center">
                     <button type="button" mat-button (click)="item.remove()" class="delete-button">
-                        <mat-icon [inline]="true">delete</mat-icon> Remove
+                        <mat-icon [inline]="true">delete</mat-icon>
                     </button>
                 </td>
             </ng-container>

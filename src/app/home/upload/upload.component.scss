@@ -16,6 +16,20 @@
     margin-top: 12px;
 }
 
+.mat-cell,
+.mat-header-cell {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
 table {
     width: 100%
 }

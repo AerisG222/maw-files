@@ -23,7 +23,7 @@ import { tap, filter } from 'rxjs/operators';
 })
 export class UploadComponent implements OnInit {
     hasBaseDropZoneOver = false;
-    columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'actions' ];
+    columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'upload', 'cancel', 'remove' ];
     uploader$: Observable<FileUploader>;
 
     @ViewChild('uploadTable') uploadTable: MatTable<FileItem>;
