@@ -7,8 +7,10 @@ table {
     cursor: pointer;
 }
 
-.text-left {
-    text-align: left;
+.mat-cell,
+.mat-header-cell {
+    padding-left: 6px;
+    padding-right: 6px;
 }
 
 .text-right {

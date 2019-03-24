@@ -29,12 +29,19 @@ export class FileListingComponent implements OnInit, OnDestroy {
     files: FileViewModel[] = [];
     sourceFiles$: Observable<FileInfo[]>;
     showUsername: boolean;
+    columnsToDisplay = [];
 
     constructor(
         private _store: Store<RootStoreState.State>,
         private _authSvc: AuthService
     ) {
+        this.columnsToDisplay.push('thumbnail');
 
+        if (this._authSvc.isAdmin()) {
+            this.columnsToDisplay.push('user');
+        }
+
+        this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
     }
 
     ngOnInit(): void {
