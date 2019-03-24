@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, filter, tap } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { FileInfo } from '../../core/models/file-info';
 import { AuthService } from '../../core/services/auth-service';
 import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
 import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '../../core/root-store/remote-file-store/actions';
+import { MatTable } from '@angular/material';
 
 @Component({
     selector: 'app-file-listing',
@@ -24,11 +25,12 @@ import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '..
         listItemAnimation
     ]
 })
-export class FileListingComponent implements OnInit, OnDestroy {
+export class FileListingComponent implements AfterViewInit, OnDestroy {
     private _unsubscribe: Subject<void> = new Subject();
+
+    @ViewChild('fileTable') fileTable: MatTable<FileViewModel>;
+
     files: FileViewModel[] = [];
-    sourceFiles$: Observable<FileInfo[]>;
-    showUsername: boolean;
     columnsToDisplay = [];
 
     constructor(
@@ -44,17 +46,14 @@ export class FileListingComponent implements OnInit, OnDestroy {
         this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
     }
 
-    ngOnInit(): void {
-        this.sourceFiles$ = this._store
+    ngAfterViewInit(): void {
+        this._store
             .pipe(
                 select(RemoteFileStoreSelectors.selectAllRemoteFiles),
                 filter(files => !!files),
-                map(files => this.generateViewModel(files)),
-                tap(files => this.files = files),
+                tap(files => this.updateViewModel(files)),
                 takeUntil(this._unsubscribe)
-            );
-
-        this.showUsername = this._authSvc.isAdmin();
+            ).subscribe();
 
         this._store.dispatch(new LoadRequestAction());
     }
@@ -90,17 +89,17 @@ export class FileListingComponent implements OnInit, OnDestroy {
             .map(x => x.location.relativePath);
     }
 
-    generateViewModel(files: FileInfo[]): FileViewModel[] {
-        const result = [];
-
+    updateViewModel(files: FileInfo[]): void {
         for (const file of files) {
-            result.push(new FileViewModel(file.location,
-                file.creationTime,
-                file.sizeInBytes)
-            );
-        }
+            if (!this.files.some((f, i) => f.location.relativePath === file.location.relativePath)) {
+                this.files.push(new FileViewModel(file.location,
+                    file.creationTime,
+                    file.sizeInBytes)
+                );
 
-        return result;
+                this.fileTable.renderRows();
+            }
+        }
     }
 
     toggleFiles(isChecked): void {
