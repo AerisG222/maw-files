@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from '@angular/flex-layout';
 
 import { SharedModule } from '../shared/shared.module';
-import { DesktopViewComponent } from '../desktop-view/desktop-view/desktop-view.component';
+import { DesktopViewComponent } from '../desktop/desktop-view/desktop-view.component';
 
 @NgModule({
     declarations: [
@@ -20,4 +20,4 @@ import { DesktopViewComponent } from '../desktop-view/desktop-view/desktop-view.
         DesktopViewComponent
     ]
 })
-export class DesktopViewModule { }
+export class DesktopModule { }

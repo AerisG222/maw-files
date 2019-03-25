@@ -5,8 +5,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { DesktopViewModule } from './desktop-view/desktop-view.module';
-import { MobileViewModule } from './mobile-view/mobile-view.module';
+import { DesktopModule } from './desktop/desktop.module';
+import { MobileModule } from './mobile/mobile.module';
 
 @NgModule({
     imports: [
@@ -14,8 +14,8 @@ import { MobileViewModule } from './mobile-view/mobile-view.module';
         AppRoutingModule,
         CoreModule,
         SharedModule,
-        DesktopViewModule,
-        MobileViewModule
+        DesktopModule,
+        MobileModule
     ],
     declarations: [
         AppComponent

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from '@angular/flex-layout';
 
 import { SharedModule } from '../shared/shared.module';
-import { MobileViewComponent } from '../mobile-view/mobile-view/mobile-view.component';
+import { MobileViewComponent } from '../mobile/mobile-view/mobile-view.component';
 
 @NgModule({
     declarations: [
@@ -20,4 +20,4 @@ import { MobileViewComponent } from '../mobile-view/mobile-view/mobile-view.comp
         MobileViewComponent
     ]
 })
-export class MobileViewModule { }
+export class MobileModule { }
