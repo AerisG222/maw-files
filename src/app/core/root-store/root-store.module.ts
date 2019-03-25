@@ -8,11 +8,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SettingsStoreModule } from './settings-store';
 import { environment } from '../../../environments/environment';
 import { RemoteFileStoreModule } from './remote-file-store';
+import { LayoutStoreModule } from './layout-store';
 
 @NgModule({
     declarations: [],
     imports: [
         CommonModule,
+        LayoutStoreModule,
         RemoteFileStoreModule,
         SettingsStoreModule,
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),

@@ -1,4 +1,41 @@
-<mat-sidenav-container [autosize]="true" fxFlexFill fxLayout>
+<div *ngIf="isMobileView">
+    <mat-toolbar fxLayout="row">
+        <a [routerLink]="['/home']"
+            routerLinkActive="active"
+            mat-button
+            matTooltip="Manage Files"
+            matTooltipPosition="after"
+            fxFlex="none">
+            <mat-icon>home</mat-icon>
+        </a>
+
+        <span fxFlex="grow"></span>
+
+        <a [routerLink]="['/help']"
+            routerLinkActive="active"
+            mat-button
+            matTooltip="Help / About"
+            matTooltipPosition="after"
+            fxFlex="none">
+            <mat-icon>help_outline</mat-icon>
+        </a>
+        <a [routerLink]="['/settings']"
+            routerLinkActive="active"
+            mat-button
+            matTooltip="Settings"
+            matTooltipPosition="after"
+            fxFlex="none">
+            <mat-icon>settings</mat-icon>
+        </a>
+    </mat-toolbar>
+
+    <div>
+        <app-download-handler></app-download-handler>
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+<mat-sidenav-container [autosize]="true" fxFlexFill fxLayout *ngIf="!isMobileView">
     <mat-sidenav disableClose #startSidenavRef mode="side" [opened]="true" class="mat-elevation-z8" fxFlex="none">
         <div fxLayout="column" fxLayoutAlign="space-between" fxFlex>
             <div fxLayout="column">

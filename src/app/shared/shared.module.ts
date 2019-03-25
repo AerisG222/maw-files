@@ -15,6 +15,7 @@ import {
     MatSidenavModule,
     MatTabsModule,
     MatTableModule,
+    MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
 
@@ -39,6 +40,7 @@ import {
         MatSidenavModule,
         MatTabsModule,
         MatTableModule,
+        MatToolbarModule,
         MatTooltipModule
     ],
     exports: [
@@ -55,6 +57,7 @@ import {
         MatSidenavModule,
         MatTabsModule,
         MatTableModule,
+        MatToolbarModule,
         MatTooltipModule,
 
         FileSizePipe,
