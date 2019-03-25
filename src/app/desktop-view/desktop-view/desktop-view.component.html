@@ -1,0 +1,37 @@
+<mat-sidenav-container [autosize]="true" fxFlexFill fxLayout>
+    <mat-sidenav disableClose #startSidenavRef mode="side" [opened]="true" class="mat-elevation-z8" fxFlex="none">
+        <div fxLayout="column" fxLayoutAlign="space-between" fxFlex>
+            <div fxLayout="column">
+                <a [routerLink]="['/home']"
+                   routerLinkActive="active"
+                   mat-button
+                   matTooltip="Manage Files"
+                   matTooltipPosition="after">
+                    <mat-icon>home</mat-icon>
+                </a>
+            </div>
+
+            <div fxLayout="column">
+                <a [routerLink]="['/help']"
+                   routerLinkActive="active"
+                   mat-button
+                   matTooltip="Help / About"
+                   matTooltipPosition="after">
+                    <mat-icon>help_outline</mat-icon>
+                </a>
+                <a [routerLink]="['/settings']"
+                   routerLinkActive="active"
+                   mat-button
+                   matTooltip="Settings"
+                   matTooltipPosition="after">
+                    <mat-icon>settings</mat-icon>
+                </a>
+            </div>
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content fxFlex>
+        <app-download-handler></app-download-handler>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

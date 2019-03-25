@@ -1,0 +1,36 @@
+<div>
+    <mat-toolbar fxLayout="row">
+        <a [routerLink]="['/home']"
+            routerLinkActive="active"
+            mat-button
+            matTooltip="Manage Files"
+            matTooltipPosition="after"
+            fxFlex="none">
+            <mat-icon>home</mat-icon>
+        </a>
+
+        <span fxFlex="grow"></span>
+
+        <a [routerLink]="['/help']"
+            routerLinkActive="active"
+            mat-button
+            matTooltip="Help / About"
+            matTooltipPosition="after"
+            fxFlex="none">
+            <mat-icon>help_outline</mat-icon>
+        </a>
+        <a [routerLink]="['/settings']"
+            routerLinkActive="active"
+            mat-button
+            matTooltip="Settings"
+            matTooltipPosition="after"
+            fxFlex="none">
+            <mat-icon>settings</mat-icon>
+        </a>
+    </mat-toolbar>
+
+    <div>
+        <app-download-handler></app-download-handler>
+        <router-outlet></router-outlet>
+    </div>
+</div>
