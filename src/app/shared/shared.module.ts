@@ -18,18 +18,26 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
+import { HomeLinkComponent } from './home-link/home-link.component';
+import { HelpLinkComponent } from './help-link/help-link.component';
+import { SettingsLinkComponent } from './settings-link/settings-link.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
         FileSizePipe,
         RelativeDatePipe,
 
-        DownloadHandlerComponent
+        DownloadHandlerComponent,
+        HomeLinkComponent,
+        HelpLinkComponent,
+        SettingsLinkComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        RouterModule,
 
         FlexLayoutModule,
         MatButtonModule,
@@ -63,7 +71,10 @@ import {
         FileSizePipe,
         RelativeDatePipe,
 
-        DownloadHandlerComponent
+        DownloadHandlerComponent,
+        HomeLinkComponent,
+        HelpLinkComponent,
+        SettingsLinkComponent
     ]
 })
 export class SharedModule { }

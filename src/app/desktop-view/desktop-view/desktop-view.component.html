@@ -2,30 +2,12 @@
     <mat-sidenav disableClose #startSidenavRef mode="side" [opened]="true" class="mat-elevation-z8" fxFlex="none">
         <div fxLayout="column" fxLayoutAlign="space-between" fxFlex>
             <div fxLayout="column">
-                <a [routerLink]="['/home']"
-                   routerLinkActive="active"
-                   mat-button
-                   matTooltip="Manage Files"
-                   matTooltipPosition="after">
-                    <mat-icon>home</mat-icon>
-                </a>
+                <app-home-link></app-home-link>
             </div>
 
             <div fxLayout="column">
-                <a [routerLink]="['/help']"
-                   routerLinkActive="active"
-                   mat-button
-                   matTooltip="Help / About"
-                   matTooltipPosition="after">
-                    <mat-icon>help_outline</mat-icon>
-                </a>
-                <a [routerLink]="['/settings']"
-                   routerLinkActive="active"
-                   mat-button
-                   matTooltip="Settings"
-                   matTooltipPosition="after">
-                    <mat-icon>settings</mat-icon>
-                </a>
+                <app-help-link></app-help-link>
+                <app-settings-link></app-settings-link>
             </div>
         </div>
     </mat-sidenav>
