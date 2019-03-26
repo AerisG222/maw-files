@@ -1,2 +1,6 @@
-<app-mobile-view *ngIf="isMobileView"></app-mobile-view>
-<app-desktop-view *ngIf="!isMobileView"></app-desktop-view>
+<app-mobile-view *ngIf="isMobileView" [routerTemplate]="template"></app-mobile-view>
+<app-desktop-view *ngIf="!isMobileView" [routerTemplate]="template"></app-desktop-view>
+
+<ng-template #template>
+    <router-outlet></router-outlet>
+</ng-template>
