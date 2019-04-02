@@ -25,6 +25,14 @@ mat-tab-group {
 .title {
     font-size: 56px;
 
+    & a {
+        text-decoration: none;
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
     & ~ .title {
         margin-top: 32px;
     }
@@ -34,18 +42,4 @@ mat-tab-group {
     font-size: 36px;
     margin-top: 12px;
     margin-bottom: 12px;
-}
-
-.android_text {
-    margin-top: 12px;
-}
-
-.android_link {
-    margin-top: 40px;
-    margin-bottom: 40px;
-    text-align: center;
-}
-
-.android_icon {
-    font-size: 56px;
 }
