@@ -1,5 +1,5 @@
 # script to prepare the production build
-SSH_REMOTE_HOST=tifa
+SSH_REMOTE_HOST=www.mikeandwan.us
 SSH_USERNAME=mmorano
 PROJECT_ROOT=/home/mmorano/git/maw-files
 DIST_ROOT="${PROJECT_ROOT}/dist/maw-files"
