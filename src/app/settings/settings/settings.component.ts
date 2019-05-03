@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
@@ -6,15 +6,19 @@ import { Theme } from '../../core/models/theme.model';
 import { Settings } from '../../core/models/settings.model';
 import { RootStoreState, SettingsStoreActions, SettingsStoreSelectors } from '../../core/root-store';
 import { tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
+    private destroySub = new Subscription();
+
     form: FormGroup;
     themes = Theme.allThemes;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _store$: Store<RootStoreState.State>
@@ -27,14 +31,19 @@ export class SettingsComponent implements OnInit {
             appTheme: ['', Validators.required],
         });
 
-        this._store$
+        this.destroySub.add(this._store$
             .pipe(
                 select(SettingsStoreSelectors.selectSettings),
                 tap(settings => this.updateForm(settings))
             )
-            .subscribe();
+            .subscribe()
+        );
 
         this.loadSettings();
+    }
+
+    ngOnDestroy(): void {
+        this.destroySub.unsubscribe();
     }
 
     onSave(): void {

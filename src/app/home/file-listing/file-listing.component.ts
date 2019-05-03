@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material';
 import { Store, select } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { takeUntil, filter, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 import { FileViewModel } from './file-view-model';
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
@@ -26,7 +26,7 @@ import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '..
     ]
 })
 export class FileListingComponent implements OnInit, OnDestroy {
-    private _unsubscribe: Subject<void> = new Subject();
+    private destroySub = new Subscription();
 
     @ViewChild('fileTable') fileTable: MatTable<FileViewModel>;
 
@@ -47,20 +47,19 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this._store
+        this.destroySub.add(this._store
             .pipe(
                 select(RemoteFileStoreSelectors.selectAllRemoteFiles),
                 filter(files => !!files),
-                tap(files => this.updateViewModel(files)),
-                takeUntil(this._unsubscribe)
-            ).subscribe();
+                tap(files => this.updateViewModel(files))
+            ).subscribe()
+        );
 
         this._store.dispatch(new LoadRequestAction());
     }
 
     ngOnDestroy(): void {
-        this._unsubscribe.next();
-        this._unsubscribe.complete();
+        this.destroySub.unsubscribe();
     }
 
     downloadSingle(file: FileViewModel) {

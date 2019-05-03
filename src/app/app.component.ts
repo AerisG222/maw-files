@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Store, select } from '@ngrx/store';
-import { Subject, Observable } from 'rxjs';
-import { tap, takeUntil, startWith } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { RootStoreState, SettingsStoreSelectors } from './core/root-store';
 import { Theme } from './core/models/theme.model';
@@ -14,7 +14,7 @@ import { LayoutStoreSelectors, LayoutStoreActions } from './core/root-store/layo
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-    private destroy$ = new Subject<boolean>();
+    private destroySub = new Subscription();
 
     isMobileView = false;
 
@@ -28,24 +28,24 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store$.dispatch(new LayoutStoreActions.InitializeRequestAction());
 
-        this._store$
+        this.destroySub.add(this._store$
             .pipe(
                 select(LayoutStoreSelectors.selectLayoutIsMobileView),
-                tap(isMobileView => this.isMobileView = isMobileView),
-                takeUntil(this.destroy$)
-            ).subscribe();
+                tap(isMobileView => this.isMobileView = isMobileView)
+            ).subscribe()
+        );
 
-        this._store$
+        this.destroySub.add(this._store$
             .pipe(
                 select(SettingsStoreSelectors.selectSettings),
-                tap(settings => this.setTheme(settings.appTheme)),
-                takeUntil(this.destroy$)
+                tap(settings => this.setTheme(settings.appTheme))
             )
-            .subscribe();
+            .subscribe()
+        );
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next(true);
+        this.destroySub.unsubscribe();
     }
 
     private setTheme(theme: Theme): void {
