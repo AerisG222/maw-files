@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
