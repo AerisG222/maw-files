@@ -28,7 +28,7 @@ import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '..
 export class FileListingComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
-    @ViewChild('fileTable') fileTable: MatTable<FileViewModel>;
+    @ViewChild('fileTable', { static: false }) fileTable: MatTable<FileViewModel>;
 
     files: FileViewModel[] = [];
     columnsToDisplay = [];
