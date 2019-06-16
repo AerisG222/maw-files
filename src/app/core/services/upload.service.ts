@@ -16,20 +16,20 @@ import { FileAddedAction, FileDeletedAction } from '../root-store/remote-file-st
     providedIn: 'root'
 })
 export class UploadService {
-    private _hubReady$ = new BehaviorSubject<signalR.HubConnection>(undefined);
+    private hubReady$ = new BehaviorSubject<signalR.HubConnection>(undefined);
 
-    constructor(private _cfg: EnvironmentConfig,
-                private _http: HttpClient,
-                private _authSvc: AuthService,
-                private _store: Store<RootStoreState.State>,
-                private _zone: NgZone) {
+    constructor(private cfg: EnvironmentConfig,
+                private http: HttpClient,
+                private authSvc: AuthService,
+                private store: Store<RootStoreState.State>,
+                private zone: NgZone) {
 
     }
 
     getServerFiles(): Observable<FileInfo[]> {
         this.ensureHubConnected();
 
-        return this._hubReady$
+        return this.hubReady$
             .pipe(
                 filter(hub => !!hub === true),
                 switchMap(hub => from(hub.invoke('GetAllFiles')))
@@ -41,7 +41,7 @@ export class UploadService {
             return;
         }
 
-        return this._hubReady$
+        return this.hubReady$
             .pipe(
                 filter(hub => !!hub === true),
                 switchMap(hub => from(hub.invoke('DeleteFiles', files)))
@@ -55,14 +55,14 @@ export class UploadService {
 
         const url = this.getAbsoluteUrl('upload/download');
 
-        return this._http
+        return this.http
             .post(url, files, { responseType: 'blob', observe: 'response' });
     }
 
     loadThumbnail(relativeUrl: string) {
         const url = this.getThumbnailUrl(relativeUrl);
 
-        return this._http
+        return this.http
             .get(url, {responseType: 'blob'})
             .pipe(
                 map(e => URL.createObjectURL(e))
@@ -70,7 +70,7 @@ export class UploadService {
     }
 
     getAbsoluteUrl(relativeUrl: string) {
-        return `${this._cfg.apiUrl}/${relativeUrl}`;
+        return `${this.cfg.apiUrl}/${relativeUrl}`;
     }
 
     private getThumbnailUrl(relativeUrl: string) {
@@ -84,11 +84,11 @@ export class UploadService {
     // is called only after auth, and we should have a valid user instance to pull from state
     // (which should be populated after our constructor completes)
     private async ensureHubConnected() {
-        if (!!this._hubReady$.value === true) {
+        if (!!this.hubReady$.value === true) {
             return;
         }
 
-        await this.setupSignalrHub(this._authSvc.getAuthorizationToken());
+        await this.setupSignalrHub(this.authSvc.getAuthorizationToken());
     }
 
     private async setupSignalrHub(token: string) {
@@ -107,17 +107,17 @@ export class UploadService {
         hub.on('FileAdded', (addedFile: FileInfo) => {
             console.log('file added: ', addedFile);
 
-            this._zone.run(() => this._store.dispatch(new FileAddedAction({ file: addedFile })));
+            this.zone.run(() => this.store.dispatch(new FileAddedAction({ file: addedFile })));
         });
 
         hub.on('FileDeleted', (deletedFile: FileInfo) => {
             console.log('file deleted: ', deletedFile);
 
-            this._zone.run(() => this._store.dispatch(new FileDeletedAction({ file: deletedFile })));
+            this.zone.run(() => this.store.dispatch(new FileDeletedAction({ file: deletedFile })));
         });
 
         hub.start()
-            .then(() => this._hubReady$.next(hub))
+            .then(() => this.hubReady$.next(hub))
             .catch(err => console.error(err.toString()));
     }
 }

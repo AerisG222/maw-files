@@ -34,12 +34,12 @@ export class FileListingComponent implements OnInit, OnDestroy {
     columnsToDisplay = [];
 
     constructor(
-        private _store: Store<RootStoreState.State>,
-        private _authSvc: AuthService
+        private store: Store<RootStoreState.State>,
+        private authSvc: AuthService
     ) {
         this.columnsToDisplay.push('thumbnail');
 
-        if (this._authSvc.isAdmin()) {
+        if (this.authSvc.isAdmin()) {
             this.columnsToDisplay.push('user');
         }
 
@@ -47,7 +47,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.destroySub.add(this._store
+        this.destroySub.add(this.store
             .pipe(
                 select(RemoteFileStoreSelectors.selectAllRemoteFiles),
                 filter(files => !!files),
@@ -55,7 +55,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
             ).subscribe()
         );
 
-        this._store.dispatch(new LoadRequestAction());
+        this.store.dispatch(new LoadRequestAction());
     }
 
     ngOnDestroy(): void {
@@ -63,23 +63,23 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     downloadSingle(file: FileViewModel) {
-        this._store.dispatch(new DownloadRequestAction({ files: file.location.relativePath }));
+        this.store.dispatch(new DownloadRequestAction({ files: file.location.relativePath }));
     }
 
     deleteSingle(file: FileViewModel) {
-        this._store.dispatch(new DeleteRequestAction({ files: file.location.relativePath }));
+        this.store.dispatch(new DeleteRequestAction({ files: file.location.relativePath }));
     }
 
     downloadSelected(): void {
         const list = this.getSelected();
 
-        this._store.dispatch(new DownloadRequestAction({ files: list }));
+        this.store.dispatch(new DownloadRequestAction({ files: list }));
     }
 
     deleteSelected(): void {
         const list = this.getSelected();
 
-        this._store.dispatch(new DeleteRequestAction({ files: list }));
+        this.store.dispatch(new DeleteRequestAction({ files: list }));
     }
 
     getSelected(): string[] {

@@ -11,19 +11,19 @@ import { State } from './state';
 @Injectable()
 export class LayoutStoreEffects {
     constructor(
-        private _mediaObserver: MediaObserver,
-        private _actions$: Actions,
-        private _store$: Store<State>
+        private mediaObserver: MediaObserver,
+        private actions$: Actions,
+        private store$: Store<State>
     ) {
-        this._mediaObserver.asObservable()
+        this.mediaObserver.asObservable()
             .pipe(
                 filter(change => !!change && change.length > 0),
-                tap(change => this._store$.dispatch(new layoutActions.MediaQueryUpdatedAction({ isMobileView: this.getIsMobileView() })))
+                tap(change => this.store$.dispatch(new layoutActions.MediaQueryUpdatedAction({ isMobileView: this.getIsMobileView() })))
             ).subscribe();
     }
 
     @Effect()
-    initializeRequestEffect$: Observable<Action> = this._actions$.pipe(
+    initializeRequestEffect$: Observable<Action> = this.actions$.pipe(
         ofType<layoutActions.InitializeRequestAction>(layoutActions.ActionTypes.INITIALIZE_REQUEST),
         map(action => {
             return new layoutActions.InitializeCompletedAction({ isMobileView: this.getIsMobileView() });
@@ -31,6 +31,6 @@ export class LayoutStoreEffects {
     );
 
     private getIsMobileView(): boolean {
-        return this._mediaObserver.isActive('lt-md');
+        return this.mediaObserver.isActive('lt-md');
     }
 }

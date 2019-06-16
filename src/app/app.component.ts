@@ -19,23 +19,23 @@ export class AppComponent implements OnInit, OnDestroy {
     isMobileView = false;
 
     constructor(
-        private _store$: Store<RootStoreState.State>,
-        @Inject(DOCUMENT) private _doc
+        private store$: Store<RootStoreState.State>,
+        @Inject(DOCUMENT) private doc
     ) {
 
     }
 
     ngOnInit(): void {
-        this._store$.dispatch(new LayoutStoreActions.InitializeRequestAction());
+        this.store$.dispatch(new LayoutStoreActions.InitializeRequestAction());
 
-        this.destroySub.add(this._store$
+        this.destroySub.add(this.store$
             .pipe(
                 select(LayoutStoreSelectors.selectLayoutIsMobileView),
                 tap(isMobileView => this.isMobileView = isMobileView)
             ).subscribe()
         );
 
-        this.destroySub.add(this._store$
+        this.destroySub.add(this.store$
             .pipe(
                 select(SettingsStoreSelectors.selectSettings),
                 tap(settings => this.setTheme(settings.appTheme))
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private setTheme(theme: Theme): void {
-        const classList: DOMTokenList = this._doc.documentElement.classList;
+        const classList: DOMTokenList = this.doc.documentElement.classList;
 
         if (!classList.contains('mat-app-background')) {
             classList.add('mat-app-background');

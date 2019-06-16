@@ -14,19 +14,19 @@ export class FileThumbnailComponent {
 
     @Input()
     set relativeFilePath(value: string) {
-        this._uploadService
+        this.uploadService
             .loadThumbnail(value)
             .subscribe(
                 blob => {
-                    this.url$.next(this._domSanitizer.bypassSecurityTrustUrl(blob));
+                    this.url$.next(this.domSanitizer.bypassSecurityTrustUrl(blob));
                     this.show$.next(true);
                 },
                 ex => this.show$.next(false)
             );
     }
 
-    constructor(private _uploadService: UploadService,
-                private _domSanitizer: DomSanitizer) {
+    constructor(private uploadService: UploadService,
+                private domSanitizer: DomSanitizer) {
 
     }
 }

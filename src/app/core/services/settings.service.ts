@@ -14,7 +14,7 @@ export class SettingsService {
     private static readonly keyAppTheme = 'appTheme';
 
     constructor(
-        private _localStorage: LocalStorageService
+        private localStorage: LocalStorageService
     ) {
 
     }
@@ -30,23 +30,23 @@ export class SettingsService {
             return;
         }
 
-        this._localStorage.store(SettingsService.keyAppTheme, settings.appTheme.name);
+        this.localStorage.store(SettingsService.keyAppTheme, settings.appTheme.name);
     }
 
     clearAuthRedirectUrl(): void {
-        this._localStorage.clear(SettingsService.keyAuthRedirectUrl);
+        this.localStorage.clear(SettingsService.keyAuthRedirectUrl);
     }
 
     setAuthRedirectUrl(url: string): void {
-        this._localStorage.store(SettingsService.keyAuthRedirectUrl, url);
+        this.localStorage.store(SettingsService.keyAuthRedirectUrl, url);
     }
 
     getAuthRedirectUrl(): string {
-        return <string>this._localStorage.retrieve(SettingsService.keyAuthRedirectUrl);
+        return this.localStorage.retrieve(SettingsService.keyAuthRedirectUrl) as string;
     }
 
     private getTheme(): Theme {
-        const themeName = this._localStorage.retrieve(SettingsService.keyAppTheme);
+        const themeName = this.localStorage.retrieve(SettingsService.keyAppTheme);
 
         try {
             return themeName !== null ? Theme.forName(themeName) : Theme.themeDark;

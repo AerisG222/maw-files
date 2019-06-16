@@ -29,19 +29,19 @@ export class UploadComponent implements OnInit {
     @ViewChild('uploadTable', { static: false }) uploadTable: MatTable<FileItem>;
 
     constructor(
-        private _store: Store<RootStoreState.State>
+        private store: Store<RootStoreState.State>
     ) {
 
     }
 
     ngOnInit() {
-        this.uploader$ = this._store.pipe(
+        this.uploader$ = this.store.pipe(
             select(RemoteFileStoreSelectors.selectRemoteFileUploader),
             filter(uploader => !!uploader),
             tap(uploader => this.trackChanges(uploader))
         );
 
-        this._store.dispatch(new InitializeUploaderRequestAction());
+        this.store.dispatch(new InitializeUploaderRequestAction());
     }
 
     fileOverBase(e: any): void {

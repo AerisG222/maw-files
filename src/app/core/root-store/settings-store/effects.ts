@@ -10,28 +10,28 @@ import { SettingsService } from '../../services/settings.service';
 @Injectable()
 export class SettingsStoreEffects {
     constructor(
-        private _settingsService: SettingsService,
-        private _actions$: Actions
+        private settingsService: SettingsService,
+        private actions$: Actions
     ) {
 
     }
 
     @Effect()
-    loadRequestEffect$: Observable<Action> = this._actions$.pipe(
+    loadRequestEffect$: Observable<Action> = this.actions$.pipe(
         ofType<settingsActions.LoadRequestAction>(settingsActions.ActionTypes.LOAD_REQUEST),
         startWith(new settingsActions.LoadRequestAction()),
         map(x => {
-            const settings = this._settingsService.load();
-            return new settingsActions.LoadSuccessAction({ settings: settings });
+            const settings = this.settingsService.load();
+            return new settingsActions.LoadSuccessAction({ settings });
         })
     );
 
     @Effect()
-    saveRequestEffect$: Observable<Action> = this._actions$.pipe(
+    saveRequestEffect$: Observable<Action> = this.actions$.pipe(
         ofType<settingsActions.SaveRequestAction>(settingsActions.ActionTypes.SAVE_REQUEST),
         map(action => {
             try {
-                this._settingsService.save(action.payload.settings);
+                this.settingsService.save(action.payload.settings);
                 return new settingsActions.SaveSuccessAction(action.payload);
             } catch (err) {
                 return new settingsActions.SaveFailureAction(err);

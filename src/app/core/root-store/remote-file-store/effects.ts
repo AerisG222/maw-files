@@ -15,26 +15,26 @@ import { HttpResponse } from '@angular/common/http';
 
 @Injectable()
 export class RemoteFileStoreEffects {
-    private readonly _filenameRegex = /.*filename\=(.*);.*/;
+    private readonly filenameRegex = /.*filename\=(.*);.*/;
 
     constructor(
-        private _authSvc: AuthService,
-        private _api: UploadService,
-        private _actions$: Actions,
-        private _store$: Store<State>
+        private authSvc: AuthService,
+        private api: UploadService,
+        private actions$: Actions,
+        private store$: Store<State>
     ) {
 
     }
 
     @Effect()
-    initializeUploaderRequestEffect$: Observable<Action> = this._actions$.pipe(
+    initializeUploaderRequestEffect$: Observable<Action> = this.actions$.pipe(
         ofType<remoteFileActions.InitializeUploaderRequestAction>(remoteFileActions.ActionTypes.INITIALIZE_UPLOADER_REQUEST),
-        withLatestFrom(this._store$.pipe(
+        withLatestFrom(this.store$.pipe(
             select(remoteFileSelectors.selectRemoteFileUploader)
         )),
         filter(([action, uploader]) => uploader === null),
         map(action => {
-            const token = this._authSvc.getAuthorizationHeaderValue();
+            const token = this.authSvc.getAuthorizationHeaderValue();
 
             if (token == null) {
                 return new remoteFileActions.InitializeUploaderFailureAction({ error: 'auth token is not defined' });
@@ -42,61 +42,61 @@ export class RemoteFileStoreEffects {
 
             if (!!token) {
                 const uploader = new FileUploader({
-                    url: this._api.getAbsoluteUrl('upload/upload'),
+                    url: this.api.getAbsoluteUrl('upload/upload'),
                     authToken: token,
                     removeAfterUpload: true
                 });
 
-                return new remoteFileActions.InitializeUploaderSuccessAction({ uploader: uploader });
+                return new remoteFileActions.InitializeUploaderSuccessAction({ uploader });
             }
         })
     );
 
     @Effect()
-    loadRequestEffect$: Observable<Action> = this._actions$.pipe(
+    loadRequestEffect$: Observable<Action> = this.actions$.pipe(
         ofType<remoteFileActions.LoadRequestAction>(remoteFileActions.ActionTypes.LOAD_REQUEST),
-        withLatestFrom(this._store$.pipe(
+        withLatestFrom(this.store$.pipe(
             select(remoteFileSelectors.selectAllRemoteFiles)
         )),
         filter(([action, files]) => files.length === 0),
         switchMap(action => {
-            return this._api.getServerFiles()
+            return this.api.getServerFiles()
                 .pipe(
-                    map(files => new remoteFileActions.LoadSuccessAction({ files: files })),
+                    map(files => new remoteFileActions.LoadSuccessAction({ files })),
                     catchError(error => of(new remoteFileActions.LoadFailureAction({ error })))
                 );
         })
     );
 
     @Effect()
-    downloadRequestEffect$: Observable<Action> = this._actions$.pipe(
+    downloadRequestEffect$: Observable<Action> = this.actions$.pipe(
         ofType<remoteFileActions.DownloadRequestAction>(remoteFileActions.ActionTypes.DOWNLOAD_REQUEST),
         switchMap(action => {
             const list = [].concat(action.payload.files);
 
-            return this._api
+            return this.api
                 .downloadFiles(list)
                 .pipe(
                     map(response => {
                         this.saveDownload(response);
                         return new remoteFileActions.DownloadSuccessAction();
                     }),
-                    catchError(error => of(new remoteFileActions.DownloadFailureAction({ error: error })))
+                    catchError(error => of(new remoteFileActions.DownloadFailureAction({ error })))
                 );
         })
     );
 
     @Effect()
-    deleteRequestEffect$: Observable<Action> = this._actions$.pipe(
+    deleteRequestEffect$: Observable<Action> = this.actions$.pipe(
         ofType<remoteFileActions.DeleteRequestAction>(remoteFileActions.ActionTypes.DELETE_REQUEST),
         switchMap(action => {
             const list = [].concat(action.payload.files);
 
-            return this._api
+            return this.api
                 .deleteFiles(list)
                 .pipe(
                     map(response => new remoteFileActions.DeleteSuccessAction({ result: response })),
-                    catchError(error => of(new remoteFileActions.DeleteFailureAction({ error: error })))
+                    catchError(error => of(new remoteFileActions.DeleteFailureAction({ error })))
                 );
         })
     );
@@ -105,7 +105,7 @@ export class RemoteFileStoreEffects {
     // here for now
     private saveDownload(response: HttpResponse<Blob>) {
         const disposition = response.headers.get('Content-Disposition');
-        const results = this._filenameRegex.exec(disposition);
+        const results = this.filenameRegex.exec(disposition);
         const filename = results.length > 1 ? results[1] : 'download_file';
 
         saveAs(response.body, filename);

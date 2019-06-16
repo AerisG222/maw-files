@@ -7,27 +7,27 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    constructor(private _authService: AuthService) {
+    constructor(private authService: AuthService) {
 
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-        if (this._authService.isLoggedIn()) {
+        if (this.authService.isLoggedIn()) {
             return true;
         }
 
         return new Promise((resolve) => {
-            this._authService.startSilentRenew()
+            this.authService.startSilentRenew()
                 .then(() => {
-                    if (this._authService.isLoggedIn()) {
+                    if (this.authService.isLoggedIn()) {
                         resolve(true);
                     } else {
-                        this._authService.startAuthentication();
+                        this.authService.startAuthentication();
                         resolve(false);
                     }
                 })
                 .catch(() => {
-                    this._authService.startAuthentication();
+                    this.authService.startAuthentication();
                     resolve(false);
                 });
         });

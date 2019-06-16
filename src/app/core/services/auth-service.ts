@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserManager, User } from 'oidc-client';
+import { UserManager, User, UserManagerSettings } from 'oidc-client';
 
 import { AuthConfig } from '../models/auth-config';
 import { BehaviorSubject } from 'rxjs';
@@ -9,25 +9,38 @@ import { BehaviorSubject } from 'rxjs';
     providedIn: 'root'
 })
 export class AuthService {
-    private _mgr: UserManager;
-    private _user: User;
+    private mgr: UserManager;
+    private user: User;
 
     user$ = new BehaviorSubject(null);
 
     constructor(cfg: AuthConfig) {
-        this._mgr = new UserManager(cfg);
+        const settings = {
+            authority: cfg.authority,
+            client_id: cfg.clientId,
+            post_logout_redirect_uri: cfg.postLogoutRedirectUri,
+            redirect_uri: cfg.redirectUri,
+            silent_redirect_uri: cfg.silentRedirectUri,
+            load_user_info: cfg.loadUserInfo,
+            automatic_silent_renew: cfg.automaticSilentRenew,
+            filter_protocol_claims: cfg.filterProtocolClaims,
+            response_type: cfg.responseType,
+            scope: cfg.scope
+        } as UserManagerSettings;
 
-        this._mgr.events.addUserLoaded(user => {
+        this.mgr = new UserManager(settings);
+
+        this.mgr.events.addUserLoaded(user => {
             this.updateUser(user);
         });
 
-        this._mgr.getUser().then(user => {
+        this.mgr.getUser().then(user => {
             this.updateUser(user);
         });
     }
 
     isLoggedIn(): boolean {
-        return this._user != null && !this._user.expired;
+        return this.user != null && !this.user.expired;
     }
 
     isAdmin(): boolean {
@@ -35,41 +48,41 @@ export class AuthService {
     }
 
     getClaims(): any {
-        return this._user.profile;
+        return this.user.profile;
     }
 
     getAuthorizationToken(): string {
-        return this._user.access_token;
+        return this.user.access_token;
     }
 
     getAuthorizationHeaderValue(): string {
-        return `${this._user.token_type} ${this._user.access_token}`;
+        return `${this.user.token_type} ${this.user.access_token}`;
     }
 
     startAuthentication(): Promise<void> {
-        return this._mgr.signinRedirect();
+        return this.mgr.signinRedirect();
     }
 
     completeAuthentication(): Promise<void> {
-        return this._mgr.signinRedirectCallback().then(user => {
+        return this.mgr.signinRedirectCallback().then(user => {
             this.updateUser(user);
         });
     }
 
     startSilentRenew(): Promise<void> {
-        return this._mgr.signinSilent().then(user => {
+        return this.mgr.signinSilent().then(user => {
             this.updateUser(user);
         });
     }
 
     completeSilentRenew(): void {
-        this._mgr.signinSilentCallback().catch(error => {
+        this.mgr.signinSilentCallback().catch(error => {
             console.error(error);
         });
     }
 
     private updateUser(user: User) {
-        this._user = user;
+        this.user = user;
 
         this.user$.next(user);
     }

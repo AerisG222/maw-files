@@ -12,15 +12,15 @@ import { AuthService } from '../../core/services/auth-service';
 })
 export class SpaSigninComponent implements OnInit {
     constructor(
-        private _router: Router,
+        private router: Router,
         // private _settingsSvc: SettingsService,
-        private _authService: AuthService
+        private authService: AuthService
     ) {
 
     }
 
     ngOnInit() {
-        this._authService
+        this.authService
             .completeAuthentication()
             .then(x => {
                 // const destUrl = this._settingsSvc.getAuthRedirectUrl();
@@ -29,7 +29,7 @@ export class SpaSigninComponent implements OnInit {
                 //     this._settingsSvc.clearAuthRedirectUrl();
                 //     this._router.navigate([ destUrl ]);
                 // } else {
-                     this._router.navigate([ '/' ]);
+                     this.router.navigate([ '/' ]);
                 // }
             })
             .catch(x => console.log(`Error authenticating: ${x}`));

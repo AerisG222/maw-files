@@ -9,10 +9,10 @@ import { AuthService } from '../../core/services/auth-service';
 })
 export class SpaSigninSilentComponent implements OnInit {
     constructor(
-        private _authService: AuthService
+        private authService: AuthService
     ) { }
 
     ngOnInit() {
-        this._authService.completeSilentRenew();
+        this.authService.completeSilentRenew();
     }
 }
