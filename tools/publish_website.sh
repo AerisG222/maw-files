@@ -8,9 +8,17 @@ WD=$( pwd )
 
 echo ''
 echo '********************'
+echo '** CLEAN          **'
+echo '********************'
+rm -rf "${PROJECT_ROOT}/node_modules"
+rm -rf "${PROJECT_ROOT}/dist"
+cd "${PROJECT_ROOT}"
+npm ci
+
+echo ''
+echo '********************'
 echo '** BUILD          **'
 echo '********************'
-# build app
 cd "${PROJECT_ROOT}"
 ng build --prod
 
