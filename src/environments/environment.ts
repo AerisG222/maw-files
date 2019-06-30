@@ -4,7 +4,11 @@
 
 export const environment = {
     production: false,
-    version: require('../../package.json').version
+    version: require('../../package.json').version,
+
+    apiUrl: 'https://apidev.mikeandwan.us:5011',
+    authUrl: 'https://authdev.mikeandwan.us:5001',
+    filesUrl: 'http://filesdev.mikeandwan.us:4200'
 };
 
 /*

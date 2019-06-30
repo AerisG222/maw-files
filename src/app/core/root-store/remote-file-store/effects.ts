@@ -2,26 +2,26 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select, Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, map, withLatestFrom, filter } from 'rxjs/operators';
+import { switchMap, catchError, map, withLatestFrom, filter, take, tap } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 
 import * as remoteFileActions from './actions';
 import * as remoteFileSelectors from './selectors';
 import { State } from './state';
 import { UploadService } from '../../services/upload.service';
-import { AuthService } from '../../services/auth-service';
 import { FileUploader } from 'ng2-file-upload';
 import { HttpResponse } from '@angular/common/http';
+import { OidcFacade } from 'ng-oidc-client';
 
 @Injectable()
 export class RemoteFileStoreEffects {
     private readonly filenameRegex = /.*filename\=(.*);.*/;
 
     constructor(
-        private authSvc: AuthService,
         private api: UploadService,
         private actions$: Actions,
-        private store$: Store<State>
+        private store$: Store<State>,
+        private oidcFacade: OidcFacade
     ) {
 
     }
@@ -33,23 +33,27 @@ export class RemoteFileStoreEffects {
             select(remoteFileSelectors.selectRemoteFileUploader)
         )),
         filter(([action, uploader]) => uploader === null),
-        map(action => {
-            const token = this.authSvc.getAuthorizationHeaderValue();
+        switchMap(action =>
+            this.oidcFacade.identity$.pipe(
+                map(x => x.access_token),
+                map(token => {
+                    if (token == null) {
+                        return new remoteFileActions.InitializeUploaderFailureAction({ error: 'auth token is not defined' });
+                    }
 
-            if (token == null) {
-                return new remoteFileActions.InitializeUploaderFailureAction({ error: 'auth token is not defined' });
-            }
+                    if (!!token) {
+                        const uploader = new FileUploader({
+                            url: this.api.getAbsoluteUrl('upload/upload'),
+                            authToken: token,
+                            removeAfterUpload: true
+                        });
 
-            if (!!token) {
-                const uploader = new FileUploader({
-                    url: this.api.getAbsoluteUrl('upload/upload'),
-                    authToken: token,
-                    removeAfterUpload: true
-                });
-
-                return new remoteFileActions.InitializeUploaderSuccessAction({ uploader });
-            }
-        })
+                        return new remoteFileActions.InitializeUploaderSuccessAction({ uploader });
+                    }
+                }),
+                take(1)
+            )
+        )
     );
 
     @Effect()

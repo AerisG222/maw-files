@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpaSigninSilentComponent } from './spa-signin-silent.component';
+import { LoginComponent } from './login.component';
 
-describe('SpaSigninSilentComponent', () => {
-  let component: SpaSigninSilentComponent;
-  let fixture: ComponentFixture<SpaSigninSilentComponent>;
+describe('AccessDeniedComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpaSigninSilentComponent ]
+      declarations: [ LoginComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpaSigninSilentComponent);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

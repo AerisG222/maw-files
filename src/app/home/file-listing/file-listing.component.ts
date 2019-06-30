@@ -2,16 +2,16 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter, tap, map, take } from 'rxjs/operators';
 
 import { FileViewModel } from './file-view-model';
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { RelativeDatePipe } from '../../shared/pipes/relative-date.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
 import { FileInfo } from '../../core/models/file-info';
-import { AuthService } from '../../core/services/auth-service';
 import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
 import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '../../core/root-store/remote-file-store/actions';
+import { OidcFacade } from 'ng-oidc-client';
 
 @Component({
     selector: 'app-file-listing',
@@ -35,15 +35,23 @@ export class FileListingComponent implements OnInit, OnDestroy {
 
     constructor(
         private store: Store<RootStoreState.State>,
-        private authSvc: AuthService
+        private oidcFacade: OidcFacade
     ) {
-        this.columnsToDisplay.push('thumbnail');
+        this.oidcFacade.identity$
+            .pipe(
+                map(x => x.profile.role.includes('admin')),
+                tap(isAdmin => {
+                    this.columnsToDisplay.push('thumbnail');
 
-        if (this.authSvc.isAdmin()) {
-            this.columnsToDisplay.push('user');
-        }
+                    if (isAdmin) {
+                        this.columnsToDisplay.push('user');
+                    }
 
-        this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
+                    this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
+                }),
+                take(1)
+            )
+            .subscribe();
     }
 
     ngOnInit(): void {

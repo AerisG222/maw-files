@@ -38,7 +38,17 @@
                 "src/mstile-310x310.png",
                 "src/safari-pinned-tab.svg",
                 "src/site.webmanifest",
-                "src/assets"
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "src/static",
+                  "output": "/"
+                },
+                {
+                  "glob": "oidc-client.min.js",
+                  "input": "node_modules/oidc-client/dist",
+                  "output": "/"
+                }
               ],
               "styles": [
                 "src/styles.scss"

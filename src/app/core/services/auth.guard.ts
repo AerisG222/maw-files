@@ -1,35 +1,30 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from './auth-service';
-import { Observable } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { OidcFacade } from 'ng-oidc-client';
+import { Observable, of } from 'rxjs';
+import { switchMap, first, take } from 'rxjs/operators';
+
+// https://medium.com/interoperable/route-guards-to-guard-routes-with-ng-oidc-client-6a61e6029424
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    constructor(private authService: AuthService) {
+    constructor(private router: Router, private oidcFacade: OidcFacade) { }
 
-    }
-
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-        if (this.authService.isLoggedIn()) {
-            return true;
-        }
-
-        return new Promise((resolve) => {
-            this.authService.startSilentRenew()
-                .then(() => {
-                    if (this.authService.isLoggedIn()) {
-                        resolve(true);
-                    } else {
-                        this.authService.startAuthentication();
-                        resolve(false);
-                    }
-                })
-                .catch(() => {
-                    this.authService.startAuthentication();
-                    resolve(false);
-                });
-        });
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+        return this.oidcFacade.identity$.pipe(
+            take(1),
+            switchMap(user => {
+                console.log('Auth Guard - Checking if user exists', user);
+                console.log('Auth Guard - Checking if user is expired:', user && user.expired);
+                if (user && !user.expired) {
+                    return of(true);
+                } else {
+                    this.router.navigate(['/access-denied']);
+                    return of(false);
+                }
+            })
+        );
     }
 }

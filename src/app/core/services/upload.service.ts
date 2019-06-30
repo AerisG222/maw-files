@@ -7,10 +7,10 @@ import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 import { FileInfo } from '../models/file-info';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FileOperationResult } from '../models/file-operation-result';
-import { EnvironmentConfig } from '../models/environment-config';
 import { RootStoreState } from '../root-store';
-import { AuthService } from './auth-service';
 import { FileAddedAction, FileDeletedAction } from '../root-store/remote-file-store/actions';
+import { environment } from 'src/environments/environment';
+import { OidcFacade } from 'ng-oidc-client';
 
 @Injectable({
     providedIn: 'root'
@@ -18,10 +18,9 @@ import { FileAddedAction, FileDeletedAction } from '../root-store/remote-file-st
 export class UploadService {
     private hubReady$ = new BehaviorSubject<signalR.HubConnection>(undefined);
 
-    constructor(private cfg: EnvironmentConfig,
-                private http: HttpClient,
-                private authSvc: AuthService,
+    constructor(private http: HttpClient,
                 private store: Store<RootStoreState.State>,
+                private oidcFacade: OidcFacade,
                 private zone: NgZone) {
 
     }
@@ -70,7 +69,7 @@ export class UploadService {
     }
 
     getAbsoluteUrl(relativeUrl: string) {
-        return `${this.cfg.apiUrl}/${relativeUrl}`;
+        return `${environment.apiUrl}/${relativeUrl}`;
     }
 
     private getThumbnailUrl(relativeUrl: string) {
@@ -88,7 +87,11 @@ export class UploadService {
             return;
         }
 
-        await this.setupSignalrHub(this.authSvc.getAuthorizationToken());
+        await this.oidcFacade.identity$
+            .pipe(
+                map(user => user.access_token),
+                switchMap(token => this.setupSignalrHub(token))
+            ).toPromise();
     }
 
     private async setupSignalrHub(token: string) {

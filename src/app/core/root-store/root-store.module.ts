@@ -4,6 +4,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgOidcClientModule } from 'ng-oidc-client';
+import { Log } from 'oidc-client';
 
 import { SettingsStoreModule } from './settings-store';
 import { environment } from '../../../environments/environment';
@@ -20,6 +22,24 @@ import { LayoutStoreModule } from './layout-store';
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
+        NgOidcClientModule.forRoot({
+            oidc_config: {
+                client_id: 'maw-files',
+                response_type: 'code',
+                scope: 'openid profile maw_api role',
+                authority: environment.authUrl,
+                redirect_uri: `${environment.filesUrl}/callback.html`,
+                post_logout_redirect_uri: `${environment.filesUrl}/signout-callback.html`,
+                silent_redirect_uri: `${environment.filesUrl}/renew-callback.html`,
+                automaticSilentRenew: true,
+                filterProtocolClaims: true,
+                loadUserInfo: true
+            },
+            log: {
+                logger: console,
+                level: Log.DEBUG
+            }
+        }),
         !environment.production ? StoreDevtoolsModule.instrument() : []
     ]
 })
