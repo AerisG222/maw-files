@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
                 if (user && !user.expired) {
                     return of(true);
                 } else {
-                    this.router.navigate(['/access-denied']);
+                    this.router.navigate(['/login']);
                     return of(false);
                 }
             })

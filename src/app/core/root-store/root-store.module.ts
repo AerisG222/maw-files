@@ -33,7 +33,8 @@ import { LayoutStoreModule } from './layout-store';
                 silent_redirect_uri: `${environment.filesUrl}/renew-callback.html`,
                 automaticSilentRenew: true,
                 filterProtocolClaims: true,
-                loadUserInfo: true
+                loadUserInfo: true,
+                popupWindowFeatures: 'location=no,toolbar=no,width=600,height=600,left=100,top=100'
             },
             log: {
                 logger: console,
