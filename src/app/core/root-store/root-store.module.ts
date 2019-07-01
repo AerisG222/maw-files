@@ -38,7 +38,7 @@ import { LayoutStoreModule } from './layout-store';
             },
             log: {
                 logger: console,
-                level: Log.DEBUG
+                level: environment.production ? Log.NONE : Log.INFO
             }
         }),
         !environment.production ? StoreDevtoolsModule.instrument() : []
