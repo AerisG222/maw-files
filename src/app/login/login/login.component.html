@@ -1,3 +1,18 @@
-<p>
-    Access denied!
-</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div fxFlex="0 0 auto">
+        <img src="/android-chrome-192x192.png" class="icon" />
+    </div>
+
+    <p>Welcome to files.mikeandwan.us</p>
+        <p>
+            Please login via the popup window (and make sure the popup was not blocked).
+        </p>
+        <p>
+            Otherwise, please click the button below to initiate the login.
+        </p>
+        <p>
+            <button type="submit" (click)="redirectLogin()" mat-button color="primary">
+                <mat-icon>security</mat-icon> Login
+            </button>
+        </p>
+</div>
