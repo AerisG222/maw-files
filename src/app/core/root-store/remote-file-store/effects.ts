@@ -44,8 +44,9 @@ export class RemoteFileStoreEffects {
                     if (!!token) {
                         const uploader = new FileUploader({
                             url: this.api.getAbsoluteUrl('upload/upload'),
-                            authToken: token,
-                            removeAfterUpload: true
+                            authToken: `Bearer ${token}`,
+                            removeAfterUpload: true,
+
                         });
 
                         return new remoteFileActions.InitializeUploaderSuccessAction({ uploader });
