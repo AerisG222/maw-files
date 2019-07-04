@@ -22,7 +22,7 @@ export class LoginComponent implements AfterViewInit {
                 if (!!user && !user.expired) {
                     this.onLoggedIn();
                 } else {
-                    this.popupLogin()
+                    this.popupLogin();
                 }
             })
         ).subscribe();

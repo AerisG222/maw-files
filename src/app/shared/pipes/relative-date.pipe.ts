@@ -6,7 +6,7 @@ import { formatRelative, parseISO } from 'date-fns';
 })
 export class RelativeDatePipe implements PipeTransform {
     transform(value: any, args?: any): any {
-        if(typeof value === 'string') {
+        if (typeof value === 'string') {
             value = parseISO(value);
         }
 
