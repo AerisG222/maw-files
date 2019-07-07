@@ -36,10 +36,10 @@ import { LayoutStoreModule } from './layout-store';
                 loadUserInfo: true,
                 popupWindowFeatures: 'location=no,toolbar=no,width=600,height=600,left=100,top=100'
             },
-            log: {
-                logger: console,
-                level: environment.production ? Log.NONE : Log.INFO
-            }
+            // log: {
+            //     logger: console,
+            //     level: environment.production ? Log.NONE : Log.INFO
+            // }
         }),
         !environment.production ? StoreDevtoolsModule.instrument() : []
     ]
