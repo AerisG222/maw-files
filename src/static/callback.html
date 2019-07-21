@@ -11,12 +11,18 @@
 <body>
     <script>
         var Oidc = window.Oidc;
+        var usrMgr = new Oidc.UserManager({ response_mode: 'query' });
         var isPopupCallback = JSON.parse(window.localStorage.getItem('ngoidc:isPopupCallback'));
+
         if (isPopupCallback) {
-            new Oidc.UserManager().signinPopupCallback();
+            usrMgr.signinPopupCallback();
         } else {
-            new Oidc.UserManager().signinRedirectCallback().then(t => {
-                window.location.href = user.state.redirect_url || '/';
+            usrMgr.signinRedirectCallback().then(user => {
+                if(!!user.state && !!user.state.redirect_url) {
+                    window.location.href = user.state.redirect_url;
+                } else {
+                    window.location.href = '/';
+                }
             });
         }
     </script>
