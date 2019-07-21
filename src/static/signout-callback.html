@@ -11,11 +11,13 @@
 <body>
     <script>
         var Oidc = window.Oidc;
+        var usrMgr = new Oidc.UserManager({ response_mode: 'query' });
         var isPopupCallback = JSON.parse(window.localStorage.getItem('ngoidc:isPopupCallback'));
+
         if (isPopupCallback) {
-            new Oidc.UserManager(config).signoutPopupCallback();
+            usrMgr.signoutPopupCallback();
         } else {
-            new Oidc.UserManager(config).signoutRedirectCallback().then(test => {
+            usrMgr.signoutRedirectCallback().then(t => {
                 window.location.href = '/';
             });
         }
