@@ -1,21 +1,25 @@
-<h1>Settings</h1>
+<div class="settings-container">
+    <h1>Settings</h1>
 
-<form [formGroup]="form">
-    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="12px">
-        <mat-card>
-            <mat-card-title>General</mat-card-title>
-            <mat-card-content>
-                <h3>Theme</h3>
-                <mat-form-field appearance="standard">
-                    <mat-label>Theme</mat-label>
-                    <mat-select formControlName="appTheme">
-                        <mat-option *ngFor="let theme of themes" [value]="theme.name">{{ theme.name }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </mat-card-content>
-        </mat-card>
-    </div>
+    <form [formGroup]="form" class="settings-grid">
+        <div class="card-grid">
+            <mat-card>
+                <mat-card-title>General</mat-card-title>
+                <mat-card-content>
+                    <h3>Theme</h3>
+                    <mat-form-field appearance="standard">
+                        <mat-label>Theme</mat-label>
+                        <mat-select formControlName="appTheme">
+                            <mat-option *ngFor="let theme of themes" [value]="theme.name">{{ theme.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+        </div>
 
-    <button mat-button (click)="onSave()" color="primary">Save</button>
-    <button mat-button (click)="onCancel()" color="accent">Cancel</button>
-</form>
+        <div>
+            <button mat-button (click)="onSave()" color="primary">Save</button>
+            <button mat-button (click)="onCancel()" color="accent">Cancel</button>
+        </div>
+    </form>
+</div>

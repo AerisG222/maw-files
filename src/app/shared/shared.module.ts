@@ -5,13 +5,11 @@ import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
 import { DownloadHandlerComponent } from './download-handler/download-handler.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -37,13 +35,11 @@ import { RouterModule } from '@angular/router';
         ReactiveFormsModule,
         RouterModule,
 
-        FlexLayoutModule,
         MatButtonModule,
         MatCardModule,
         MatDividerModule,
         MatIconModule,
         MatSelectModule,
-        MatSidenavModule,
         MatTabsModule,
         MatTableModule,
         MatToolbarModule,
@@ -54,13 +50,11 @@ import { RouterModule } from '@angular/router';
         FormsModule,
         ReactiveFormsModule,
 
-        FlexLayoutModule,
         MatButtonModule,
         MatCardModule,
         MatDividerModule,
         MatIconModule,
         MatSelectModule,
-        MatSidenavModule,
         MatTabsModule,
         MatTableModule,
         MatToolbarModule,

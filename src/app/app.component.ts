@@ -7,7 +7,6 @@ import { tap } from 'rxjs/operators';
 
 import { RootStoreState, SettingsStoreSelectors } from './core/root-store';
 import { Theme } from './core/models/theme.model';
-import { LayoutStoreSelectors, LayoutStoreActions } from './core/root-store/layout-store';
 
 @Component({
     selector: 'app-root',
@@ -16,8 +15,6 @@ import { LayoutStoreSelectors, LayoutStoreActions } from './core/root-store/layo
 })
 export class AppComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
-
-    isMobileView = false;
 
     constructor(
         private store$: Store<RootStoreState.State>,
@@ -29,15 +26,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.oidcFacade.getOidcUser();
-
-        this.store$.dispatch(new LayoutStoreActions.InitializeRequestAction());
-
-        this.destroySub.add(this.store$
-            .pipe(
-                select(LayoutStoreSelectors.selectLayoutIsMobileView),
-                tap(isMobileView => this.isMobileView = isMobileView)
-            ).subscribe()
-        );
 
         this.destroySub.add(this.store$
             .pipe(

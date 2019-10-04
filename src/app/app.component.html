@@ -1,6 +1,21 @@
-<app-mobile-view *ngIf="isMobileView" [routerTemplate]="template"></app-mobile-view>
-<app-desktop-view *ngIf="!isMobileView" [routerTemplate]="template"></app-desktop-view>
+<div class="desktop-grid">
+    <div class="mat-elevation-z8">
+        <div class="panel-grid">
+            <div class="panel-item-grid">
+                <app-home-link></app-home-link>
+            </div>
 
-<ng-template #template>
-    <router-outlet></router-outlet>
-</ng-template>
+            <div></div>
+
+            <div class="panel-item-grid">
+                <app-help-link></app-help-link>
+                <app-settings-link></app-settings-link>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <app-download-handler></app-download-handler>
+        <router-outlet></router-outlet>
+    </main>
+</div>

@@ -1,5 +1,6 @@
 mat-card {
-    min-width:240px;
+    min-width: 240px;
+    max-width: 300px;
     margin-bottom: 12px;
 }
 
@@ -15,4 +16,24 @@ mat-radio-button {
 h3 {
     margin-top: 12px;
     margin-bottom: 4px;
+}
+
+.settings-container {
+    margin: 12px;
+    height: 100vh;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-rows: max-content auto max-content;
+    grid-template-columns: 100%;
+    margin-bottom: 18px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    column-gap: 12px;
+    margin-bottom: 12px;
 }

@@ -1,95 +1,99 @@
-<div fxLayout="column" fxLayoutAlign="center center">
-    <div fxFlex="0 0 auto">
-        <img src="/android-chrome-192x192.png" class="icon" />
-    </div>
-    <div fxFlex="0 0 auto" class="title">
-        <a href="https://www.mikeandwan.us">mikeandwan.us</a>
-    </div>
-    <div fxFlex="0 0 auto" class="title">
-        Files
-    </div>
-    <div fxFlex="0 0 auto" class="version">
-        v{{ version }}
-    </div>
+<div class="help-grid">
+    <div></div>
 
-    <div fxFill fxLayout="row" fxLayoutAlign="center center">
-        <mat-tab-group fxFlex fxFlex.md="70" fxFlex.gt-md="50">
-            <mat-tab label="Help">
-                <h3><mat-icon>home</mat-icon> Manage Files</h3>
-                <p>
-                    Upload files and manage files on remote server.
-                </p>
+    <div>
+        <div class="logo">
+            <img src="/android-chrome-192x192.png" />
+        </div>
+        <div class="title">
+            <a href="https://www.mikeandwan.us">mikeandwan.us</a>
+        </div>
+        <div class="title">
+            Files
+        </div>
+        <div class="version">
+            v{{ version }}
+        </div>
 
-                <h3><mat-icon>help_outline</mat-icon> - Help</h3>
-                <p>
-                    This help screen.  Also view release notes.
-                </p>
+        <div>
+            <mat-tab-group>
+                <mat-tab label="Help">
+                    <h3><mat-icon>home</mat-icon> Manage Files</h3>
+                    <p>
+                        Upload files and manage files on remote server.
+                    </p>
 
-                <h3><mat-icon>settings</mat-icon> - Settings</h3>
-                <p>
-                    Adjust application level settings.
-                </p>
-            </mat-tab>
-            <mat-tab label="Release Notes">
-                <h3><span class="version">v0.4.1</span> - 07/21/2019</h3>
-                <p>
-                    Fix auth handling
-                </p>
+                    <h3><mat-icon>help_outline</mat-icon> - Help</h3>
+                    <p>
+                        This help screen.  Also view release notes.
+                    </p>
 
-                <ul>
-                    <li>Fix authentication process</li>
-                    <li>Upgrade dependencies</li>
-                </ul>
+                    <h3><mat-icon>settings</mat-icon> - Settings</h3>
+                    <p>
+                        Adjust application level settings.
+                    </p>
+                </mat-tab>
+                <mat-tab label="Release Notes">
+                    <h3><span class="version">v0.4.1</span> - 07/21/2019</h3>
+                    <p>
+                        Fix auth handling
+                    </p>
 
-                <h3><span class="version">v0.4.0</span> - 07/06/2019</h3>
-                <p>
-                    Improved auth experience and upgrade Angular
-                </p>
+                    <ul>
+                        <li>Fix authentication process</li>
+                        <li>Upgrade dependencies</li>
+                    </ul>
 
-                <ul>
-                    <li>First attempt to login via popup to avoid reloading app for authentication</li>
-                    <li>Leverage library (ng-oidc-client) to simplify authentication code and integrate with Ngrx</li>
-                    <li>Upgrade to Angular 8</li>
-                </ul>
+                    <h3><span class="version">v0.4.0</span> - 07/06/2019</h3>
+                    <p>
+                        Improved auth experience and upgrade Angular
+                    </p>
 
-                <h3><span class="version">v0.3.0</span> - 06/16/2019</h3>
-                <p>
-                    Upgrade Infrastructure
-                </p>
+                    <ul>
+                        <li>First attempt to login via popup to avoid reloading app for authentication</li>
+                        <li>Leverage library (ng-oidc-client) to simplify authentication code and integrate with Ngrx</li>
+                        <li>Upgrade to Angular 8</li>
+                    </ul>
 
-                <ul>
-                    <li>Upgrade Angular, Material, and NgRx to v8</li>
-                    <li>Upgrade other support libraries</li>
-                </ul>
+                    <h3><span class="version">v0.3.0</span> - 06/16/2019</h3>
+                    <p>
+                        Upgrade Infrastructure
+                    </p>
 
-                <h3><span class="version">v0.2.1</span> - 04/02/2019</h3>
-                <p>
-                    Minor improvements
-                </p>
+                    <ul>
+                        <li>Upgrade Angular, Material, and NgRx to v8</li>
+                        <li>Upgrade other support libraries</li>
+                    </ul>
 
-                <ul>
-                    <li>Provide link to mikeandwan.us from the about page</li>
-                </ul>
+                    <h3><span class="version">v0.2.1</span> - 04/02/2019</h3>
+                    <p>
+                        Minor improvements
+                    </p>
 
-                <h3><span class="version">v0.2.0</span> - 03/25/2019</h3>
-                <p>
-                    Minor improvements
-                </p>
+                    <ul>
+                        <li>Provide link to mikeandwan.us from the about page</li>
+                    </ul>
 
-                <ul>
-                    <li>Improve layout on narrow/mobile screens</li>
-                </ul>
+                    <h3><span class="version">v0.2.0</span> - 03/25/2019</h3>
+                    <p>
+                        Minor improvements
+                    </p>
 
-                <h3><span class="version">v0.1.0</span> - 03/23/2019</h3>
-                <p>
-                    Initial Release
-                </p>
+                    <ul>
+                        <li>Improve layout on narrow/mobile screens</li>
+                    </ul>
 
-                <ul>
-                    <li>Port of prior upload application to its own domain</li>
-                    <li>Improved interface and implementation</li>
-                </ul>
-            </mat-tab>
-        </mat-tab-group>
+                    <h3><span class="version">v0.1.0</span> - 03/23/2019</h3>
+                    <p>
+                        Initial Release
+                    </p>
+
+                    <ul>
+                        <li>Port of prior upload application to its own domain</li>
+                        <li>Improved interface and implementation</li>
+                    </ul>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
     </div>
 </div>
