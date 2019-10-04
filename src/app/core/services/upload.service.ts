@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, from, BehaviorSubject } from 'rxjs';
 import { filter, switchMap, map } from 'rxjs/operators';
-import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import { FileInfo } from '../models/file-info';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -102,6 +102,7 @@ export class UploadService {
 
         const hub = new HubConnectionBuilder()
             .withUrl(url)
+            .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             // TODO: enable message pack once it supports camel casing
             // .withHubProtocol(new MessagePackHubProtocol())
