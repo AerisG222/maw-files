@@ -18,6 +18,7 @@ import { HomeLinkComponent } from './home-link/home-link.component';
 import { HelpLinkComponent } from './help-link/help-link.component';
 import { SettingsLinkComponent } from './settings-link/settings-link.component';
 import { RouterModule } from '@angular/router';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
     declarations: [
@@ -32,6 +33,7 @@ import { RouterModule } from '@angular/router';
     imports: [
         CommonModule,
         FormsModule,
+        PerfectScrollbarModule,
         ReactiveFormsModule,
         RouterModule,
 
@@ -48,6 +50,7 @@ import { RouterModule } from '@angular/router';
     exports: [
         FileUploadModule,
         FormsModule,
+        PerfectScrollbarModule,
         ReactiveFormsModule,
 
         MatButtonModule,
