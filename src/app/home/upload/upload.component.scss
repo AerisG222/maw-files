@@ -2,10 +2,22 @@
     height: 20vh;
     margin-top: 12px;
     border: dotted 3px lightgray;
+    box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.2);
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    & span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .nv-file-over {
     border: dotted 3px cyan;
+    color: cyan;
 }
 
 .queue {
