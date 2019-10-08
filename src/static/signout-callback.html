@@ -12,7 +12,7 @@
     <script>
         var Oidc = window.Oidc;
         var usrMgr = new Oidc.UserManager({ response_mode: 'query' });
-        var isPopupCallback = JSON.parse(window.localStorage.getItem('ngoidc:isPopupCallback'));
+        var isPopupCallback = JSON.parse(window.sessionStorage.getItem('ngoidc:isPopupCallback'));
 
         if (isPopupCallback) {
             usrMgr.signoutPopupCallback();
