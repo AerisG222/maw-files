@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store, select, Action } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { switchMap, catchError, map, withLatestFrom, filter, take, tap } from 'rxjs/operators';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Store, select } from '@ngrx/store';
+import { of } from 'rxjs';
+import { switchMap, catchError, map, withLatestFrom, filter, take } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 
-import * as remoteFileActions from './actions';
+import * as RemoteFileActions from './actions';
 import * as remoteFileSelectors from './selectors';
 import { State } from './state';
 import { UploadService } from '../../services/upload.service';
@@ -26,84 +26,86 @@ export class RemoteFileStoreEffects {
 
     }
 
-    @Effect()
-    initializeUploaderRequestEffect$: Observable<Action> = this.actions$.pipe(
-        ofType<remoteFileActions.InitializeUploaderRequestAction>(remoteFileActions.ActionTypes.INITIALIZE_UPLOADER_REQUEST),
-        withLatestFrom(this.store$.pipe(
-            select(remoteFileSelectors.selectRemoteFileUploader)
-        )),
-        filter(([action, uploader]) => uploader === null),
-        switchMap(action =>
-            this.oidcFacade.identity$.pipe(
-                map(x => x.access_token),
-                map(token => {
-                    if (token == null) {
-                        return new remoteFileActions.InitializeUploaderFailureAction({ error: 'auth token is not defined' });
-                    }
+    initializeUploaderRequestEffect$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(RemoteFileActions.initializeUploaderRequest),
+            withLatestFrom(this.store$.pipe(
+                select(remoteFileSelectors.selectRemoteFileUploader)
+            )),
+            filter(([action, uploader]) => uploader === null),
+            switchMap(action =>
+                this.oidcFacade.identity$.pipe(
+                    map(x => x.access_token),
+                    map(token => {
+                        if (!!token) {
+                            const uploader = new FileUploader({
+                                url: this.api.getAbsoluteUrl('upload/upload'),
+                                authToken: `Bearer ${token}`,
+                                removeAfterUpload: true,
 
-                    if (!!token) {
-                        const uploader = new FileUploader({
-                            url: this.api.getAbsoluteUrl('upload/upload'),
-                            authToken: `Bearer ${token}`,
-                            removeAfterUpload: true,
+                            });
 
-                        });
-
-                        return new remoteFileActions.InitializeUploaderSuccessAction({ uploader });
-                    }
-                }),
-                take(1)
+                            return RemoteFileActions.initializeUploaderSuccess({ uploader });
+                        } else {
+                            return RemoteFileActions.initializeUploaderFailure({ error: 'auth token is not defined' });
+                        }
+                    }),
+                    take(1)
+                )
             )
         )
     );
 
-    @Effect()
-    loadRequestEffect$: Observable<Action> = this.actions$.pipe(
-        ofType<remoteFileActions.LoadRequestAction>(remoteFileActions.ActionTypes.LOAD_REQUEST),
-        withLatestFrom(this.store$.pipe(
-            select(remoteFileSelectors.selectAllRemoteFiles)
-        )),
-        filter(([action, files]) => files.length === 0),
-        switchMap(action => {
-            return this.api.getServerFiles()
-                .pipe(
-                    map(files => new remoteFileActions.LoadSuccessAction({ files })),
-                    catchError(error => of(new remoteFileActions.LoadFailureAction({ error })))
-                );
-        })
+    loadRequestEffect$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(RemoteFileActions.loadRequest),
+            withLatestFrom(this.store$.pipe(
+                select(remoteFileSelectors.selectAllRemoteFiles)
+            )),
+            filter(([action, files]) => files.length === 0),
+            switchMap(action => {
+                return this.api.getServerFiles()
+                    .pipe(
+                        map(files => RemoteFileActions.loadSuccess({ files })),
+                        catchError(error => of(RemoteFileActions.loadFailure({ error })))
+                    );
+            })
+        )
     );
 
-    @Effect()
-    downloadRequestEffect$: Observable<Action> = this.actions$.pipe(
-        ofType<remoteFileActions.DownloadRequestAction>(remoteFileActions.ActionTypes.DOWNLOAD_REQUEST),
-        switchMap(action => {
-            const list = [].concat(action.payload.files);
+    downloadRequestEffect$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(RemoteFileActions.downloadRequest),
+            switchMap(action => {
+                const list = [].concat(action.files);
 
-            return this.api
-                .downloadFiles(list)
-                .pipe(
-                    map(response => {
-                        this.saveDownload(response);
-                        return new remoteFileActions.DownloadSuccessAction();
-                    }),
-                    catchError(error => of(new remoteFileActions.DownloadFailureAction({ error })))
-                );
-        })
+                return this.api
+                    .downloadFiles(list)
+                    .pipe(
+                        map(response => {
+                            this.saveDownload(response);
+                            return RemoteFileActions.downloadSuccess();
+                        }),
+                        catchError(error => of(RemoteFileActions.downloadFailure({ error })))
+                    );
+            })
+        )
     );
 
-    @Effect()
-    deleteRequestEffect$: Observable<Action> = this.actions$.pipe(
-        ofType<remoteFileActions.DeleteRequestAction>(remoteFileActions.ActionTypes.DELETE_REQUEST),
-        switchMap(action => {
-            const list = [].concat(action.payload.files);
+    deleteRequestEffect$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(RemoteFileActions.deleteRequest),
+            switchMap(action => {
+                const list = [].concat(action.files);
 
-            return this.api
-                .deleteFiles(list)
-                .pipe(
-                    map(response => new remoteFileActions.DeleteSuccessAction({ result: response })),
-                    catchError(error => of(new remoteFileActions.DeleteFailureAction({ error })))
-                );
-        })
+                return this.api
+                    .deleteFiles(list)
+                    .pipe(
+                        map(response => RemoteFileActions.deleteSuccess({ result: response })),
+                        catchError(error => of(RemoteFileActions.deleteFailure({ error })))
+                    );
+            })
+        )
     );
 
     // we should probably not shove big things into state, so handle the downloaded content

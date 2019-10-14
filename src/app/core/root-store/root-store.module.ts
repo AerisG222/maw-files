@@ -21,8 +21,18 @@ function getUserStore() {
         CommonModule,
         RemoteFileStoreModule,
         SettingsStoreModule,
-        StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        StoreModule.forRoot({}),
+        StoreRouterConnectingModule.forRoot({
+            stateKey: 'router',
+            // serializer: MinimalRouterStateSerializer  - needed if we enable ngrx serializability checks
+        }),
+        StoreModule.forRoot({}, {
+            runtimeChecks: {
+                strictStateImmutability: false,  // we currently pump the file uploader through ngrx, so cant check immutability
+                strictActionImmutability: false,
+                strictStateSerializability: false,
+                strictActionSerializability: false
+            }
+        }),
         EffectsModule.forRoot([]),
         NgOidcClientModule.forRoot({
             oidc_config: {

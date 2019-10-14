@@ -51,9 +51,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
             appTheme: Theme.forName(this.form.get('appTheme').value)
         };
 
-        this.store$.dispatch(
-            new SettingsStoreActions.SaveRequestAction({ settings })
-        );
+        this.store$.dispatch(SettingsStoreActions.saveRequest({ settings }));
     }
 
     onCancel(): void {
@@ -61,9 +59,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     private loadSettings(): void {
-        this.store$.dispatch(
-            new SettingsStoreActions.LoadRequestAction()
-        );
+        this.store$.dispatch(SettingsStoreActions.loadRequest());
     }
 
     private updateForm(settings: Settings): void {

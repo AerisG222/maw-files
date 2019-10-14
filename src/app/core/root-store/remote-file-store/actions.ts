@@ -1,135 +1,86 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { FileInfo } from '../../models/file-info';
 import { FileOperationResult } from '../../models/file-operation-result';
 import { FileUploader } from 'ng2-file-upload/file-upload/file-uploader.class';
 
-export enum ActionTypes {
-    LOAD_REQUEST = '[Remote Files] Load Request',
-    LOAD_FAILURE = '[Remote Files] Load Failure',
-    LOAD_SUCCESS = '[Remote Files] Load Success',
+export const loadRequest = createAction(
+    '[Remote Files] Load Request'
+);
 
-    DELETE_REQUEST = '[Remote Files] Delete Request',
-    DELETE_FAILURE = '[Remote Files] Delete Failure',
-    DELETE_SUCCESS = '[Remote Files] Delete Succes',
+export const loadFailure = createAction(
+    '[Remote Files] Load Failure',
+    props<{ error: string }>()
+);
 
-    DOWNLOAD_REQUEST = '[Remote Files] Download Request',
-    DOWNLOAD_FAILURE = '[Remote Files] Download Failure',
-    DOWNLOAD_SUCCESS = '[Remote Files] Download Succes',
+export const loadSuccess = createAction(
+    '[Remote Files] Load Success',
+    props<{ files: FileInfo[] }>()
+);
 
-    UPLOAD_REQUEST = '[Upload] Upload Files',
-    UPLOAD_FAILURE = '[API] Upload Files Failed',
-    UPLOAD_SUCCESS = '[API] Upload Files Success',
+export const deleteRequest = createAction(
+    '[Remote Files] Delete Request',
+    props<{ files: string | string[] }>()
+);
 
-    FILE_ADDED = '[SignalR] File Added',
-    FILE_DELETED = '[SignalR] File Deleted',
+export const deleteFailure = createAction(
+    '[Remote Files] Delete Failure',
+    props<{ error: string }>()
+);
 
-    INITIALIZE_UPLOADER_REQUEST = '[Upload Component] Initialize Uploader Request',
-    INITIALIZE_UPLOADER_SUCCESS = '[Upload Component] Initialize Uploader Success',
-    INITIALIZE_UPLOADER_FAILURE = '[Upload Component] Initialize Uploader Failure'
-}
+export const deleteSuccess = createAction(
+    '[Remote Files] Delete Success',
+    props<{ result: FileOperationResult[] }>()
+);
 
-export class LoadRequestAction implements Action {
-    readonly type = ActionTypes.LOAD_REQUEST;
-}
+export const downloadRequest = createAction(
+    '[Remote Files] Download Request',
+    props<{ files: string | string[] }>()
+);
 
-export class LoadFailureAction implements Action {
-    readonly type = ActionTypes.LOAD_FAILURE;
-    constructor(public payload: { error: string }) { }
-}
+export const downloadSuccess = createAction(
+    '[Remote Files] Download Success'
+);
 
-export class LoadSuccessAction implements Action {
-    readonly type = ActionTypes.LOAD_SUCCESS;
-    constructor(public payload: { files: FileInfo[] }) { }
-}
+export const downloadFailure = createAction(
+    '[Remote Files] Download Failure',
+    props<{ error: string }>()
+);
 
-export class DeleteRequestAction implements Action {
-    readonly type = ActionTypes.DELETE_REQUEST;
-    constructor(public payload: { files: string | string[] }) { }
-}
+export const fileAdded = createAction(
+    '[SignalR] File Added',
+    props<{ file: FileInfo }>()
+);
 
-export class DeleteFailureAction implements Action {
-    readonly type = ActionTypes.DELETE_FAILURE;
-    constructor(public payload: { error: string }) { }
-}
+export const fileDeleted = createAction(
+    '[SignalR] File Deleted',
+    props<{ file: FileInfo }>()
+);
 
-export class DeleteSuccessAction implements Action {
-    readonly type = ActionTypes.DELETE_SUCCESS;
-    constructor(public payload: { result: FileOperationResult[] }) { }
-}
+export const initializeUploaderRequest = createAction(
+    '[Upload Component] Initialize Uploader Request'
+);
 
-export class DownloadRequestAction implements Action {
-    readonly type = ActionTypes.DOWNLOAD_REQUEST;
-    constructor(public payload: { files: string | string[] }) { }
-}
+export const initializeUploaderSuccess = createAction(
+    '[Upload Component] Initialize Uploader Success',
+    props<{ uploader: FileUploader }>()
+);
 
-export class DownloadSuccessAction implements Action {
-    readonly type = ActionTypes.DOWNLOAD_SUCCESS;
-}
+export const initializeUploaderFailure = createAction(
+    '[Upload Component] Initialize Uploader Failure',
+    props<{ error: string }>()
+);
 
-export class DownloadFailureAction implements Action {
-    readonly type = ActionTypes.DOWNLOAD_FAILURE;
-    constructor(public payload: { error: string }) { }
-}
+export const uploadRequest = createAction(
+    '[Upload] Upload Files',
+    props<{ files: string[] }>()
+);
 
-export class FileAddedAction implements Action {
-    readonly type = ActionTypes.FILE_ADDED;
-    constructor(public payload: { file: FileInfo }) { }
-}
+export const uploadFailure = createAction(
+    '[API] Upload Files Failed',
+    props<{ error: string }>()
+);
 
-export class FileDeletedAction implements Action {
-    readonly type = ActionTypes.FILE_DELETED;
-    constructor(public payload: { file: FileInfo }) { }
-}
-
-export class InitializeUploaderRequestAction implements Action {
-    readonly type = ActionTypes.INITIALIZE_UPLOADER_REQUEST;
-}
-
-export class InitializeUploaderSuccessAction implements Action {
-    readonly type = ActionTypes.INITIALIZE_UPLOADER_SUCCESS;
-    constructor(public payload: { uploader: FileUploader }) { }
-}
-
-export class InitializeUploaderFailureAction implements Action {
-    readonly type = ActionTypes.INITIALIZE_UPLOADER_FAILURE;
-    constructor(public payload: { error: string }) { }
-}
-
-export class UploadRequestAction implements Action {
-    readonly type = ActionTypes.UPLOAD_REQUEST;
-    constructor(public payload: { files: string[] }) { }
-}
-
-export class UploadFailureAction implements Action {
-    readonly type = ActionTypes.UPLOAD_FAILURE;
-    constructor(public payload: { error: string }) { }
-}
-
-export class UploadSuccessAction implements Action {
-    readonly type = ActionTypes.UPLOAD_SUCCESS;
-    constructor(public payload: { results: FileOperationResult[] }) { }
-}
-
-export type Actions =
-    LoadRequestAction |
-    LoadFailureAction |
-    LoadSuccessAction |
-
-    DeleteRequestAction |
-    DeleteFailureAction |
-    DeleteSuccessAction |
-
-    DownloadRequestAction |
-    DownloadSuccessAction |
-    DownloadFailureAction |
-
-    FileAddedAction |
-    FileDeletedAction |
-
-    InitializeUploaderRequestAction |
-    InitializeUploaderSuccessAction |
-    InitializeUploaderFailureAction |
-
-    UploadRequestAction |
-    UploadFailureAction |
-    UploadSuccessAction;
+export const uploadSuccess = createAction(
+    '[API] Upload Files Success',
+    props<{ results: FileOperationResult[] }>()
+);

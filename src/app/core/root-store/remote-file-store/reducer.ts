@@ -1,129 +1,92 @@
-import { Actions, ActionTypes } from './actions';
-import { remoteFileAdapter, initialState, State } from './state';
-import { Action } from 'rxjs/internal/scheduler/Action';
+import { createReducer, on } from '@ngrx/store';
 
-export function remoteFileReducer(state = initialState, action: Actions): State {
-    switch (action.type) {
-        case ActionTypes.LOAD_REQUEST: {
-            return {
-                ...state,
-                isLoading: true,
-                error: null
-            };
-        }
-        case ActionTypes.LOAD_SUCCESS: {
-            return remoteFileAdapter.addMany(action.payload.files, {
-                ...state,
-                isLoading: false,
-                error: null
-            });
-        }
-        case ActionTypes.LOAD_FAILURE: {
-            return {
-                ...state,
-                isLoading: false,
-                error: action.payload.error
-            };
-        }
+import * as RemoteFileActions from './actions';
+import { remoteFileAdapter, initialState } from './state';
 
-        case ActionTypes.DELETE_REQUEST: {
-            return {
-                ...state,
-                isLoading: true,
-                error: null
-            };
-        }
-        case ActionTypes.DELETE_SUCCESS: {
-            return {
-                ...state,
-                isLoading: false,
-                error: null
-            };
-        }
-        case ActionTypes.DELETE_FAILURE: {
-            return {
-                ...state,
-                isLoading: false,
-                error: action.payload.error
-            };
-        }
-
-        case ActionTypes.DOWNLOAD_REQUEST: {
-            return {
-                ...state,
-                isLoading: true,
-                error: null
-            };
-        }
-        case ActionTypes.DOWNLOAD_SUCCESS: {
-            return {
-                ...state,
-                isLoading: false,
-                error: null
-            };
-        }
-        case ActionTypes.DOWNLOAD_FAILURE: {
-            return {
-                ...state,
-                isLoading: false,
-                error: action.payload.error
-            };
-        }
-
-        case ActionTypes.FILE_ADDED: {
-            return remoteFileAdapter.addOne(action.payload.file, {
-                ...state,
-            });
-        }
-        case ActionTypes.FILE_DELETED: {
-            return remoteFileAdapter.removeOne(action.payload.file.location.relativePath, {
-                ...state,
-            });
-        }
-
-        case ActionTypes.INITIALIZE_UPLOADER_REQUEST: {
-            return {
-                ...state,
-                isLoading: true
-            };
-        }
-        case ActionTypes.INITIALIZE_UPLOADER_SUCCESS: {
-            return {
-                ...state,
-                isLoading: false,
-                uploader: action.payload.uploader
-            };
-        }
-        case ActionTypes.INITIALIZE_UPLOADER_FAILURE: {
-            return {
-                ...state,
-                isLoading: false,
-                error: action.payload.error
-            };
-        }
-
-        case ActionTypes.UPLOAD_REQUEST: {
-            return {
-                ...state,
-                isLoading: true
-            };
-        }
-        case ActionTypes.UPLOAD_SUCCESS: {
-            return {
-                ...state,
-                isLoading: false
-            };
-        }
-        case ActionTypes.UPLOAD_FAILURE: {
-            return {
-                ...state,
-                isLoading: false,
-                error: action.payload.error
-            };
-        }
-
-        default: {
-            return state;
-        }
-    }
-}
+export const remoteFileReducer = createReducer(
+    initialState,
+    on(RemoteFileActions.loadRequest, state => ({
+        ...state,
+        isLoading: true,
+        error: null
+    })),
+    on(RemoteFileActions.loadSuccess, (state, { files }) =>
+        remoteFileAdapter.addMany(files, {
+            ...state,
+            isLoading: false,
+            error: null
+        })
+    ),
+    on(RemoteFileActions.loadFailure, (state, { error }) => ({
+        ...state,
+        isLoading: false,
+        error
+    })),
+    on(RemoteFileActions.deleteRequest, (state, { files }) => ({
+        ...state,
+        isLoading: true,
+        error: null
+    })),
+    on(RemoteFileActions.deleteSuccess, (state, { result }) => ({
+        ...state,
+        isLoading: false,
+        error: null
+    })),
+    on(RemoteFileActions.deleteFailure, (state, { error }) => ({
+        ...state,
+        isLoading: false,
+        error
+    })),
+    on(RemoteFileActions.downloadRequest, (state, { files }) => ({
+        ...state,
+        isLoading: true,
+        error: null
+    })),
+    on(RemoteFileActions.downloadSuccess, state => ({
+        ...state,
+        isLoading: false,
+        error: null
+    })),
+    on(RemoteFileActions.downloadFailure, (state, { error }) => ({
+        ...state,
+        isLoading: false,
+        error
+    })),
+    on(RemoteFileActions.fileAdded, (state, { file }) =>
+        remoteFileAdapter.addOne(file, {
+            ...state,
+        })
+    ),
+    on(RemoteFileActions.fileDeleted, (state, { file }) =>
+        remoteFileAdapter.removeOne(file.location.relativePath, {
+            ...state,
+        })
+    ),
+    on(RemoteFileActions.initializeUploaderRequest, state => ({
+        ...state,
+        isLoading: true
+    })),
+    on(RemoteFileActions.initializeUploaderSuccess, (state, { uploader }) => ({
+        ...state,
+        isLoading: false,
+        uploader
+    })),
+    on(RemoteFileActions.initializeUploaderFailure, (state, { error }) => ({
+        ...state,
+        isLoading: false,
+        error
+    })),
+    on(RemoteFileActions.uploadRequest, state => ({
+        ...state,
+        isLoading: true
+    })),
+    on(RemoteFileActions.uploadSuccess, state => ({
+        ...state,
+        isLoading: false
+    })),
+    on(RemoteFileActions.uploadFailure, (state, { error }) => ({
+        ...state,
+        isLoading: false,
+        error
+    }))
+);

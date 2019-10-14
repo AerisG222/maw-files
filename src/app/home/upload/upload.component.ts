@@ -6,8 +6,7 @@ import { Store, select } from '@ngrx/store';
 
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
-import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
-import { InitializeUploaderRequestAction } from '../../core/root-store/remote-file-store/actions';
+import { RootStoreState, RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
 import { tap, filter } from 'rxjs/operators';
 
 @Component({
@@ -41,7 +40,7 @@ export class UploadComponent implements OnInit {
             tap(uploader => this.trackChanges(uploader))
         );
 
-        this.store.dispatch(new InitializeUploaderRequestAction());
+        this.store.dispatch(RemoteFileStoreActions.initializeUploaderRequest());
     }
 
     fileOverBase(e: any): void {

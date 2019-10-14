@@ -8,7 +8,7 @@ import { FileInfo } from '../models/file-info';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FileOperationResult } from '../models/file-operation-result';
 import { RootStoreState } from '../root-store';
-import { FileAddedAction, FileDeletedAction } from '../root-store/remote-file-store/actions';
+import * as RemoteFileStoreActions from '../root-store/remote-file-store/actions';
 import { environment } from 'src/environments/environment';
 import { OidcFacade } from 'ng-oidc-client';
 
@@ -111,13 +111,13 @@ export class UploadService {
         hub.on('FileAdded', (addedFile: FileInfo) => {
             console.log('file added: ', addedFile);
 
-            this.zone.run(() => this.store.dispatch(new FileAddedAction({ file: addedFile })));
+            this.zone.run(() => this.store.dispatch(RemoteFileStoreActions.fileAdded({ file: addedFile })));
         });
 
         hub.on('FileDeleted', (deletedFile: FileInfo) => {
             console.log('file deleted: ', deletedFile);
 
-            this.zone.run(() => this.store.dispatch(new FileDeletedAction({ file: deletedFile })));
+            this.zone.run(() => this.store.dispatch(RemoteFileStoreActions.fileDeleted({ file: deletedFile })));
         });
 
         hub.start()

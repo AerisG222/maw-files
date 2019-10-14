@@ -1,46 +1,37 @@
-import { Actions, ActionTypes } from './actions';
-import { initialState, State } from './state';
+import { createReducer, on } from '@ngrx/store';
 
-export function settingsReducer(state = initialState, action: Actions): State {
-    switch (action.type) {
-        case ActionTypes.LOAD_REQUEST:
-            return {
-                ...state,
-                error: null,
-                isLoading: true
-            };
-        case ActionTypes.LOAD_SUCCESS:
-            return {
-                ...state,
-                settings: { ...action.payload.settings },
-                error: null,
-                isLoading: false
-            };
-        case ActionTypes.LOAD_FAILURE:
-            return {
-                ...state,
-                error: action.payload.error,
-                isLoading: false
-            };
-        case ActionTypes.SAVE_REQUEST:
-            return {
-                ...state,
-                error: null
-            };
-        case ActionTypes.SAVE_FAILURE:
-            return {
-                ...state,
-                error: action.payload.error
-            };
-        case ActionTypes.SAVE_SUCCESS:
-            return {
-                ...state,
-                settings: { ...action.payload.settings },
-                error: null
-            };
+import { initialState } from './state';
+import * as SettingsActions from './actions';
 
-        default: {
-            return state;
-        }
-    }
-}
+export const settingsReducer = createReducer(
+    initialState,
+    on(SettingsActions.loadRequest, state => ({
+        ...state,
+        error: null,
+        isLoading: true
+    })),
+    on(SettingsActions.loadFailure, (state, { error }) => ({
+        ...state,
+        isLoading: false,
+        error
+    })),
+    on(SettingsActions.loadSuccess, (state, { settings }) => ({
+        ...state,
+        settings: { ...settings },
+        error: null,
+        isLoading: false
+    })),
+    on(SettingsActions.saveRequest, state => ({
+        ...state,
+        error: null
+    })),
+    on(SettingsActions.saveFailure, (state, { error }) => ({
+        ...state,
+        error
+    })),
+    on(SettingsActions.saveSuccess, (state, { settings }) => ({
+        ...state,
+        settings: { ...settings },
+        error: null
+    }))
+);

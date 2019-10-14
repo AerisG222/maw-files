@@ -9,8 +9,7 @@ import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { RelativeDatePipe } from '../../shared/pipes/relative-date.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
 import { FileInfo } from '../../core/models/file-info';
-import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
-import { DownloadRequestAction, DeleteRequestAction, LoadRequestAction} from '../../core/root-store/remote-file-store/actions';
+import { RootStoreState, RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
 import { OidcFacade } from 'ng-oidc-client';
 
 @Component({
@@ -63,7 +62,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
             ).subscribe()
         );
 
-        this.store.dispatch(new LoadRequestAction());
+        this.store.dispatch(RemoteFileStoreActions.loadRequest());
     }
 
     ngOnDestroy(): void {
@@ -71,23 +70,23 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     downloadSingle(file: FileViewModel) {
-        this.store.dispatch(new DownloadRequestAction({ files: file.location.relativePath }));
+        this.store.dispatch(RemoteFileStoreActions.downloadRequest({ files: file.location.relativePath }));
     }
 
     deleteSingle(file: FileViewModel) {
-        this.store.dispatch(new DeleteRequestAction({ files: file.location.relativePath }));
+        this.store.dispatch(RemoteFileStoreActions.deleteRequest({ files: file.location.relativePath }));
     }
 
     downloadSelected(): void {
         const list = this.getSelected();
 
-        this.store.dispatch(new DownloadRequestAction({ files: list }));
+        this.store.dispatch(RemoteFileStoreActions.downloadRequest({ files: list }));
     }
 
     deleteSelected(): void {
         const list = this.getSelected();
 
-        this.store.dispatch(new DeleteRequestAction({ files: list }));
+        this.store.dispatch(RemoteFileStoreActions.deleteRequest({ files: list }));
     }
 
     getSelected(): string[] {
