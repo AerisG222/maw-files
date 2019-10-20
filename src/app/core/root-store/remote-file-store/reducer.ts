@@ -1,9 +1,9 @@
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, on, Action } from '@ngrx/store';
 
 import * as RemoteFileActions from './actions';
-import { remoteFileAdapter, initialState } from './state';
+import { remoteFileAdapter, initialState, State } from './state';
 
-export const remoteFileReducer = createReducer(
+const reducer = createReducer(
     initialState,
     on(RemoteFileActions.loadRequest, state => ({
         ...state,
@@ -90,3 +90,7 @@ export const remoteFileReducer = createReducer(
         error
     }))
 );
+
+export function remoteFileReducer(state: State | undefined, action: Action) {
+    return reducer(state, action);
+}

@@ -11,7 +11,7 @@ import { SettingsStoreModule } from './settings-store';
 import { environment } from '../../../environments/environment';
 import { RemoteFileStoreModule } from './remote-file-store';
 
-function getUserStore() {
+export function getUserStore() {
     return new WebStorageStateStore({ store: window.sessionStorage });
 }
 
