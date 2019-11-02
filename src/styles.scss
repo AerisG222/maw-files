@@ -79,3 +79,24 @@ html, body {
     margin: 0;
     overflow: hidden;
 }
+
+.content-scroll-pane,
+.content-scroll-pane-no-inner-toolbar {
+    height: 100vh;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 800px) {
+    .content-scroll-pane {
+        /* 36px = height of primary nav */
+        /* 29px = height of inner toolbar */
+        height: calc(100vh - 36px - 29.25px);
+        min-height: calc(100vh - 36px - 29.25px);
+    }
+
+    .content-scroll-pane-no-inner-toolbar {
+        height: calc(100vh - 36px);
+        min-height: calc(100vh - 36px);
+    }
+}
