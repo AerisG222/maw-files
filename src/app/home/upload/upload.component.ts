@@ -25,7 +25,7 @@ export class UploadComponent implements OnInit {
     columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'upload', 'cancel', 'remove' ];
     uploader$: Observable<FileUploader>;
 
-    @ViewChild('uploadTable', { static: false }) uploadTable: MatTable<FileItem>;
+    @ViewChild('uploadTable') uploadTable: MatTable<FileItem>;
 
     constructor(
         private store: Store<RootStoreState.State>

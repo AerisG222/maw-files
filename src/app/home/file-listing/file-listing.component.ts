@@ -27,7 +27,7 @@ import { OidcFacade } from 'ng-oidc-client';
 export class FileListingComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
-    @ViewChild('fileTable', { static: false }) fileTable: MatTable<FileViewModel>;
+    @ViewChild('fileTable') fileTable: MatTable<FileViewModel>;
 
     files: FileViewModel[] = [];
     columnsToDisplay = [];
