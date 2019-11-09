@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from 'ngx-webstorage';
 
 import { Settings } from '../models/settings.model';
 import { Theme } from '../models/theme.model';
+import { LocalStorageService } from './local-storage.service';
 
 
 @Injectable({
