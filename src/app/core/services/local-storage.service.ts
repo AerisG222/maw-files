@@ -16,7 +16,16 @@ export class LocalStorageService {
     retrieve(key: string): any {
         const value = this.strategy.getItem(this.normalize(key));
 
-        return !!value ? value : null;
+        if (!!value) {
+            // not sure why, but FF had strings wrapped in quotes, so try to accomodate this here
+            if (typeof value === 'string') {
+                return value.replace(/"/g, '');
+            }
+
+            return value;
+        }
+
+        return null;
     }
 
     store(key: string, value: any): any {
