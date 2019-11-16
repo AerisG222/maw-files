@@ -10,7 +10,6 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class SettingsService {
     private static readonly keyAuthRedirectUrl = 'authRedirectUrl';
-
     private static readonly keyAppTheme = 'appTheme';
 
     constructor(
@@ -30,28 +29,40 @@ export class SettingsService {
             return;
         }
 
-        this.localStorage.store(SettingsService.keyAppTheme, settings.appTheme.name);
+        this.setValue(SettingsService.keyAppTheme, settings.appTheme.name);
     }
 
     clearAuthRedirectUrl(): void {
-        this.localStorage.clear(SettingsService.keyAuthRedirectUrl);
+        this.clearValue(SettingsService.keyAuthRedirectUrl);
     }
 
     setAuthRedirectUrl(url: string): void {
-        this.localStorage.store(SettingsService.keyAuthRedirectUrl, url);
+        this.setValue(SettingsService.keyAuthRedirectUrl, url);
     }
 
     getAuthRedirectUrl(): string {
-        return this.localStorage.retrieve(SettingsService.keyAuthRedirectUrl) as string;
+        return this.getValue(SettingsService.keyAuthRedirectUrl);
     }
 
     private getTheme(): Theme {
-        const themeName = this.localStorage.retrieve(SettingsService.keyAppTheme);
+        const themeName = this.getValue(SettingsService.keyAppTheme);
 
         try {
             return themeName !== null ? Theme.forName(themeName) : Theme.themeDark;
         } catch {
             return Theme.themeDark;
         }
+    }
+
+    private getValue(key: string): string {
+        return this.localStorage.retrieve(key) as string;
+    }
+
+    private setValue(key: string, value: any) {
+        this.localStorage.store(key, value);
+    }
+
+    private clearValue(key: string) {
+        this.localStorage.clear(key);
     }
 }
