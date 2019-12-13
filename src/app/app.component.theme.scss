@@ -17,4 +17,8 @@
             color: mat-color($accent, 100);
         }
     }
+
+    .panel-grid {
+        background-color: rgba(mat-color($accent, 700), .2);
+    }
 }
