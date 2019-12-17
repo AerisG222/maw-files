@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-home-link',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./home-link.component.scss']
 })
 export class HomeLinkComponent {
-    @Input() tooltipPosition = 'after';
+    @Input() tooltipPosition: TooltipPosition = 'after';
 }

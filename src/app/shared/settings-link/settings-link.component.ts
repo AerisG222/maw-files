@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-settings-link',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./settings-link.component.scss']
 })
 export class SettingsLinkComponent {
-    @Input() tooltipPosition = 'after';
+    @Input() tooltipPosition: TooltipPosition = 'after';
 }
