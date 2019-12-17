@@ -7,7 +7,6 @@ import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { FileInfo } from '../models/file-info';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FileOperationResult } from '../models/file-operation-result';
-import { RootStoreState } from '../root-store';
 import * as RemoteFileStoreActions from '../root-store/remote-file-store/actions';
 import { environment } from 'src/environments/environment';
 import { OidcFacade } from 'ng-oidc-client';
@@ -19,7 +18,7 @@ export class UploadService {
     private hubReady$ = new BehaviorSubject<signalR.HubConnection>(undefined);
 
     constructor(private http: HttpClient,
-                private store: Store<RootStoreState.State>,
+                private store: Store<{}>,
                 private oidcFacade: OidcFacade,
                 private zone: NgZone) {
 
@@ -114,6 +113,7 @@ export class UploadService {
             this.zone.run(() => this.store.dispatch(RemoteFileStoreActions.fileAdded({ file: addedFile })));
         });
 
+        // tslint:disable-next-line: ngrx-avoid-dispatching-multiple-actions-sequentially
         hub.on('FileDeleted', (deletedFile: FileInfo) => {
             console.log('file deleted: ', deletedFile);
 

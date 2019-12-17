@@ -9,7 +9,7 @@ import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { RelativeDatePipe } from '../../shared/pipes/relative-date.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
 import { FileInfo } from '../../core/models/file-info';
-import { RootStoreState, RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
+import { RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
 import { OidcFacade } from 'ng-oidc-client';
 
 @Component({
@@ -33,7 +33,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
     columnsToDisplay = [];
 
     constructor(
-        private store: Store<RootStoreState.State>,
+        private store: Store<{}>,
         private oidcFacade: OidcFacade
     ) {
         this.oidcFacade.identity$

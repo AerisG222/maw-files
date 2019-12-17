@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
-import { RootStoreState, RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
+import { RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
 import { tap, filter } from 'rxjs/operators';
 
 @Component({
@@ -28,7 +28,7 @@ export class UploadComponent implements OnInit {
     @ViewChild('uploadTable') uploadTable: MatTable<FileItem>;
 
     constructor(
-        private store: Store<RootStoreState.State>
+        private store: Store<{}>
     ) {
 
     }

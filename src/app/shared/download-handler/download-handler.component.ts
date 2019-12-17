@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
-import { RootStoreState, RemoteFileStoreSelectors } from '../../core/root-store';
+import { RemoteFileStoreSelectors } from '../../core/root-store';
 
 @Component({
     selector: 'app-download-handler',
@@ -13,7 +13,7 @@ export class DownloadHandlerComponent {
     error$: Observable<any>;
 
     constructor(
-        private store: Store<RootStoreState.State>
+        private store: Store<{}>
     ) {
         this.error$ = this.store.pipe(
             select(RemoteFileStoreSelectors.selectRemoteFileError)

@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { of } from 'rxjs';
-import { switchMap, catchError, map, withLatestFrom, filter, take } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
+import { FileUploader } from 'ng2-file-upload';
+import { OidcFacade } from 'ng-oidc-client';
+import { of } from 'rxjs';
+import { switchMap, catchError, map, withLatestFrom, filter, take, mergeMap } from 'rxjs/operators';
 
 import * as RemoteFileActions from './actions';
 import * as remoteFileSelectors from './selectors';
-import { State } from './state';
 import { UploadService } from '../../services/upload.service';
-import { FileUploader } from 'ng2-file-upload';
-import { HttpResponse } from '@angular/common/http';
-import { OidcFacade } from 'ng-oidc-client';
 
 @Injectable()
 export class RemoteFileStoreEffects {
@@ -20,7 +19,7 @@ export class RemoteFileStoreEffects {
     constructor(
         private api: UploadService,
         private actions$: Actions,
-        private store$: Store<State>,
+        private store$: Store<{}>,
         private oidcFacade: OidcFacade
     ) {
 
@@ -76,7 +75,7 @@ export class RemoteFileStoreEffects {
     downloadRequestEffect$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RemoteFileActions.downloadRequest),
-            switchMap(action => {
+            mergeMap(action => {
                 const list = [].concat(action.files);
 
                 return this.api
@@ -95,7 +94,7 @@ export class RemoteFileStoreEffects {
     deleteRequestEffect$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RemoteFileActions.deleteRequest),
-            switchMap(action => {
+            mergeMap(action => {
                 const list = [].concat(action.files);
 
                 return this.api

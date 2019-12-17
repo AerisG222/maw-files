@@ -5,7 +5,7 @@ import { OidcFacade } from 'ng-oidc-client';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { RootStoreState, SettingsStoreSelectors } from './core/root-store';
+import { SettingsStoreSelectors } from './core/root-store';
 import { Theme } from './core/models/theme.model';
 
 @Component({
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
     constructor(
-        private store$: Store<RootStoreState.State>,
+        private store$: Store<{}>,
         private oidcFacade: OidcFacade,
         @Inject(DOCUMENT) private doc
     ) {

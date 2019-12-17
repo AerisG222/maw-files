@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 
 import { Theme } from '../../core/models/theme.model';
 import { Settings } from '../../core/models/settings.model';
-import { RootStoreState, SettingsStoreActions, SettingsStoreSelectors } from '../../core/root-store';
+import { SettingsStoreActions, SettingsStoreSelectors } from '../../core/root-store';
 import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     constructor(
         private formBuilder: FormBuilder,
-        private store$: Store<RootStoreState.State>
+        private store$: Store<{}>
     ) {
 
     }
