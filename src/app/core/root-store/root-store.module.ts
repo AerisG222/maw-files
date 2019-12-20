@@ -5,15 +5,11 @@ import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NgOidcClientModule } from 'ng-oidc-client';
-import { Log, WebStorageStateStore } from 'oidc-client';
+import { Log } from 'oidc-client';
 
 import { SettingsStoreModule } from './settings-store';
 import { environment } from '../../../environments/environment';
 import { RemoteFileStoreModule } from './remote-file-store';
-
-export function getUserStore() {
-    return new WebStorageStateStore({ store: window.sessionStorage });
-}
 
 @NgModule({
     declarations: [],
@@ -46,8 +42,7 @@ export function getUserStore() {
                 automaticSilentRenew: true,
                 filterProtocolClaims: true,
                 loadUserInfo: true,
-                popupWindowFeatures: 'location=no,toolbar=no,width=600,height=600,left=100,top=100',
-                userStore: getUserStore
+                popupWindowFeatures: 'location=no,toolbar=no,width=600,height=600,left=100,top=100'
             },
             // log: {
             //     logger: console,
