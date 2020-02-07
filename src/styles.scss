@@ -13,10 +13,8 @@ $custom-typography: mat-typography-config(
 @include mat-core();
 
 @import 'themes/dark-theme';
-@import 'themes/deep-blue-theme';
 @import 'themes/light-theme';
 @import 'themes/mulled-wine-theme';
-@import 'themes/ocean-theme';
 @import 'themes/pale-night-theme';
 
 // https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
@@ -61,11 +59,6 @@ $custom-typography: mat-typography-config(
     @include custom-components-theme($maw-dark-theme);
 }
 
-.maw-deep-blue-theme {
-    @include angular-material-theme($maw-deep-blue-theme);
-    @include custom-components-theme($maw-deep-blue-theme);
-}
-
 .maw-light-theme {
     @include angular-material-theme($maw-light-theme);
     @include custom-components-theme($maw-light-theme);
@@ -74,11 +67,6 @@ $custom-typography: mat-typography-config(
 .maw-mulled-wine-theme {
     @include angular-material-theme($maw-mulled-wine-theme);
     @include custom-components-theme($maw-mulled-wine-theme);
-}
-
-.maw-ocean-theme {
-    @include angular-material-theme($maw-ocean-theme);
-    @include custom-components-theme($maw-ocean-theme);
 }
 
 .maw-pale-night-theme {
