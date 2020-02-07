@@ -33,6 +33,16 @@ $custom-typography: mat-typography-config(
     }
 }
 
+@mixin primary-nav-button-theme($theme) {
+    $accent: map-get($theme, accent);
+
+    a.primary-nav-button.active,
+    a.primary-nav-button:hover {
+        background-color: rgba(mat-color($accent, 700), .62);
+        color: mat-color($accent, 100);
+    }
+}
+
 // you only have to add additional componenets here (instead of in every theme class)
 @mixin custom-components-theme($theme) {
     @include app-component-theme($theme);
@@ -42,6 +52,7 @@ $custom-typography: mat-typography-config(
     @include app-file-listing-component-theme($theme);
     @include app-upload-component-theme($theme);
 
+    @include primary-nav-button-theme($theme);
     @include mat-tooltip-background-override($theme);
 }
 
@@ -89,6 +100,16 @@ html, body {
     height: 100vh;
     min-height: 100vh;
     overflow-y: auto;
+}
+
+.primary-nav-button {
+    border-radius: 0 !important;
+
+    &:hover,
+    &:focus,
+    &.active {
+        box-shadow: 0 0 4px -1px rgba(0, 0, 0, 0.2), 0 0 5px 0 rgba(0, 0, 0, 0.14), 0 1px 0 0 rgba(0, 0, 0, 0.12);
+    }
 }
 
 @media (max-width: 800px) {
