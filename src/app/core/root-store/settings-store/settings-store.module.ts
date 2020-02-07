@@ -13,9 +13,6 @@ import { settingsReducer } from './reducer';
         CommonModule,
         StoreModule.forFeature(SETTINGS_FEATURE_NAME, settingsReducer),
         EffectsModule.forFeature([SettingsStoreEffects])
-    ],
-    providers: [
-        SettingsStoreEffects
     ]
 })
 export class SettingsStoreModule { }

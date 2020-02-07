@@ -13,9 +13,6 @@ import { remoteFileReducer } from './reducer';
         CommonModule,
         StoreModule.forFeature(REMOTE_FILE_FEATURE_NAME, remoteFileReducer),
         EffectsModule.forFeature([RemoteFileStoreEffects])
-    ],
-    providers: [
-        RemoteFileStoreEffects
     ]
 })
 export class RemoteFileStoreModule { }
