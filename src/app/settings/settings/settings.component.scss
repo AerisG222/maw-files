@@ -20,7 +20,7 @@ h3 {
 
 .settings-container {
     margin: 12px;
-    height: 100vh;
+    height: calc(100vh - 24px);
 }
 
 .settings-grid {
