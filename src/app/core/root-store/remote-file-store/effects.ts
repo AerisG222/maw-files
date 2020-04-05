@@ -4,13 +4,13 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { saveAs } from 'file-saver';
 import { FileUploader } from 'ng2-file-upload';
-import { OidcFacade } from 'ng-oidc-client';
 import { of } from 'rxjs';
-import { switchMap, catchError, map, withLatestFrom, filter, take, mergeMap } from 'rxjs/operators';
+import { switchMap, catchError, map, withLatestFrom, filter, mergeMap } from 'rxjs/operators';
 
 import * as RemoteFileActions from './actions';
 import * as remoteFileSelectors from './selectors';
 import { UploadService } from '../../services/upload.service';
+import { AuthService } from '../../services/auth.service';
 
 @Injectable()
 export class RemoteFileStoreEffects {
@@ -19,8 +19,8 @@ export class RemoteFileStoreEffects {
     constructor(
         private api: UploadService,
         private actions$: Actions,
-        private store$: Store,
-        private oidcFacade: OidcFacade
+        private authService: AuthService,
+        private store$: Store
     ) {
 
     }
@@ -32,26 +32,20 @@ export class RemoteFileStoreEffects {
                 select(remoteFileSelectors.selectRemoteFileUploader)
             )),
             filter(([action, uploader]) => uploader === null),
-            switchMap(action =>
-                this.oidcFacade.identity$.pipe(
-                    map(x => x.access_token),
-                    map(token => {
-                        if (!!token) {
-                            const uploader = new FileUploader({
-                                url: this.api.getAbsoluteUrl('upload/upload'),
-                                authToken: `Bearer ${token}`,
-                                removeAfterUpload: true,
+            map(action => {
+                const token = this.authService.getAccessToken();
+                if (!!token) {
+                    const uploader = new FileUploader({
+                        url: this.api.getAbsoluteUrl('upload/upload'),
+                        authToken: `Bearer ${token}`,
+                        removeAfterUpload: true
+                    });
 
-                            });
-
-                            return RemoteFileActions.initializeUploaderSuccess({ uploader });
-                        } else {
-                            return RemoteFileActions.initializeUploaderFailure({ error: 'auth token is not defined' });
-                        }
-                    }),
-                    take(1)
-                )
-            )
+                    return RemoteFileActions.initializeUploaderSuccess({ uploader });
+                } else {
+                    return RemoteFileActions.initializeUploaderFailure({ error: 'auth token is not defined' });
+                }
+            })
         )
     );
 

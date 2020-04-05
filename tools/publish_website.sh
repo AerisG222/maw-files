@@ -22,27 +22,6 @@ echo '********************'
 cd "${PROJECT_ROOT}"
 ng build --prod
 
-# kill assets used for dev
-rm -rf "${DIST_ROOT}/assets"
-
-echo ''
-echo ''
-echo '********************'
-echo '** OIDC CLIENT    **'
-echo '********************'
-# remove one copied by angular cli, which also minifies and breaks our code
-rm "${DIST_ROOT}/oidc-client.min.js"
-
-OIDC_SRC_NAME="oidc-client.min.js"
-OIDC_SRC="${PROJECT_ROOT}/node_modules/oidc-client/dist/${OIDC_SRC_NAME}"
-MD5="$(md5sum ${OIDC_SRC} |cut -c 1-20)"
-OIDC_DST_NAME="oidc-client.min.${MD5}.js"
-OIDC_DST="${DIST_ROOT}/${OIDC_DST_NAME}"
-
-cp "${OIDC_SRC}" "${OIDC_DST}"
-
-find "${DIST_ROOT}" -type f -name "*.html" -exec sed -i "s#${OIDC_SRC_NAME}#${OIDC_DST_NAME}#g" {} +
-
 echo ''
 echo ''
 echo '********************'

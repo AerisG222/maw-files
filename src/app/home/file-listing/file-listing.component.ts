@@ -10,7 +10,7 @@ import { RelativeDatePipe } from '../../shared/pipes/relative-date.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
 import { FileInfo } from '../../core/models/file-info';
 import { RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
-import { OidcFacade } from 'ng-oidc-client';
+import { AuthStoreSelectors } from 'src/app/core/root-store/auth-store';
 
 @Component({
     selector: 'app-file-listing',
@@ -33,28 +33,26 @@ export class FileListingComponent implements OnInit, OnDestroy {
     columnsToDisplay = [];
 
     constructor(
-        private store: Store,
-        private oidcFacade: OidcFacade
+        private store$: Store
     ) {
-        this.oidcFacade.identity$
-            .pipe(
-                map(x => x.profile.role.includes('admin')),
-                tap(isAdmin => {
-                    this.columnsToDisplay.push('thumbnail');
+        this.store$.pipe(
+            select(AuthStoreSelectors.selectIsAdmin),
+            tap(isAdmin => {
+                this.columnsToDisplay.push('thumbnail');
 
-                    if (isAdmin) {
-                        this.columnsToDisplay.push('user');
-                    }
+                if (isAdmin) {
+                    this.columnsToDisplay.push('user');
+                }
 
-                    this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
-                }),
-                take(1)
-            )
-            .subscribe();
+                this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
+            }),
+            take(1)
+        )
+        .subscribe();
     }
 
     ngOnInit(): void {
-        this.destroySub.add(this.store
+        this.destroySub.add(this.store$
             .pipe(
                 select(RemoteFileStoreSelectors.selectAllRemoteFiles),
                 filter(files => !!files),
@@ -62,7 +60,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
             ).subscribe()
         );
 
-        this.store.dispatch(RemoteFileStoreActions.loadRequest());
+        this.store$.dispatch(RemoteFileStoreActions.loadRequest());
     }
 
     ngOnDestroy(): void {
@@ -70,23 +68,23 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     downloadSingle(file: FileViewModel) {
-        this.store.dispatch(RemoteFileStoreActions.downloadRequest({ files: file.location.relativePath }));
+        this.store$.dispatch(RemoteFileStoreActions.downloadRequest({ files: file.location.relativePath }));
     }
 
     deleteSingle(file: FileViewModel) {
-        this.store.dispatch(RemoteFileStoreActions.deleteRequest({ files: file.location.relativePath }));
+        this.store$.dispatch(RemoteFileStoreActions.deleteRequest({ files: file.location.relativePath }));
     }
 
     downloadSelected(): void {
         const list = this.getSelected();
 
-        this.store.dispatch(RemoteFileStoreActions.downloadRequest({ files: list }));
+        this.store$.dispatch(RemoteFileStoreActions.downloadRequest({ files: list }));
     }
 
     deleteSelected(): void {
         const list = this.getSelected();
 
-        this.store.dispatch(RemoteFileStoreActions.deleteRequest({ files: list }));
+        this.store$.dispatch(RemoteFileStoreActions.deleteRequest({ files: list }));
     }
 
     getSelected(): string[] {
