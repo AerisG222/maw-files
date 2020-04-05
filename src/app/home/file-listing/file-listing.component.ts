@@ -33,7 +33,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
     columnsToDisplay = [];
 
     constructor(
-        private store: Store<{}>,
+        private store: Store,
         private oidcFacade: OidcFacade
     ) {
         this.oidcFacade.identity$

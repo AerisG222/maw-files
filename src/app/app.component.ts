@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
     constructor(
-        private store$: Store<{}>,
+        private store$: Store,
         private oidcFacade: OidcFacade,
         @Inject(DOCUMENT) private doc
     ) {

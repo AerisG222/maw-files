@@ -13,7 +13,7 @@ export class DownloadHandlerComponent {
     error$: Observable<any>;
 
     constructor(
-        private store: Store<{}>
+        private store: Store
     ) {
         this.error$ = this.store.pipe(
             select(RemoteFileStoreSelectors.selectRemoteFileError)

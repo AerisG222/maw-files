@@ -19,7 +19,7 @@ export class RemoteFileStoreEffects {
     constructor(
         private api: UploadService,
         private actions$: Actions,
-        private store$: Store<{}>,
+        private store$: Store,
         private oidcFacade: OidcFacade
     ) {
 

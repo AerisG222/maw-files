@@ -28,7 +28,7 @@ export class UploadComponent implements OnInit {
     @ViewChild('uploadTable') uploadTable: MatTable<FileItem>;
 
     constructor(
-        private store: Store<{}>
+        private store: Store
     ) {
 
     }

@@ -18,7 +18,7 @@ export class UploadService {
     private hubReady$ = new BehaviorSubject<signalR.HubConnection>(undefined);
 
     constructor(private http: HttpClient,
-                private store: Store<{}>,
+                private store: Store,
                 private oidcFacade: OidcFacade,
                 private zone: NgZone) {
 

@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     constructor(
         private formBuilder: FormBuilder,
-        private store$: Store<{}>
+        private store$: Store
     ) {
 
     }
