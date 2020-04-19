@@ -25,7 +25,7 @@ export class AuthService {
             )
             .subscribe();
 
-        this.oauthService.setupAutomaticSilentRefresh();
+        this.oauthService.setupAutomaticSilentRefresh({}, 'access_token');
     }
 
     public handleLoginCallback() {
