@@ -9,7 +9,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FileOperationResult } from '../models/file-operation-result';
 import * as RemoteFileStoreActions from '../root-store/remote-file-store/actions';
 import { environment } from 'src/environments/environment';
-import { OidcFacade } from 'ng-oidc-client';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -18,8 +18,8 @@ export class UploadService {
     private hubReady$ = new BehaviorSubject<signalR.HubConnection>(undefined);
 
     constructor(private http: HttpClient,
-                private store: Store<{}>,
-                private oidcFacade: OidcFacade,
+                private store: Store,
+                private authService: AuthService,
                 private zone: NgZone) {
 
     }
@@ -86,11 +86,7 @@ export class UploadService {
             return;
         }
 
-        await this.oidcFacade.identity$
-            .pipe(
-                map(user => user.access_token),
-                switchMap(token => this.setupSignalrHub(token))
-            ).toPromise();
+        this.setupSignalrHub(this.authService.getAccessToken());
     }
 
     private async setupSignalrHub(token: string) {

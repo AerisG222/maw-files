@@ -1,42 +1,43 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { OidcFacade } from 'ng-oidc-client';
-import { filter, tap, take } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import {  ActivatedRoute } from '@angular/router';
+import { filter, tap, first } from 'rxjs/operators';
+
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent {
+    showLogin = true;
+
     constructor(
-        private oidcFacade: OidcFacade,
-        private router: Router
+        private activatedRoute: ActivatedRoute,
+        private authService: AuthService
     ) {
+        // hide view when trying to process login callback
+        this.activatedRoute.queryParamMap
+            .pipe(
+                first(),
+                filter(p => p.has('code')),
+                tap(p => this.showLogin = false),
+                tap(p => this.authService.handleLoginCallback())
+            )
+            .subscribe();
 
+        // otherwise show login screen and try to use popup
+        this.activatedRoute.queryParamMap
+            .pipe(
+                first(),
+                filter(p => !p.has('code')),
+                tap(p => this.showLogin = true),
+                tap(p => this.authService.loginViaPopup())
+            )
+            .subscribe();
     }
 
-    ngAfterViewInit(): void {
-        this.oidcFacade.identity$.pipe(
-            tap(user => {
-                if (!!user && !user.expired) {
-                    this.onLoggedIn();
-                } else {
-                    this.popupLogin();
-                }
-            })
-        ).subscribe();
-    }
-
-    popupLogin(): void {
-        this.oidcFacade.signinPopup();
-    }
-
-    redirectLogin(): void {
-        this.oidcFacade.signinRedirect();
-    }
-
-    onLoggedIn(): void {
-        this.router.navigate(['/']);
+    redirectLogin() {
+        this.authService.redirectAndLogin();
     }
 }

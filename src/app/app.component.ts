@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Store, select } from '@ngrx/store';
-import { OidcFacade } from 'ng-oidc-client';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -17,16 +16,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
     constructor(
-        private store$: Store<{}>,
-        private oidcFacade: OidcFacade,
+        private store$: Store,
         @Inject(DOCUMENT) private doc
     ) {
 
     }
 
     ngOnInit(): void {
-        this.oidcFacade.getOidcUser();
-
         this.destroySub.add(this.store$
             .pipe(
                 select(SettingsStoreSelectors.selectSettings),
