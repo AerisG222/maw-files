@@ -2,7 +2,7 @@
 IID_FILE=image.iid
 TAG=$(date +%Y%m%d%H%M%S)
 
-buildah bud -f Containerfile -t maw-files --iidfile "${IID_FILE}"
+buildah bud -f Containerfile.prod -t maw-files --iidfile "${IID_FILE}"
 
 IID=$(cat "${IID_FILE}")
 

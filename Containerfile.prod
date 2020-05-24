@@ -27,7 +27,7 @@ RUN rm /etc/nginx/conf.d/*
 COPY etc/nginx/tls.conf                   /etc/nginx
 COPY etc/nginx/nginx.conf                 /etc/nginx
 COPY etc/nginx/h5bp                       /etc/nginx/h5bp
-COPY etc/nginx/conf.d/dev.maw-files.conf  /etc/nginx/conf.d/maw-files.conf
+COPY etc/nginx/conf.d/prod.maw-files.conf /etc/nginx/conf.d/maw-files.conf
 COPY --from=0                             /usr/src/maw-files/dist .
 
 CMD [ "nginx", "-g", "daemon off;" ]
