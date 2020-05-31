@@ -2,9 +2,15 @@ export const environment = {
     production: false,
     version: require('../../package.json').version,
 
-    apiUrl: 'https://apidev.mikeandwan.us',
-    authUrl: 'https://authdev.mikeandwan.us',
-    filesUrl: 'http://filesdev.mikeandwan.us'
+    // local dev
+    apiUrl: 'https://apidev.mikeandwan.us:5011',
+    authUrl: 'https://authdev.mikeandwan.us:5001',
+    filesUrl: 'http://filesdev.mikeandwan.us:4200'
+
+    // container dev
+    // apiUrl: 'https://apidev.mikeandwan.us',
+    // authUrl: 'https://authdev.mikeandwan.us',
+    // filesUrl: 'http://filesdev.mikeandwan.us'
 };
 
 /*
