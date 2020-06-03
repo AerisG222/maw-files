@@ -11,6 +11,7 @@
     "e2e": "ng e2e",
     "dev_watch": "ng build --extract-css --vendor-chunk=false --watch",
     "dev_build": "ng build --extract-css --vendor-chunk=false --stats-json && ng lint",
+    "containerdev_build": "ng build --aot --configuration containerdev --extract-css --vendor-chunk=false --stats-json",
     "prod_build": "ng build --aot --vendor-chunk=false --prod --stats-json",
     "bundle-report": "webpack-bundle-analyzer dist/stats.json"
   },

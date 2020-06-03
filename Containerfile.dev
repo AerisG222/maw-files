@@ -14,7 +14,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run dev_build
+RUN npm run containerdev_build
 
 
 # dev container
