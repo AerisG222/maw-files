@@ -1,6 +1,11 @@
 $maw-dark-primary: mat-palette($mat-pink, A200, A100, A400);
 $maw-dark-accent:  mat-palette($mat-pink, A200, A100, A400);
 $maw-dark-warn:    mat-palette($mat-red);
-$maw-dark-theme:   mat-dark-theme($maw-dark-primary, $maw-dark-accent, $maw-dark-warn);
 
-@include angular-material-theme($maw-dark-theme);
+$maw-dark-theme:   mat-dark-theme((
+    color: (
+        primary: $maw-dark-primary,
+        accent: $maw-dark-accent,
+        warn: $maw-dark-warn
+    )
+));

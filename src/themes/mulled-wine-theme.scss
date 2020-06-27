@@ -233,20 +233,16 @@ $mat-mulled-wine-theme-foreground: (
   slider-off-active: rgba(white, 0.3),
 );
 
-@function mat-mulled-wine-theme($primary, $accent, $warn: mat-palette($mat-red)) {
-    @return (
-      primary: $primary,
-      accent: $accent,
-      warn: $warn,
-      is-dark: true,
-      foreground: $mat-mulled-wine-theme-foreground,
-      background: $mat-mulled-wine-theme-background,
-    );
-  }
-
 $maw-mulled-wine-primary: mat-palette($md-venus, A400, A200, A700);
 $maw-mulled-wine-accent:  mat-palette($md-venus, A400, A200, A700);
 $maw-mulled-wine-warn:    mat-palette($mat-red);
-$maw-mulled-wine-theme:   mat-mulled-wine-theme($maw-mulled-wine-primary, $maw-mulled-wine-accent, $maw-mulled-wine-warn);
 
-@include angular-material-theme($maw-mulled-wine-theme);
+$maw-mulled-wine-theme:   mat-dark-theme((
+    color: (
+        primary: $maw-mulled-wine-primary,
+        accent: $maw-mulled-wine-accent,
+        warn: $maw-mulled-wine-warn,
+        foreground: $mat-mulled-wine-theme-foreground,
+        background: $mat-mulled-wine-theme-background
+    )
+));

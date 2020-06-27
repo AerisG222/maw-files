@@ -100,20 +100,16 @@ $mat-pale-night-theme-foreground: (
   slider-off-active: rgba(white, 0.3),
 );
 
-@function mat-pale-night-theme($primary, $accent, $warn: mat-palette($mat-red)) {
-    @return (
-      primary: $primary,
-      accent: $accent,
-      warn: $warn,
-      is-dark: true,
-      foreground: $mat-pale-night-theme-foreground,
-      background: $mat-pale-night-theme-background,
-    );
-  }
-
 $maw-pale-night-primary: mat-palette($mat-orange, A200, A100, A400);
 $maw-pale-night-accent:  mat-palette($mat-orange, A200, A100, A400);
 $maw-pale-night-warn:    mat-palette($mat-red);
-$maw-pale-night-theme:   mat-pale-night-theme($maw-pale-night-primary, $maw-pale-night-accent, $maw-pale-night-warn);
 
-@include angular-material-theme($maw-pale-night-theme);
+$maw-pale-night-theme:   mat-dark-theme((
+    color: (
+        primary: $maw-pale-night-primary,
+        accent: $maw-pale-night-accent,
+        warn: $maw-pale-night-warn,
+        foreground: $mat-pale-night-theme-foreground,
+        background: $mat-pale-night-theme-background
+    )
+));
