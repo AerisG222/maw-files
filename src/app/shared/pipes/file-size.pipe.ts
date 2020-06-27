@@ -5,7 +5,7 @@ import * as PrettyBytes from 'pretty-bytes';
     name: 'fileSize'
 })
 export class FileSizePipe implements PipeTransform {
-    transform(value: any, args?: any): any {
+    transform(value: number): string {
         return PrettyBytes(value);
     }
 }

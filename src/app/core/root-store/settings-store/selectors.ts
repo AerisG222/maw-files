@@ -8,7 +8,7 @@ import { State } from './state';
 import { Theme } from '../../models/theme.model';
 import { Settings } from '../../models/settings.model';
 
-const getError = (state: State): string => state.error;
+const getError = (state: State): string | undefined => state.error;
 const getIsLoading = (state: State): boolean => state.isLoading;
 const getSettings = (state: State): Settings => state.settings;
 

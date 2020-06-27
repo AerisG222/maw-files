@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 import { UploadService } from '../../core/services/upload.service';
+import { first, tap, filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-file-thumbnail',
@@ -9,24 +10,24 @@ import { UploadService } from '../../core/services/upload.service';
     styleUrls: ['./file-thumbnail.component.scss']
 })
 export class FileThumbnailComponent {
-    show$ = new BehaviorSubject<boolean>(false);
-    url$ = new BehaviorSubject<any>(null);
+    url?: SafeUrl;
 
     @Input()
     set relativeFilePath(value: string) {
         this.uploadService
             .loadThumbnail(value)
-            .subscribe(
-                blob => {
-                    this.url$.next(this.domSanitizer.bypassSecurityTrustUrl(blob));
-                    this.show$.next(true);
-                },
-                ex => this.show$.next(false)
-            );
+            .pipe(
+                first(),
+                filter(x => !!x),
+                tap(blob => this.url = this.domSanitizer.bypassSecurityTrustUrl(blob))
+            )
+            .subscribe();
     }
 
-    constructor(private uploadService: UploadService,
-                private domSanitizer: DomSanitizer) {
+    constructor(
+        private uploadService: UploadService,
+        private domSanitizer: DomSanitizer
+    ) {
 
     }
 }

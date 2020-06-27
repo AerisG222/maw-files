@@ -3,11 +3,11 @@ import { MatTable } from '@angular/material/table';
 import { FileUploader, FileItem } from 'ng2-file-upload';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
+import { tap, filter, map } from 'rxjs/operators';
 
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { listItemAnimation } from '../../shared/animations/animations';
 import { RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/root-store';
-import { tap, filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-upload',
@@ -23,9 +23,9 @@ import { tap, filter } from 'rxjs/operators';
 export class UploadComponent implements OnInit {
     hasBaseDropZoneOver = false;
     columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'upload', 'cancel', 'remove' ];
-    uploader$: Observable<FileUploader>;
+    uploader$?: Observable<FileUploader>;
 
-    @ViewChild('uploadTable') uploadTable: MatTable<FileItem>;
+    @ViewChild('uploadTable') uploadTable?: MatTable<FileItem>;
 
     constructor(
         private store: Store
@@ -33,9 +33,10 @@ export class UploadComponent implements OnInit {
 
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.uploader$ = this.store.pipe(
             select(RemoteFileStoreSelectors.selectRemoteFileUploader),
+            map(uploader => uploader as FileUploader),
             filter(uploader => !!uploader),
             tap(uploader => this.trackChanges(uploader))
         );
@@ -43,12 +44,8 @@ export class UploadComponent implements OnInit {
         this.store.dispatch(RemoteFileStoreActions.initializeUploaderRequest());
     }
 
-    fileOverBase(e: any): void {
+    fileOverBase(e: boolean): void {
         this.hasBaseDropZoneOver = e;
-    }
-
-    trackByFile(index, item) {
-        return item.file.name;
     }
 
     private trackChanges(uploader: FileUploader): void {
@@ -64,6 +61,6 @@ export class UploadComponent implements OnInit {
     }
 
     private updateTable(): void {
-        this.uploadTable.renderRows();
+        this.uploadTable?.renderRows();
     }
 }

@@ -7,7 +7,7 @@ export const reducer = createReducer(
     initialState,
     on(SettingsActions.loadRequest, state => ({
         ...state,
-        error: null,
+        error: undefined,
         isLoading: true
     })),
     on(SettingsActions.loadFailure, (state, { error }) => ({
@@ -18,12 +18,12 @@ export const reducer = createReducer(
     on(SettingsActions.loadSuccess, (state, { settings }) => ({
         ...state,
         settings: { ...settings },
-        error: null,
+        error: undefined,
         isLoading: false
     })),
     on(SettingsActions.saveRequest, state => ({
         ...state,
-        error: null
+        error: undefined
     })),
     on(SettingsActions.saveFailure, (state, { error }) => ({
         ...state,
@@ -32,10 +32,10 @@ export const reducer = createReducer(
     on(SettingsActions.saveSuccess, (state, { settings }) => ({
         ...state,
         settings: { ...settings },
-        error: null
+        error: undefined
     }))
 );
 
-export function settingsReducer(state: State | undefined, action: Action) {
+export function settingsReducer(state: State | undefined, action: Action): State {
     return reducer(state, action);
 }

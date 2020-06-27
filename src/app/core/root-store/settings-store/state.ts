@@ -1,15 +1,16 @@
 import { Settings } from '../../models/settings.model';
+import { Theme } from '../../models/theme.model';
 
 export interface State {
-    error: string;
+    error?: string;
     isLoading: boolean;
     settings: Settings;
 }
 
 export const initialState: State = {
-    error: null,
+    error: undefined,
     isLoading: false,
     settings: {
-        appTheme: null,
+        appTheme: Theme.themeDark,
     }
 };

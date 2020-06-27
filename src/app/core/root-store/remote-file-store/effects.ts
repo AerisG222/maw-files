@@ -70,7 +70,9 @@ export class RemoteFileStoreEffects {
         this.actions$.pipe(
             ofType(RemoteFileActions.downloadRequest),
             mergeMap(action => {
-                const list = [].concat(action.files);
+                let list: string[] = [];
+
+                list = list.concat(action.files);
 
                 return this.api
                     .downloadFiles(list)
@@ -89,7 +91,9 @@ export class RemoteFileStoreEffects {
         this.actions$.pipe(
             ofType(RemoteFileActions.deleteRequest),
             mergeMap(action => {
-                const list = [].concat(action.files);
+                let list: string[] = [];
+
+                list = list.concat(action.files);
 
                 return this.api
                     .deleteFiles(list)
@@ -103,11 +107,17 @@ export class RemoteFileStoreEffects {
 
     // we should probably not shove big things into state, so handle the downloaded content
     // here for now
-    private saveDownload(response: HttpResponse<Blob>) {
+    private saveDownload(response: HttpResponse<Blob>): void {
         const disposition = response.headers.get('Content-Disposition');
-        const results = this.filenameRegex.exec(disposition);
-        const filename = results.length > 1 ? results[1] : 'download_file';
 
-        saveAs(response.body, filename);
+        if (!!disposition) {
+            const results = this.filenameRegex.exec(disposition);
+
+            if (!!results) {
+                const filename = results.length > 1 ? results[1] : 'download_file';
+
+                saveAs(response.body as Blob, filename);
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ export class Theme {
         this.isDark = isDark;
     }
 
-    static forName(name: string): Theme {
+    static forName(name: string | null): Theme {
         switch (name) {
             case Theme.themeDark.name:
                 return Theme.themeDark;
@@ -35,6 +35,6 @@ export class Theme {
                 console.error(`invalid theme requested: ${name}`);
         }
 
-        return null;
+        return Theme.themeDark;
     }
 }

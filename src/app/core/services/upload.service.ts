@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, from, BehaviorSubject } from 'rxjs';
-import { filter, switchMap, map } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import { FileInfo } from '../models/file-info';
@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 export class UploadService {
-    private hubReady$ = new BehaviorSubject<signalR.HubConnection>(undefined);
+    private hub?: signalR.HubConnection;
 
     constructor(private http: HttpClient,
                 private store: Store,
@@ -27,37 +27,33 @@ export class UploadService {
     getServerFiles(): Observable<FileInfo[]> {
         this.ensureHubConnected();
 
-        return this.hubReady$
-            .pipe(
-                filter(hub => !!hub === true),
-                switchMap(hub => from(hub.invoke('GetAllFiles')))
-            );
+        if (!!this.hub) {
+            return from(this.hub.invoke('GetAllFiles'));
+        }
+
+        return of([]);
     }
 
     deleteFiles(files: string[]): Observable<FileOperationResult[]> {
-        if (!!files === false || files.length === 0) {
-            return;
+        if (!!files && files.length > 0 && !!this.hub) {
+            return from(this.hub.invoke('DeleteFiles', files));
         }
 
-        return this.hubReady$
-            .pipe(
-                filter(hub => !!hub === true),
-                switchMap(hub => from(hub.invoke('DeleteFiles', files)))
-            );
+        return of([]);
     }
 
     downloadFiles(files: string[]): Observable<HttpResponse<Blob>> {
-        if (!!files === false || files.length === 0) {
-            return;
+        if (!!files && files.length > 0) {
+            const url = this.getAbsoluteUrl('upload/download');
+
+            return this.http
+                .post(url, files, { responseType: 'blob', observe: 'response' });
         }
 
-        const url = this.getAbsoluteUrl('upload/download');
-
-        return this.http
-            .post(url, files, { responseType: 'blob', observe: 'response' });
+        throw new Error('no files to delete');
     }
 
-    loadThumbnail(relativeUrl: string) {
+    loadThumbnail(relativeUrl: string): Observable<string> {
         const url = this.getThumbnailUrl(relativeUrl);
 
         return this.http
@@ -67,11 +63,11 @@ export class UploadService {
             );
     }
 
-    getAbsoluteUrl(relativeUrl: string) {
+    getAbsoluteUrl(relativeUrl: string): string {
         return `${environment.apiUrl}/${relativeUrl}`;
     }
 
-    private getThumbnailUrl(relativeUrl: string) {
+    private getThumbnailUrl(relativeUrl: string): string {
         return this.getAbsoluteUrl(`upload/thumbnail/${encodeURIComponent(relativeUrl)}`);
     }
 
@@ -81,15 +77,15 @@ export class UploadService {
     // never got the user coming through after subscribing.  we now assume that our method
     // is called only after auth, and we should have a valid user instance to pull from state
     // (which should be populated after our constructor completes)
-    private async ensureHubConnected() {
-        if (!!this.hubReady$.value === true) {
+    private ensureHubConnected(): void {
+        if (!!this.hub) {
             return;
         }
 
         this.setupSignalrHub(this.authService.getAccessToken());
     }
 
-    private async setupSignalrHub(token: string) {
+    private setupSignalrHub(token: string): void {
         console.log('setting up signalr hub...');
 
         const tokenValue = `?token=${token}`;
@@ -117,7 +113,7 @@ export class UploadService {
         });
 
         hub.start()
-            .then(() => this.hubReady$.next(hub))
+            .then(() => this.hub = hub)
             .catch(err => console.error(err.toString()));
     }
 }

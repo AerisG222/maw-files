@@ -8,13 +8,13 @@ const reducer = createReducer(
     on(RemoteFileActions.loadRequest, state => ({
         ...state,
         isLoading: true,
-        error: null
+        error: undefined
     })),
     on(RemoteFileActions.loadSuccess, (state, { files }) =>
         remoteFileAdapter.addMany(files, {
             ...state,
             isLoading: false,
-            error: null
+            error: undefined
         })
     ),
     on(RemoteFileActions.loadFailure, (state, { error }) => ({
@@ -25,12 +25,12 @@ const reducer = createReducer(
     on(RemoteFileActions.deleteRequest, (state, { files }) => ({
         ...state,
         isLoading: true,
-        error: null
+        error: undefined
     })),
     on(RemoteFileActions.deleteSuccess, (state, { result }) => ({
         ...state,
         isLoading: false,
-        error: null
+        error: undefined
     })),
     on(RemoteFileActions.deleteFailure, (state, { error }) => ({
         ...state,
@@ -40,12 +40,12 @@ const reducer = createReducer(
     on(RemoteFileActions.downloadRequest, (state, { files }) => ({
         ...state,
         isLoading: true,
-        error: null
+        error: undefined
     })),
     on(RemoteFileActions.downloadSuccess, state => ({
         ...state,
         isLoading: false,
-        error: null
+        error: undefined
     })),
     on(RemoteFileActions.downloadFailure, (state, { error }) => ({
         ...state,
@@ -91,6 +91,6 @@ const reducer = createReducer(
     }))
 );
 
-export function remoteFileReducer(state: State | undefined, action: Action) {
+export function remoteFileReducer(state: State | undefined, action: Action): State {
     return reducer(state, action);
 }

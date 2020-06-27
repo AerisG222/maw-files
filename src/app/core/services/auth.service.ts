@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService, UserInfo } from 'angular-oauth2-oidc';
 import { filter, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -28,7 +28,7 @@ export class AuthService {
         this.oauthService.setupAutomaticSilentRefresh({}, 'access_token');
     }
 
-    public handleLoginCallback() {
+    public handleLoginCallback(): void {
         if (this.oauthService.hasValidAccessToken() && this.oauthService.hasValidIdToken()) {
             // if we already have valid tokens, let's use them
             this.oauthService.loadDiscoveryDocument()
@@ -39,21 +39,21 @@ export class AuthService {
         }
     }
 
-    public redirectAndLogin() {
+    public redirectAndLogin(): void {
         this.oauthService.initCodeFlow();
     }
 
-    public getAccessToken() {
+    public getAccessToken(): string {
         return this.oauthService.getAccessToken();
     }
 
-    public async loginViaPopup() {
+    public async loginViaPopup(): Promise<void> {
         await this.oauthService.loadDiscoveryDocument();
 
         this.oauthService.initLoginFlowInPopup({ height: 600, width: 600 });
     }
 
-    private finishLogin() {
+    private finishLogin(): void {
         if (this.router.routerState.snapshot.url.startsWith('/login')) {
             this.oauthService.loadUserProfile()
                 .then(profile => {
@@ -63,8 +63,7 @@ export class AuthService {
         }
     }
 
-    private storeProfile(profile)
-    {
+    private storeProfile(profile: UserInfo): void {
         if (!!profile) {
             const userInfo = {
                 username: profile.name as string,

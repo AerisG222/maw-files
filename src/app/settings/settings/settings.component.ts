@@ -23,14 +23,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
         private formBuilder: FormBuilder,
         private store$: Store
     ) {
-
-    }
-
-    ngOnInit(): void {
         this.form = this.formBuilder.group({
             appTheme: ['', Validators.required],
         });
+    }
 
+    ngOnInit(): void {
         this.destroySub.add(this.store$
             .pipe(
                 select(SettingsStoreSelectors.selectSettings),
@@ -48,7 +46,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     onSave(): void {
         const settings = {
-            appTheme: Theme.forName(this.form.get('appTheme').value)
+            appTheme: Theme.forName(this.form.get('appTheme')?.value)
         };
 
         this.store$.dispatch(SettingsStoreActions.saveRequest({ settings }));
@@ -63,6 +61,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     private updateForm(settings: Settings): void {
-        this.form.get('appTheme').setValue(settings.appTheme.name);
+        const themeControl = this.form.get('appTheme');
+
+        if (!!themeControl) {
+            themeControl.setValue(settings.appTheme.name);
+        }
     }
 }

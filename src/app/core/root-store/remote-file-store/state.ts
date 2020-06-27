@@ -9,13 +9,13 @@ export const remoteFileAdapter: EntityAdapter<FileInfo> = createEntityAdapter<Fi
 });
 
 export interface State extends EntityState<FileInfo> {
-    error: string;
+    error?: string;
     isLoading: boolean;
-    uploader: FileUploader;
+    uploader?: FileUploader;
 }
 
 export const initialState: State = remoteFileAdapter.getInitialState({
     isLoading: false,
-    error: null,
-    uploader: null
+    error: undefined,
+    uploader: undefined
 });

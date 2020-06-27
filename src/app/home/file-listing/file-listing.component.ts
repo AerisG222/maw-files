@@ -27,10 +27,10 @@ import { AuthStoreSelectors } from 'src/app/core/root-store/auth-store';
 export class FileListingComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
-    @ViewChild('fileTable') fileTable: MatTable<FileViewModel>;
+    @ViewChild('fileTable') fileTable?: MatTable<FileViewModel>;
 
     files: FileViewModel[] = [];
-    columnsToDisplay = [];
+    columnsToDisplay: string[] = [];
 
     constructor(
         private store$: Store
@@ -67,11 +67,11 @@ export class FileListingComponent implements OnInit, OnDestroy {
         this.destroySub.unsubscribe();
     }
 
-    downloadSingle(file: FileViewModel) {
+    downloadSingle(file: FileViewModel): void {
         this.store$.dispatch(RemoteFileStoreActions.downloadRequest({ files: file.location.relativePath }));
     }
 
-    deleteSingle(file: FileViewModel) {
+    deleteSingle(file: FileViewModel): void {
         this.store$.dispatch(RemoteFileStoreActions.deleteRequest({ files: file.location.relativePath }));
     }
 
@@ -126,17 +126,13 @@ export class FileListingComponent implements OnInit, OnDestroy {
         }
     }
 
-    toggleFiles(isChecked): void {
+    toggleFiles(isChecked: boolean): void {
         this.files.forEach(x => {
             x.isChecked = isChecked;
         });
     }
 
-    trackByFile(index, item): number {
-        return item.location.relativePath;
-    }
-
-    private updateTable() {
+    private updateTable(): void {
         if (!!this.fileTable) {
             this.fileTable.renderRows();
         }

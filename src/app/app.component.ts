@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         private store$: Store,
-        @Inject(DOCUMENT) private doc
+        @Inject(DOCUMENT) private doc: Document
     ) {
 
     }
