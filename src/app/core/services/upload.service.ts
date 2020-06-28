@@ -112,8 +112,13 @@ export class UploadService {
             this.zone.run(() => this.store.dispatch(RemoteFileStoreActions.fileDeleted({ file: deletedFile })));
         });
 
+        // TODO: the loadrequest below is a bit of a hack, should probably promote the hub to ngrx, but too lazy to do this right now
+        // tslint:disable-next-line: ngrx-avoid-dispatching-multiple-actions-sequentially
         hub.start()
-            .then(() => this.hub = hub)
+            .then(() => {
+                this.hub = hub;
+                this.store.dispatch(RemoteFileStoreActions.loadRequest());
+            })
             .catch(err => console.error(err.toString()));
     }
 }
