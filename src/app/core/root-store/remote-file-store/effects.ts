@@ -31,7 +31,7 @@ export class RemoteFileStoreEffects {
             withLatestFrom(this.store$.pipe(
                 select(remoteFileSelectors.selectRemoteFileUploader)
             )),
-            filter(([action, uploader]) => uploader === null),
+            filter(([action, uploader]) => !!!uploader),
             map(action => {
                 const token = this.authService.getAccessToken();
                 if (!!token) {
