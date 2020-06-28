@@ -22,14 +22,6 @@ $custom-typography: mat-typography-config(
 @import 'app/home/file-listing/file-listing.component.theme';
 @import 'app/home/upload/upload.component.theme';
 
-@mixin mat-tooltip-background-override($theme) {
-    $accent: map-get($theme, accent);
-
-    mat-tooltip-component .mat-tooltip {
-        background-color: mat-color($accent, 900) !important;
-    }
-}
-
 @mixin primary-nav-button-theme($theme) {
     $accent: map-get($theme, accent);
 
@@ -50,7 +42,6 @@ $custom-typography: mat-typography-config(
     @include app-upload-component-theme($theme);
 
     @include primary-nav-button-theme($theme);
-    @include mat-tooltip-background-override($theme);
 }
 
 // define dark as the default theme

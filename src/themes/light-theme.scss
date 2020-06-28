@@ -2,10 +2,56 @@ $maw-light-primary: mat-palette($mat-pink, A200, A100, A400);
 $maw-light-accent:  mat-palette($mat-pink, A200, A100, A400);
 $maw-light-warn:    mat-palette($mat-red);
 
-$maw-light-theme: mat-light-theme((
+// based on: https://github.com/angular/components/blob/master/src/material/core/theming/_palette.scss
+$maw-light-theme-background: (
+  status-bar: map_get($mat-grey, 300),
+  app-bar:    map_get($mat-grey, 100),
+  background: map_get($mat-grey, 50),
+  hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
+  card:       white,
+  dialog:     white,
+  disabled-button: rgba(black, 0.12),
+  raised-button: white,
+  focused-button: $dark-focused,
+  selected-button: map_get($mat-grey, 300),
+  selected-disabled-button: map_get($mat-grey, 400),
+  disabled-button-toggle: map_get($mat-grey, 200),
+  unselected-chip: map_get($mat-grey, 300),
+  disabled-list-option: map_get($mat-grey, 200),
+  tooltip: map_get($mat-pink, 700),
+);
+
+$maw-light-theme-foreground: (
+  base:              black,
+  divider:           $dark-dividers,
+  dividers:          $dark-dividers,
+  disabled:          $dark-disabled-text,
+  disabled-button:   rgba(black, 0.26),
+  disabled-text:     $dark-disabled-text,
+  elevation:         black,
+  hint-text:         $dark-disabled-text,
+  secondary-text:    $dark-secondary-text,
+  icon:              rgba(black, 0.54),
+  icons:             rgba(black, 0.54),
+  text:              rgba(black, 0.87),
+  slider-min:        rgba(black, 0.87),
+  slider-off:        rgba(black, 0.26),
+  slider-off-active: rgba(black, 0.38),
+);
+
+$maw-light-theme: (
     color: (
         primary: $maw-light-primary,
         accent: $maw-light-accent,
-        warn: $maw-light-warn
-    )
-));
+        warn: $maw-light-warn,
+        is-dark: false,
+        foreground: $maw-light-theme-foreground,
+        background: $maw-light-theme-background
+    ),
+    primary: $maw-light-primary,
+    accent: $maw-light-accent,
+    warn: $maw-light-warn,
+    is-dark: false,
+    foreground: $maw-light-theme-foreground,
+    background: $maw-light-theme-background
+);

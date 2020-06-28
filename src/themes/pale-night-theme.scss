@@ -80,6 +80,7 @@ $mat-pale-night-theme-background: (
   disabled-button-toggle: black,
   unselected-chip: map_get($md-pale-night, 500),
   disabled-list-option: black,
+  tooltip: map_get($mat-orange, 700),
 );
 
 $mat-pale-night-theme-foreground: (
@@ -104,12 +105,19 @@ $maw-pale-night-primary: mat-palette($mat-orange, A200, A100, A400);
 $maw-pale-night-accent:  mat-palette($mat-orange, A200, A100, A400);
 $maw-pale-night-warn:    mat-palette($mat-red);
 
-$maw-pale-night-theme:   mat-dark-theme((
+$maw-pale-night-theme: (
     color: (
         primary: $maw-pale-night-primary,
         accent: $maw-pale-night-accent,
         warn: $maw-pale-night-warn,
+        is-dark: true,
         foreground: $mat-pale-night-theme-foreground,
         background: $mat-pale-night-theme-background
-    )
-));
+    ),
+    primary: $maw-pale-night-primary,
+        accent: $maw-pale-night-accent,
+        warn: $maw-pale-night-warn,
+        is-dark: true,
+        foreground: $mat-pale-night-theme-foreground,
+        background: $mat-pale-night-theme-background
+);

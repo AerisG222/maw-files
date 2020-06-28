@@ -213,6 +213,7 @@ $mat-mulled-wine-theme-background: (
   disabled-button-toggle: black,
   unselected-chip: map_get($md-mulled-wine, 700),
   disabled-list-option: black,
+  tooltip: map_get($md-venus, 700),
 );
 
 $mat-mulled-wine-theme-foreground: (
@@ -237,12 +238,20 @@ $maw-mulled-wine-primary: mat-palette($md-venus, A400, A200, A700);
 $maw-mulled-wine-accent:  mat-palette($md-venus, A400, A200, A700);
 $maw-mulled-wine-warn:    mat-palette($mat-red);
 
-$maw-mulled-wine-theme:   mat-dark-theme((
+// manually create theme otherwise background/foreground is ignored using mat-dark-theme()
+$maw-mulled-wine-theme: (
     color: (
         primary: $maw-mulled-wine-primary,
         accent: $maw-mulled-wine-accent,
         warn: $maw-mulled-wine-warn,
+        is-dark: true,
         foreground: $mat-mulled-wine-theme-foreground,
         background: $mat-mulled-wine-theme-background
-    )
-));
+    ),
+    primary: $maw-mulled-wine-primary,
+    accent: $maw-mulled-wine-accent,
+    warn: $maw-mulled-wine-warn,
+    is-dark: true,
+    foreground: $mat-mulled-wine-theme-foreground,
+    background: $mat-mulled-wine-theme-background
+);
