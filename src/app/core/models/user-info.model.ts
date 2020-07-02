@@ -1,13 +1,13 @@
 export interface UserInfo {
-    username?: string;
-    firstName?: string;
-    lastName?: string;
+    username: string | null;
+    firstName: string | null;
+    lastName: string | null;
     roles: string[];
 }
 
 export const DEFAULT_USER_INFO = ({
-    username: undefined,
-    firstName: undefined,
-    lastName: undefined,
+    username: null,
+    firstName: null,
+    lastName: null,
     roles: []
 });

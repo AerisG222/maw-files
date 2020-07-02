@@ -1,13 +1,13 @@
-import { createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 
-import { initialState, State } from './state';
+import { initialState } from './state';
 import * as SettingsActions from './actions';
 
 export const reducer = createReducer(
     initialState,
     on(SettingsActions.loadRequest, state => ({
         ...state,
-        error: undefined,
+        error: null,
         isLoading: true
     })),
     on(SettingsActions.loadFailure, (state, { error }) => ({
@@ -18,12 +18,12 @@ export const reducer = createReducer(
     on(SettingsActions.loadSuccess, (state, { settings }) => ({
         ...state,
         settings: { ...settings },
-        error: undefined,
+        error: null,
         isLoading: false
     })),
     on(SettingsActions.saveRequest, state => ({
         ...state,
-        error: undefined
+        error: null
     })),
     on(SettingsActions.saveFailure, (state, { error }) => ({
         ...state,
@@ -32,10 +32,6 @@ export const reducer = createReducer(
     on(SettingsActions.saveSuccess, (state, { settings }) => ({
         ...state,
         settings: { ...settings },
-        error: undefined
+        error: null
     }))
 );
-
-export function settingsReducer(state: State | undefined, action: Action): State {
-    return reducer(state, action);
-}

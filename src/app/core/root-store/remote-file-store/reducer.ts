@@ -1,20 +1,20 @@
-import { createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 
 import * as RemoteFileActions from './actions';
-import { remoteFileAdapter, initialState, State } from './state';
+import { remoteFileAdapter, initialState } from './state';
 
-const reducer = createReducer(
+export const reducer = createReducer(
     initialState,
     on(RemoteFileActions.loadRequest, state => ({
         ...state,
         isLoading: true,
-        error: undefined
+        error: null
     })),
     on(RemoteFileActions.loadSuccess, (state, { files }) =>
         remoteFileAdapter.addMany(files, {
             ...state,
             isLoading: false,
-            error: undefined
+            error: null
         })
     ),
     on(RemoteFileActions.loadFailure, (state, { error }) => ({
@@ -25,12 +25,12 @@ const reducer = createReducer(
     on(RemoteFileActions.deleteRequest, (state, { files }) => ({
         ...state,
         isLoading: true,
-        error: undefined
+        error: null
     })),
     on(RemoteFileActions.deleteSuccess, (state, { result }) => ({
         ...state,
         isLoading: false,
-        error: undefined
+        error: null
     })),
     on(RemoteFileActions.deleteFailure, (state, { error }) => ({
         ...state,
@@ -40,12 +40,12 @@ const reducer = createReducer(
     on(RemoteFileActions.downloadRequest, (state, { files }) => ({
         ...state,
         isLoading: true,
-        error: undefined
+        error: null
     })),
     on(RemoteFileActions.downloadSuccess, state => ({
         ...state,
         isLoading: false,
-        error: undefined
+        error: null
     })),
     on(RemoteFileActions.downloadFailure, (state, { error }) => ({
         ...state,
@@ -90,7 +90,3 @@ const reducer = createReducer(
         error
     }))
 );
-
-export function remoteFileReducer(state: State | undefined, action: Action): State {
-    return reducer(state, action);
-}

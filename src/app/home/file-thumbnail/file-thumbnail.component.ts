@@ -10,7 +10,7 @@ import { first, tap, filter } from 'rxjs/operators';
     styleUrls: ['./file-thumbnail.component.scss']
 })
 export class FileThumbnailComponent {
-    url?: SafeUrl;
+    url: SafeUrl | null = null;
 
     @Input()
     set relativeFilePath(value: string) {

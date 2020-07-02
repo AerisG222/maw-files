@@ -34,7 +34,7 @@
     <ng-container matColumnDef="delete">
         <th class="text-center delete-button" mat-header-cell *matHeaderCellDef>Delete</th>
         <td class="text-center delete-button" mat-cell *matCellDef="let file">
-            <mat-icon [inline]="true" (click)="deleteSingle(file)" [color]="undefined">delete</mat-icon>
+            <mat-icon [inline]="true" (click)="deleteSingle(file)">delete</mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="check">

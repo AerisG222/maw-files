@@ -23,9 +23,9 @@ import { RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/roo
 export class UploadComponent implements OnInit {
     hasBaseDropZoneOver = false;
     columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'upload', 'cancel', 'remove' ];
-    uploader$?: Observable<FileUploader>;
+    uploader$: Observable<FileUploader> | null = null;
 
-    @ViewChild('uploadTable') uploadTable?: MatTable<FileItem>;
+    @ViewChild('uploadTable') uploadTable: MatTable<FileItem> | null = null;
 
     constructor(
         private store: Store

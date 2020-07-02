@@ -4,12 +4,12 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { SETTINGS_FEATURE_NAME } from './feature-name';
 import { SettingsStoreEffects } from './effects';
-import { settingsReducer } from './reducer';
+import { reducer } from './reducer';
 
 @NgModule({
     declarations: [],
     imports: [
-        StoreModule.forFeature(SETTINGS_FEATURE_NAME, settingsReducer),
+        StoreModule.forFeature(SETTINGS_FEATURE_NAME, reducer),
         EffectsModule.forFeature([SettingsStoreEffects])
     ]
 })

@@ -4,12 +4,12 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { RemoteFileStoreEffects } from './effects';
 import { REMOTE_FILE_FEATURE_NAME } from './feature-name';
-import { remoteFileReducer } from './reducer';
+import { reducer } from './reducer';
 
 @NgModule({
     declarations: [],
     imports: [
-        StoreModule.forFeature(REMOTE_FILE_FEATURE_NAME, remoteFileReducer),
+        StoreModule.forFeature(REMOTE_FILE_FEATURE_NAME, reducer),
         EffectsModule.forFeature([RemoteFileStoreEffects])
     ]
 })

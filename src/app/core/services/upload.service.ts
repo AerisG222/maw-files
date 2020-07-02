@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 export class UploadService {
-    private hub?: signalR.HubConnection;
+    private hub: signalR.HubConnection | null = null;
 
     constructor(private http: HttpClient,
                 private store: Store,

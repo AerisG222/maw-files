@@ -3,13 +3,13 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AUTH_FEATURE_NAME } from './feature-name';
-import { authReducer } from './reducer';
+import { reducer } from './reducer';
 import { AuthStoreEffects } from './effects';
 
 @NgModule({
     declarations: [],
     imports: [
-        StoreModule.forFeature(AUTH_FEATURE_NAME, authReducer),
+        StoreModule.forFeature(AUTH_FEATURE_NAME, reducer),
         EffectsModule.forFeature([AuthStoreEffects])
     ]
 })

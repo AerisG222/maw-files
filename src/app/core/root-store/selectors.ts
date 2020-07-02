@@ -6,7 +6,7 @@ import { RemoteFileStoreSelectors } from './remote-file-store';
 export const selectError = createSelector(
     SettingsStoreSelectors.selectSettingsError,
     RemoteFileStoreSelectors.selectRemoteFileError,
-    (settingsError: string | undefined, remoteFileError: string | undefined) => {
+    (settingsError: string | null, remoteFileError: string | null) => {
         return settingsError || remoteFileError;
     }
 );
