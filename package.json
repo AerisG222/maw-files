@@ -33,7 +33,7 @@
     "@ngrx/router-store": "^9.2.0",
     "@ngrx/store": "^9.2.0",
     "@ngrx/store-devtools": "^9.2.0",
-    "angular-oauth2-oidc": "^9.2.2",
+    "angular-oauth2-oidc": "^10.0.1",
     "date-fns": "^2.14.0",
     "file-saver": "^2.0.2",
     "ng2-file-upload": "^1.4.0",
