@@ -64,7 +64,7 @@
                 <ng-container matColumnDef="remove">
                     <th class="text-center delete-button" mat-header-cell *matHeaderCellDef>Remove</th>
                     <td class="text-center delete-button" mat-cell *matCellDef="let item">
-                        <button type="button" mat-button (click)="item.remove()">
+                        <button type="button" mat-button (click)="item.remove(); updateTable();">
                             <mat-icon [inline]="true">delete</mat-icon>
                         </button>
                     </td>

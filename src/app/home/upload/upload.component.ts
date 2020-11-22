@@ -60,7 +60,7 @@ export class UploadComponent implements OnInit {
         uploader.onSuccessItem = () => this.updateTable();
     }
 
-    private updateTable(): void {
+    updateTable(): void {
         this.uploadTable?.renderRows();
     }
 }
