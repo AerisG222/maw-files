@@ -3,7 +3,7 @@
   "version": "1.2.1",
   "scripts": {
     "ng": "ng",
-    "clean-unused-imports": "tslint --config tslint-imports.json --fix --project .",
+    "report-unused-vars": "eslint --rule 'no-unused-vars: 0' --rule '@typescript-eslint/no-unused-vars: 2' . --ext .ts",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "start": "ng serve --public-host filesdev.mikeandwan.us",
     "build": "ng build",
@@ -42,7 +42,6 @@
     "pretty-bytes": "^5.4.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.3",
-    "tslint-etc": "^1.13.1",
     "zone.js": "^0.11.3"
   },
   "devDependencies": {
@@ -63,7 +62,6 @@
     "@types/pretty-bytes": "~5.2.0",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
-    "codelyzer": "^6.0.1",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",
@@ -76,10 +74,8 @@
     "karma-coverage-istanbul-reporter": "~3.0.3",
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
-    "ngrx-tslint-rules": "^2.1.4",
     "protractor": "~7.0.0",
     "ts-node": "^9.0.0",
-    "tslint": "^6.1.3",
     "typescript": "^4.0.5"
   }
 }
