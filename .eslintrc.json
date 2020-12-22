@@ -18,7 +18,11 @@
             "extends": [
                 "plugin:@angular-eslint/ng-cli-compat",
                 "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-                "plugin:@angular-eslint/template/process-inline-templates"
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "plugin:ngrx/recommended"
+            ],
+            "plugins": [
+                "ngrx"
             ],
             "rules": {
                 "@angular-eslint/component-selector": [
@@ -40,7 +44,8 @@
                 "@typescript-eslint/no-explicit-any": "error",
                 "arrow-body-style": "off",
                 "no-shadow": "off",
-                "@typescript-eslint/no-shadow": ["error"]
+                "@typescript-eslint/no-shadow": ["error"],
+                "ngrx/select-style": "error"
             }
         },
         {

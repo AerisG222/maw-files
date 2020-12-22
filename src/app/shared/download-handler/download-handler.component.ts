@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { RemoteFileStoreSelectors } from '../../core/root-store';
 import { filter, map } from 'rxjs/operators';
@@ -16,10 +16,11 @@ export class DownloadHandlerComponent {
     constructor(
         private store: Store
     ) {
-        this.error$ = this.store.pipe(
-            select(RemoteFileStoreSelectors.selectRemoteFileError),
-            filter(x => !!x),
-            map(x => x as string)
-        );
+        this.error$ = this.store
+            .select(RemoteFileStoreSelectors.selectRemoteFileError)
+            .pipe(
+                filter(x => !!x),
+                map(x => x as string)
+            );
     }
 }

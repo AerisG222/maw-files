@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { Theme } from '../../core/models/theme.model';
 import { Settings } from '../../core/models/settings.model';
@@ -30,8 +30,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.destroySub.add(this.store$
+            .select(SettingsStoreSelectors.selectSettings)
             .pipe(
-                select(SettingsStoreSelectors.selectSettings),
                 tap(settings => this.updateForm(settings))
             )
             .subscribe()

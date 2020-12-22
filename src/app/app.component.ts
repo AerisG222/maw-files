@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -24,8 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.destroySub.add(this.store$
+            .select(SettingsStoreSelectors.selectSettings)
             .pipe(
-                select(SettingsStoreSelectors.selectSettings),
                 tap(settings => this.setTheme(settings.appTheme))
             )
             .subscribe()

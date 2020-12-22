@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter, tap, map, take } from 'rxjs/operators';
+import { filter, tap, take } from 'rxjs/operators';
 
 import { FileViewModel } from './file-view-model';
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
@@ -35,26 +35,27 @@ export class FileListingComponent implements OnInit, OnDestroy {
     constructor(
         private store$: Store
     ) {
-        this.store$.pipe(
-            select(AuthStoreSelectors.selectIsAdmin),
-            tap(isAdmin => {
-                this.columnsToDisplay.push('thumbnail');
+        this.store$
+            .select(AuthStoreSelectors.selectIsAdmin)
+            .pipe(
+                tap(isAdmin => {
+                    this.columnsToDisplay.push('thumbnail');
 
-                if (isAdmin) {
-                    this.columnsToDisplay.push('user');
-                }
+                    if (isAdmin) {
+                        this.columnsToDisplay.push('user');
+                    }
 
-                this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
-            }),
-            take(1)
-        )
-        .subscribe();
+                    this.columnsToDisplay = [...this.columnsToDisplay, 'filename', 'uploaded', 'size', 'download', 'delete', 'check' ];
+                }),
+                take(1)
+            )
+            .subscribe();
     }
 
     ngOnInit(): void {
         this.destroySub.add(this.store$
+            .select(RemoteFileStoreSelectors.selectAllRemoteFiles)
             .pipe(
-                select(RemoteFileStoreSelectors.selectAllRemoteFiles),
                 filter(files => !!files),
                 tap(files => this.updateViewModel(files))
             ).subscribe()

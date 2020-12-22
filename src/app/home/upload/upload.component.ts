@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { FileUploader, FileItem } from 'ng2-file-upload';
 import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { tap, filter, map } from 'rxjs/operators';
 
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
@@ -34,12 +34,13 @@ export class UploadComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.uploader$ = this.store.pipe(
-            select(RemoteFileStoreSelectors.selectRemoteFileUploader),
-            map(uploader => uploader as FileUploader),
-            filter(uploader => !!uploader),
-            tap(uploader => this.trackChanges(uploader))
-        );
+        this.uploader$ = this.store
+            .select(RemoteFileStoreSelectors.selectRemoteFileUploader)
+            .pipe(
+                map(uploader => uploader as FileUploader),
+                filter(uploader => !!uploader),
+                tap(uploader => this.trackChanges(uploader))
+            );
 
         this.store.dispatch(RemoteFileStoreActions.initializeUploaderRequest());
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { saveAs } from 'file-saver';
 import { FileUploader } from 'ng2-file-upload';
 import { of } from 'rxjs';
@@ -19,9 +19,7 @@ export class RemoteFileStoreEffects {
     initializeUploaderRequestEffect$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RemoteFileActions.initializeUploaderRequest),
-            withLatestFrom(this.store$.pipe(
-                select(remoteFileSelectors.selectRemoteFileUploader)
-            )),
+            withLatestFrom(this.store$.select(remoteFileSelectors.selectRemoteFileUploader)),
             filter(([action, uploader]) => !!!uploader),
             map(action => {
                 const token = this.authService.getAccessToken();
@@ -43,9 +41,7 @@ export class RemoteFileStoreEffects {
     loadRequestEffect$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RemoteFileActions.loadRequest),
-            withLatestFrom(this.store$.pipe(
-                select(remoteFileSelectors.selectAllRemoteFiles)
-            )),
+            withLatestFrom(this.store$.select(remoteFileSelectors.selectAllRemoteFiles)),
             filter(([action, files]) => files.length === 0),
             switchMap(action => {
                 return this.api.getServerFiles()
