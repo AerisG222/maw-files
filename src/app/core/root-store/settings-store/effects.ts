@@ -7,13 +7,6 @@ import { SettingsService } from '../../services/settings.service';
 
 @Injectable()
 export class SettingsStoreEffects {
-    constructor(
-        private settingsService: SettingsService,
-        private actions$: Actions
-    ) {
-
-    }
-
     loadRequestEffect$ = createEffect(() =>
         this.actions$.pipe(
             ofType(SettingsActions.loadRequest),
@@ -38,4 +31,11 @@ export class SettingsStoreEffects {
             })
         )
     );
+
+    constructor(
+        private settingsService: SettingsService,
+        private actions$: Actions
+    ) {
+
+    }
 }

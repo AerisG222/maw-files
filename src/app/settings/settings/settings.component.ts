@@ -14,10 +14,10 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-    private destroySub = new Subscription();
-
     form: FormGroup;
     themes = Theme.allThemes;
+
+    private destroySub = new Subscription();
 
     constructor(
         private formBuilder: FormBuilder,

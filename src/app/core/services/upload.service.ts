@@ -105,7 +105,7 @@ export class UploadService {
             this.zone.run(() => this.store.dispatch(RemoteFileStoreActions.fileAdded({ file: addedFile })));
         });
 
-        // tslint:disable-next-line: ngrx-avoid-dispatching-multiple-actions-sequentially
+        // eslint-disable-next-line
         hub.on('FileDeleted', (deletedFile: FileInfo) => {
             console.log('file deleted: ', deletedFile);
 
@@ -113,7 +113,7 @@ export class UploadService {
         });
 
         // TODO: the loadrequest below is a bit of a hack, should probably promote the hub to ngrx, but too lazy to do this right now
-        // tslint:disable-next-line: ngrx-avoid-dispatching-multiple-actions-sequentially
+        // eslint-disable-next-line
         hub.start()
             .then(() => {
                 this.hub = hub;

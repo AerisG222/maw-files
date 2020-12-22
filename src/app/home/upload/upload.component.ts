@@ -21,11 +21,11 @@ import { RemoteFileStoreSelectors, RemoteFileStoreActions } from '../../core/roo
     ]
 })
 export class UploadComponent implements OnInit {
+    @ViewChild('uploadTable') uploadTable: MatTable<FileItem> | null = null;
+
     hasBaseDropZoneOver = false;
     columnsToDisplay = [ 'name', 'size', 'progress', 'status', 'upload', 'cancel', 'remove' ];
     uploader$: Observable<FileUploader> | null = null;
-
-    @ViewChild('uploadTable') uploadTable: MatTable<FileItem> | null = null;
 
     constructor(
         private store: Store
@@ -48,6 +48,10 @@ export class UploadComponent implements OnInit {
         this.hasBaseDropZoneOver = e;
     }
 
+    updateTable(): void {
+        this.uploadTable?.renderRows();
+    }
+
     private trackChanges(uploader: FileUploader): void {
         uploader.onAfterAddingAll = () => this.updateTable();
         uploader.onAfterAddingFile = () => this.updateTable();
@@ -58,9 +62,5 @@ export class UploadComponent implements OnInit {
         uploader.onProgressAll = () => this.updateTable();
         uploader.onProgressItem = () => this.updateTable();
         uploader.onSuccessItem = () => this.updateTable();
-    }
-
-    updateTable(): void {
-        this.uploadTable?.renderRows();
     }
 }

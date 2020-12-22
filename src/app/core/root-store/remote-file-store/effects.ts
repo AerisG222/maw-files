@@ -14,16 +14,7 @@ import { AuthService } from '../../services/auth.service';
 
 @Injectable()
 export class RemoteFileStoreEffects {
-    private readonly filenameRegex = /.*filename\=(.*);.*/;
-
-    constructor(
-        private api: UploadService,
-        private actions$: Actions,
-        private authService: AuthService,
-        private store$: Store
-    ) {
-
-    }
+    private static readonly filenameRegex = /.*filename\=(.*);.*/;
 
     initializeUploaderRequestEffect$ = createEffect(() =>
         this.actions$.pipe(
@@ -105,13 +96,22 @@ export class RemoteFileStoreEffects {
         )
     );
 
+    constructor(
+        private api: UploadService,
+        private actions$: Actions,
+        private authService: AuthService,
+        private store$: Store
+    ) {
+
+    }
+
     // we should probably not shove big things into state, so handle the downloaded content
     // here for now
     private saveDownload(response: HttpResponse<Blob>): void {
         const disposition = response.headers.get('Content-Disposition');
 
         if (!!disposition) {
-            const results = this.filenameRegex.exec(disposition);
+            const results = RemoteFileStoreEffects.filenameRegex.exec(disposition);
 
             if (!!results) {
                 const filename = results.length > 1 ? results[1] : 'download_file';

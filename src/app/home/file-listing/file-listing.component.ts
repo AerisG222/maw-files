@@ -25,12 +25,12 @@ import { AuthStoreSelectors } from 'src/app/core/root-store/auth-store';
     ]
 })
 export class FileListingComponent implements OnInit, OnDestroy {
-    private destroySub = new Subscription();
-
     @ViewChild('fileTable') fileTable: MatTable<FileViewModel> | null = null;
 
     files: FileViewModel[] = [];
     columnsToDisplay: string[] = [];
+
+    private destroySub = new Subscription();
 
     constructor(
         private store$: Store
