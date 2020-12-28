@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { SettingsStoreModule } from './settings-store';
-import { environment } from '../../../environments/environment';
 import { RemoteFileStoreModule } from './remote-file-store';
 import { AuthStoreModule } from './auth-store';
+import { extModules } from './environment/modules';
 
 @NgModule({
     declarations: [],
@@ -28,7 +27,7 @@ import { AuthStoreModule } from './auth-store';
             }
         }),
         EffectsModule.forRoot([]),
-        !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : []
+        extModules
     ]
 })
 export class RootStoreModule { }
