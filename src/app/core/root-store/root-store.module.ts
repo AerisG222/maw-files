@@ -28,7 +28,7 @@ import { AuthStoreModule } from './auth-store';
             }
         }),
         EffectsModule.forRoot([]),
-        !environment.production ? StoreDevtoolsModule.instrument() : []
+        !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : []
     ]
 })
 export class RootStoreModule { }
