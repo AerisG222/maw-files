@@ -1,3 +1,6 @@
+@use '~@angular/material' as mat;
+@import '_vars';
+
 /* For use in src/lib/core/theming/_palette.scss */
 $md-pale-night: (
     50 : #e5e6e8,
@@ -80,7 +83,7 @@ $mat-pale-night-theme-background: (
   disabled-button-toggle: black,
   unselected-chip: map_get($md-pale-night, 500),
   disabled-list-option: black,
-  tooltip: map_get($mat-orange, 700),
+  tooltip: map_get(mat.$orange-palette, 700),
 );
 
 $mat-pale-night-theme-foreground: (
@@ -101,9 +104,9 @@ $mat-pale-night-theme-foreground: (
   slider-off-active: rgba(white, 0.3),
 );
 
-$maw-pale-night-primary: mat-palette($mat-orange, A200, A100, A400);
-$maw-pale-night-accent:  mat-palette($mat-orange, A200, A100, A400);
-$maw-pale-night-warn:    mat-palette($mat-red);
+$maw-pale-night-primary: mat.define-palette(mat.$orange-palette, A200, A100, A400);
+$maw-pale-night-accent:  mat.define-palette(mat.$orange-palette, A200, A100, A400);
+$maw-pale-night-warn:    mat.define-palette(mat.$red-palette);
 
 $maw-pale-night-theme: (
     color: (
