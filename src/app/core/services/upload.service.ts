@@ -1,8 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, from, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { map, switchMap } from 'rxjs/operators';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import { FileInfo } from '../models/file-info';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 export class UploadService {
-    private hub: signalR.HubConnection | null = null;
+    private hub: HubConnection | null = null;
 
     constructor(private http: HttpClient,
                 private store: Store,
@@ -25,21 +25,27 @@ export class UploadService {
     }
 
     getServerFiles(): Observable<FileInfo[]> {
-        this.ensureHubConnected();
+        return from(this.ensureHubConnected()).pipe(
+            switchMap(x => {
+                if (!!this.hub) {
+                    return from(this.hub.invoke('GetAllFiles'));
+                }
 
-        if (!!this.hub) {
-            return from(this.hub.invoke('GetAllFiles'));
-        }
-
-        return of([]);
+                return of([]);
+            })
+        );
     }
 
     deleteFiles(files: string[]): Observable<FileOperationResult[]> {
-        if (!!files && files.length > 0 && !!this.hub) {
-            return from(this.hub.invoke('DeleteFiles', files));
-        }
+        return from(this.ensureHubConnected()).pipe(
+            switchMap(x => {
+                if (!!files && files.length > 0 && !!this.hub) {
+                    return from(this.hub.invoke('DeleteFiles', files).catch(ex => console.error(ex)));
+                }
 
-        return of([]);
+                return of([]);
+            })
+        );
     }
 
     downloadFiles(files: string[]): Observable<HttpResponse<Blob>> {
@@ -50,7 +56,7 @@ export class UploadService {
                 .post(url, files, { responseType: 'blob', observe: 'response' });
         }
 
-        throw new Error('no files to delete');
+        throw new Error('no files to download');
     }
 
     loadThumbnail(relativeUrl: string): Observable<string> {
@@ -77,15 +83,15 @@ export class UploadService {
     // never got the user coming through after subscribing.  we now assume that our method
     // is called only after auth, and we should have a valid user instance to pull from state
     // (which should be populated after our constructor completes)
-    private ensureHubConnected(): void {
+    private async ensureHubConnected(): Promise<void> {
         if (!!this.hub) {
             return;
         }
 
-        this.setupSignalrHub(this.authService.getAccessToken());
+        await this.setupSignalrHub(this.authService.getAccessToken());
     }
 
-    private setupSignalrHub(token: string): void {
+    private async setupSignalrHub(token: string): Promise<void> {
         console.log('setting up signalr hub...');
 
         const tokenValue = `?token=${token}`;
@@ -94,7 +100,7 @@ export class UploadService {
         const hub = new HubConnectionBuilder()
             .withUrl(url)
             .withAutomaticReconnect()
-            .configureLogging(LogLevel.Information)
+            .configureLogging(LogLevel.Trace)
             // TODO: enable message pack once it supports camel casing
             // .withHubProtocol(new MessagePackHubProtocol())
             .build();
@@ -114,11 +120,12 @@ export class UploadService {
 
         // TODO: the loadrequest below is a bit of a hack, should probably promote the hub to ngrx, but too lazy to do this right now
         // eslint-disable-next-line
-        hub.start()
-            .then(() => {
-                this.hub = hub;
-                this.store.dispatch(RemoteFileStoreActions.loadRequest());
-            })
-            .catch(err => console.error(err.toString()));
+        try {
+            await hub.start();
+            this.hub = hub;
+            this.store.dispatch(RemoteFileStoreActions.loadRequest());
+        } catch (err) {
+            return console.error(err.toString());
+        }
     }
 }
