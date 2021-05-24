@@ -16,14 +16,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
     constructor(
-        private store$: Store,
+        private store: Store,
         @Inject(DOCUMENT) private doc: Document
     ) {
 
     }
 
     ngOnInit(): void {
-        this.destroySub.add(this.store$
+        this.destroySub.add(this.store
             .select(SettingsStoreSelectors.selectSettings)
             .pipe(
                 tap(settings => this.setTheme(settings.appTheme))

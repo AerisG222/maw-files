@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     constructor(
         private formBuilder: FormBuilder,
-        private store$: Store
+        private store: Store
     ) {
         this.form = this.formBuilder.group({
             appTheme: ['', Validators.required],
@@ -29,7 +29,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.destroySub.add(this.store$
+        this.destroySub.add(this.store
             .select(SettingsStoreSelectors.selectSettings)
             .pipe(
                 tap(settings => this.updateForm(settings))
@@ -49,7 +49,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
             appTheme: Theme.forName(this.form.get('appTheme')?.value)
         };
 
-        this.store$.dispatch(SettingsStoreActions.saveRequest({ settings }));
+        this.store.dispatch(SettingsStoreActions.saveRequest({ settings }));
     }
 
     onCancel(): void {
@@ -57,7 +57,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     private loadSettings(): void {
-        this.store$.dispatch(SettingsStoreActions.loadRequest());
+        this.store.dispatch(SettingsStoreActions.loadRequest());
     }
 
     private updateForm(settings: Settings): void {

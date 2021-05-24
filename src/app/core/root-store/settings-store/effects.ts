@@ -7,19 +7,19 @@ import { SettingsService } from '../../services/settings.service';
 
 @Injectable()
 export class SettingsStoreEffects {
-    loadRequestEffect$ = createEffect(() =>
-        this.actions$.pipe(
+    loadRequestEffect$ = createEffect(() => {
+        return this.actions$.pipe(
             ofType(SettingsActions.loadRequest),
             startWith(SettingsActions.loadRequest()),
             map(x => {
                 const settings = this.settingsService.load();
                 return SettingsActions.loadSuccess({ settings });
             })
-        )
-    );
+        );
+    });
 
-    saveRequestEffect$ = createEffect(() =>
-        this.actions$.pipe(
+    saveRequestEffect$ = createEffect(() => {
+        return this.actions$.pipe(
             ofType(SettingsActions.saveRequest),
             map(action => {
                 try {
@@ -29,8 +29,8 @@ export class SettingsStoreEffects {
                     return SettingsActions.saveFailure(err);
                 }
             })
-        )
-    );
+        );
+    });
 
     constructor(
         private settingsService: SettingsService,

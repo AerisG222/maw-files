@@ -33,9 +33,9 @@ export class FileListingComponent implements OnInit, OnDestroy {
     private destroySub = new Subscription();
 
     constructor(
-        private store$: Store
+        private store: Store
     ) {
-        this.store$
+        this.store
             .select(AuthStoreSelectors.selectIsAdmin)
             .pipe(
                 tap(isAdmin => {
@@ -53,7 +53,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.destroySub.add(this.store$
+        this.destroySub.add(this.store
             .select(RemoteFileStoreSelectors.selectAllRemoteFiles)
             .pipe(
                 filter(files => !!files),
@@ -61,7 +61,7 @@ export class FileListingComponent implements OnInit, OnDestroy {
             ).subscribe()
         );
 
-        this.store$.dispatch(RemoteFileStoreActions.loadRequest());
+        this.store.dispatch(RemoteFileStoreActions.loadRequest());
     }
 
     ngOnDestroy(): void {
@@ -69,23 +69,23 @@ export class FileListingComponent implements OnInit, OnDestroy {
     }
 
     downloadSingle(file: FileViewModel): void {
-        this.store$.dispatch(RemoteFileStoreActions.downloadRequest({ files: file.location.relativePath }));
+        this.store.dispatch(RemoteFileStoreActions.downloadRequest({ files: file.location.relativePath }));
     }
 
     deleteSingle(file: FileViewModel): void {
-        this.store$.dispatch(RemoteFileStoreActions.deleteRequest({ files: file.location.relativePath }));
+        this.store.dispatch(RemoteFileStoreActions.deleteRequest({ files: file.location.relativePath }));
     }
 
     downloadSelected(): void {
         const list = this.getSelected();
 
-        this.store$.dispatch(RemoteFileStoreActions.downloadRequest({ files: list }));
+        this.store.dispatch(RemoteFileStoreActions.downloadRequest({ files: list }));
     }
 
     deleteSelected(): void {
         const list = this.getSelected();
 
-        this.store$.dispatch(RemoteFileStoreActions.deleteRequest({ files: list }));
+        this.store.dispatch(RemoteFileStoreActions.deleteRequest({ files: list }));
     }
 
     getSelected(): string[] {
