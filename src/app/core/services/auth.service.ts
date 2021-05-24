@@ -12,7 +12,7 @@ import { updateUserInfoRequest } from '../root-store/auth-store/actions';
 })
 export class AuthService {
     constructor(
-        private store$: Store,
+        private store: Store,
         private router: Router,
         private oauthService: OAuthService
     ) {
@@ -72,7 +72,7 @@ export class AuthService {
                 roles: profile.role as string[]
             };
 
-            this.store$.dispatch(updateUserInfoRequest({ userInfo }));
+            this.store.dispatch(updateUserInfoRequest({ userInfo }));
         }
     }
 }

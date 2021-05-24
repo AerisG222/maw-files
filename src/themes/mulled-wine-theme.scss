@@ -1,3 +1,6 @@
+@use '~@angular/material' as mat;
+@import '_vars';
+
 /* For use in src/lib/core/theming/_palette.scss */
 /* https://www.uplabs.com/posts/android-fluent-design */
 $md-mulled-wine: (
@@ -234,11 +237,11 @@ $mat-mulled-wine-theme-foreground: (
   slider-off-active: rgba(white, 0.3),
 );
 
-$maw-mulled-wine-primary: mat-palette($md-venus, A400, A200, A700);
-$maw-mulled-wine-accent:  mat-palette($md-venus, A400, A200, A700);
-$maw-mulled-wine-warn:    mat-palette($mat-red);
+$maw-mulled-wine-primary: mat.define-palette($md-venus, A400, A200, A700);
+$maw-mulled-wine-accent:  mat.define-palette($md-venus, A400, A200, A700);
+$maw-mulled-wine-warn:    mat.define-palette(mat.$red-palette);
 
-// manually create theme otherwise background/foreground is ignored using mat-dark-theme()
+// manually create theme otherwise background/foreground is ignored using mat.define-dark-theme()
 $maw-mulled-wine-theme: (
     color: (
         primary: $maw-mulled-wine-primary,

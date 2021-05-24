@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect, concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { saveAs } from 'file-saver';
 import { FileUploader } from 'ng2-file-upload';
 import { of } from 'rxjs';
-import { switchMap, catchError, map, withLatestFrom, filter, mergeMap } from 'rxjs/operators';
+import { switchMap, catchError, map, filter, mergeMap } from 'rxjs/operators';
 
 import * as RemoteFileActions from './actions';
 import * as remoteFileSelectors from './selectors';
@@ -16,10 +16,10 @@ import { AuthService } from '../../services/auth.service';
 export class RemoteFileStoreEffects {
     private static readonly filenameRegex = /.*filename\=(.*);.*/;
 
-    initializeUploaderRequestEffect$ = createEffect(() =>
-        this.actions$.pipe(
+    initializeUploaderRequestEffect$ = createEffect(() => {
+        return this.actions$.pipe(
             ofType(RemoteFileActions.initializeUploaderRequest),
-            withLatestFrom(this.store$.select(remoteFileSelectors.selectRemoteFileUploader)),
+            concatLatestFrom(() => this.store.select(remoteFileSelectors.selectRemoteFileUploader)),
             filter(([action, uploader]) => !!!uploader),
             map(action => {
                 const token = this.authService.getAccessToken();
@@ -35,13 +35,13 @@ export class RemoteFileStoreEffects {
                     return RemoteFileActions.initializeUploaderFailure({ error: 'auth token is not defined' });
                 }
             })
-        )
-    );
+        );
+    });
 
-    loadRequestEffect$ = createEffect(() =>
-        this.actions$.pipe(
+    loadRequestEffect$ = createEffect(() => {
+        return this.actions$.pipe(
             ofType(RemoteFileActions.loadRequest),
-            withLatestFrom(this.store$.select(remoteFileSelectors.selectAllRemoteFiles)),
+            concatLatestFrom(() => this.store.select(remoteFileSelectors.selectAllRemoteFiles)),
             filter(([action, files]) => files.length === 0),
             switchMap(action => {
                 return this.api.getServerFiles()
@@ -50,11 +50,11 @@ export class RemoteFileStoreEffects {
                         catchError(error => of(RemoteFileActions.loadFailure({ error })))
                     );
             })
-        )
-    );
+        );
+    });
 
-    downloadRequestEffect$ = createEffect(() =>
-        this.actions$.pipe(
+    downloadRequestEffect$ = createEffect(() => {
+        return this.actions$.pipe(
             ofType(RemoteFileActions.downloadRequest),
             mergeMap(action => {
                 let list: string[] = [];
@@ -71,11 +71,11 @@ export class RemoteFileStoreEffects {
                         catchError(error => of(RemoteFileActions.downloadFailure({ error })))
                     );
             })
-        )
-    );
+        );
+    });
 
-    deleteRequestEffect$ = createEffect(() =>
-        this.actions$.pipe(
+    deleteRequestEffect$ = createEffect(() => {
+        return this.actions$.pipe(
             ofType(RemoteFileActions.deleteRequest),
             mergeMap(action => {
                 let list: string[] = [];
@@ -89,14 +89,14 @@ export class RemoteFileStoreEffects {
                         catchError(error => of(RemoteFileActions.deleteFailure({ error })))
                     );
             })
-        )
-    );
+        );
+    });
 
     constructor(
         private api: UploadService,
         private actions$: Actions,
         private authService: AuthService,
-        private store$: Store
+        private store: Store
     ) {
 
     }

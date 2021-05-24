@@ -1,24 +1,27 @@
-$maw-dark-primary: mat-palette($mat-pink, A200, A100, A400);
-$maw-dark-accent:  mat-palette($mat-pink, A200, A100, A400);
-$maw-dark-warn:    mat-palette($mat-red);
+@use '~@angular/material' as mat;
+@import '_vars';
+
+$maw-dark-primary: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$maw-dark-accent:  mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$maw-dark-warn:    mat.define-palette(mat.$red-palette);
 
 // based on: https://github.com/angular/components/blob/master/src/material/core/theming/_palette.scss
 $maw-dark-theme-background: (
   status-bar: black,
-  app-bar:    map_get($mat-grey, 900),
+  app-bar:    map_get(mat.$grey-palette, 900),
   background: #303030,
   hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
-  card:       map_get($mat-grey, 800),
-  dialog:     map_get($mat-grey, 800),
+  card:       map_get(mat.$grey-palette, 800),
+  dialog:     map_get(mat.$grey-palette, 800),
   disabled-button: rgba(white, 0.12),
-  raised-button: map-get($mat-grey, 800),
+  raised-button: map-get(mat.$grey-palette, 800),
   focused-button: $light-focused,
-  selected-button: map_get($mat-grey, 900),
-  selected-disabled-button: map_get($mat-grey, 800),
+  selected-button: map_get(mat.$grey-palette, 900),
+  selected-disabled-button: map_get(mat.$grey-palette, 800),
   disabled-button-toggle: black,
-  unselected-chip: map_get($mat-grey, 700),
+  unselected-chip: map_get(mat.$grey-palette, 700),
   disabled-list-option: black,
-  tooltip: map_get($mat-pink, 700),
+  tooltip: map_get(mat.$pink-palette, 700),
 );
 
 $maw-dark-theme-foreground: (

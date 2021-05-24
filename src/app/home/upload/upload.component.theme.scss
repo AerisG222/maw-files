@@ -1,15 +1,15 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 @mixin app-upload-component-theme($theme) {
     $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
 
     .upload-button {
-        color: mat-color($accent);
+        color: mat.get-color-from-palette($accent);
     }
 
     .cancel-button,
     .delete-button {
-        color: mat-color($warn);
+        color: mat.get-color-from-palette($warn);
     }
 }
