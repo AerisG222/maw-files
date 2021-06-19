@@ -1,0 +1,11 @@
+/.git
+/.github
+/dist
+/etc
+/node_modules
+/tools
+tmp
+out-tsc
+
+/e2e
+**/*.spec.ts
