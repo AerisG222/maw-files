@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { OAuthService, UserInfo } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular-oauth2-oidc';
 import { filter, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { authConfig } from '../auth-config';
+import { UserInfo } from '../models/user-info.model';
 import { updateUserInfoRequest } from '../root-store/auth-store/actions';
 
 @Injectable({
@@ -53,26 +54,39 @@ export class AuthService {
         this.oauthService.initLoginFlowInPopup({ height: 600, width: 600 });
     }
 
-    private finishLogin(): void {
+    private async finishLogin(): Promise<void> {
         if (this.router.routerState.snapshot.url.startsWith('/login')) {
-            this.oauthService.loadUserProfile()
-                .then(profile => {
-                    this.storeProfile(profile);
-                    this.router.navigate(['/']);
-                });
+            const profile = await this.oauthService.loadUserProfile();
+
+            if(profile) {
+                const userInfo = this.buildUserInfo(profile);
+                this.storeProfile(userInfo);
+            }
+
+            this.router.navigate(['/']);
         }
     }
 
-    private storeProfile(profile: UserInfo): void {
-        if (!!profile) {
-            const userInfo = {
-                username: profile.name as string,
-                firstName: profile.given_name as string,
-                lastName: profile.family_name as string,
-                roles: profile.role as string[]
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private buildUserInfo(profile: any): UserInfo {
+        if('info' in profile &&
+            'given_name' in profile.info &&
+            'family_name' in profile.info &&
+            'role' in profile.info) {
+            return {
+                username: profile.info.name as string,
+                firstName: profile.info.given_name as string,
+                lastName: profile.info.family_name as string,
+                roles: profile.info.role as string[]
             };
-
-            this.store.dispatch(updateUserInfoRequest({ userInfo }));
         }
+
+        throw Error('Invalid profile!');
+    }
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+
+    private storeProfile(userInfo: UserInfo): void {
+        this.store.dispatch(updateUserInfoRequest({ userInfo }));
     }
 }
