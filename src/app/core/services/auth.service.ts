@@ -81,6 +81,19 @@ export class AuthService {
             };
         }
 
+        // not sure why this is sometimes embedded under info...
+        if('info' in profile &&
+            'given_name' in profile.info &&
+            'family_name' in profile.info &&
+            'role' in profile.info) {
+            return {
+                username: profile.info.name as string,
+                firstName: profile.info.given_name as string,
+                lastName: profile.info.family_name as string,
+                roles: profile.info.role as string[]
+            };
+        }
+
         throw Error('Invalid profile!');
     }
     /* eslint-enable @typescript-eslint/no-unsafe-member-access */
