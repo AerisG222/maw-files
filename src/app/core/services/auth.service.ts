@@ -70,15 +70,14 @@ export class AuthService {
     /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private buildUserInfo(profile: any): UserInfo {
-        if('info' in profile &&
-            'given_name' in profile.info &&
-            'family_name' in profile.info &&
-            'role' in profile.info) {
+        if('given_name' in profile &&
+            'family_name' in profile &&
+            'role' in profile) {
             return {
-                username: profile.info.name as string,
-                firstName: profile.info.given_name as string,
-                lastName: profile.info.family_name as string,
-                roles: profile.info.role as string[]
+                username: profile.name as string,
+                firstName: profile.given_name as string,
+                lastName: profile.family_name as string,
+                roles: profile.role as string[]
             };
         }
 
