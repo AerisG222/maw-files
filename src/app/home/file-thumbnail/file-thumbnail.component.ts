@@ -12,6 +12,13 @@ import { first, tap, filter } from 'rxjs/operators';
 export class FileThumbnailComponent {
     url: SafeUrl | null = null;
 
+    constructor(
+        private uploadService: UploadService,
+        private domSanitizer: DomSanitizer
+    ) {
+
+    }
+
     @Input()
     set relativeFilePath(value: string) {
         this.uploadService
@@ -22,12 +29,5 @@ export class FileThumbnailComponent {
                 tap(blob => this.url = this.domSanitizer.bypassSecurityTrustUrl(blob))
             )
             .subscribe();
-    }
-
-    constructor(
-        private uploadService: UploadService,
-        private domSanitizer: DomSanitizer
-    ) {
-
     }
 }
