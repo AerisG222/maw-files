@@ -125,7 +125,7 @@ export class UploadService {
             this.hub = hub;
             this.store.dispatch(RemoteFileStoreActions.loadRequest());
         } catch (err) {
-            return console.error(err.toString());
+            return console.error({ error: err as string });
         }
     }
 }

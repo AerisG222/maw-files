@@ -26,7 +26,7 @@ export class SettingsStoreEffects {
                     this.settingsService.save(action.settings);
                     return SettingsActions.saveSuccess(action);
                 } catch (err) {
-                    return SettingsActions.saveFailure(err);
+                    return SettingsActions.saveFailure({ error: err as string });
                 }
             })
         );
