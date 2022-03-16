@@ -2,7 +2,7 @@ export const environment = {
     production: false,
     version: require('../../package.json').version,
 
-    apiUrl: 'https://apidev.mikeandwan.us',
-    authUrl: 'https://authdev.mikeandwan.us',
-    filesUrl: 'http://filesdev.mikeandwan.us'
+    apiUrl: 'https://dev.api.mikeandwan.us',
+    authUrl: 'https://dev.auth.mikeandwan.us',
+    filesUrl: 'http://dev.files.mikeandwan.us'
 };
