@@ -12,7 +12,7 @@
     "e2e": "ng e2e",
     "dev_watch": "ng build --vendor-chunk=false --watch",
     "dev_build": "ng build --vendor-chunk=false && ng lint",
-    "containerdev_build": "ng build --aot --configuration containerdev",
+    "test_build": "ng build --aot --configuration test",
     "prod_build": "ng build --aot --configuration production",
     "containerize_dev": "buildah bud -f Containerfile.dev -t maw-files-dev",
     "analyze": "source-map-explorer dist/main*.js"

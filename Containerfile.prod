@@ -31,4 +31,4 @@ COPY etc/nginx/conf.d/prod.maw-files.conf /etc/nginx/conf.d/maw-files.conf
 COPY --from=0                             /usr/src/maw-files/dist .
 
 CMD [ "nginx", "-g", "daemon off;" ]
-EXPOSE 10443
+EXPOSE 4300
