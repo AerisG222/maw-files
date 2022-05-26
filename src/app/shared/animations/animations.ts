@@ -1,5 +1,7 @@
 import { trigger, transition, animate, keyframes, style } from '@angular/animations';
 
+/* eslint-disable @typescript-eslint/naming-convention */
+
 export const listItemAnimation = trigger('listItemAnimation', [
     transition(':enter', [
         animate('500ms', keyframes([
