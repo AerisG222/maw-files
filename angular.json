@@ -169,7 +169,6 @@
             }
         }
     },
-    "defaultProject": "maw-files",
     "cli": {
         "analytics": false
     }
