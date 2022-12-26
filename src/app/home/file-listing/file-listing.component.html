@@ -1,4 +1,4 @@
-<h2>Remote Files</h2>
+<h3>Remote Files</h3>
 
 <p *ngIf="files.length === 0">No files available</p>
 
@@ -28,13 +28,17 @@
     <ng-container matColumnDef="download">
         <th class="text-center download-button" mat-header-cell *matHeaderCellDef>Download</th>
         <td class="text-center download-button" mat-cell *matCellDef="let file">
-            <mat-icon [inline]="true" (click)="downloadSingle(file)">cloud_download</mat-icon>
+            <button type="submit" (click)="downloadSingle(file)" mat-button class="download-button-table">
+                <mat-icon [inline]="true">cloud_download</mat-icon>
+            </button>
         </td>
     </ng-container>
     <ng-container matColumnDef="delete">
         <th class="text-center delete-button" mat-header-cell *matHeaderCellDef>Delete</th>
         <td class="text-center delete-button" mat-cell *matCellDef="let file">
-            <mat-icon [inline]="true" (click)="deleteSingle(file)">delete</mat-icon>
+            <button type="submit" (click)="deleteSingle(file)" mat-button class="delete-button-table">
+                <mat-icon [inline]="true">delete</mat-icon>
+            </button>
         </td>
     </ng-container>
     <ng-container matColumnDef="check">

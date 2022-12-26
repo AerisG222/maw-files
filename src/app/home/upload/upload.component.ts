@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyTable as MatTable } from '@angular/material/legacy-table';
+import { MatTable } from '@angular/material/table';
 import { FileUploader, FileItem } from 'ng2-file-upload';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';

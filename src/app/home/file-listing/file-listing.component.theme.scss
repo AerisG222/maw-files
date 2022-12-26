@@ -4,11 +4,13 @@
     $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
 
-    .download-button {
-        color: mat.get-color-from-palette($accent);
+    .download-button,
+    .download-button-table {
+        color: mat.get-color-from-palette($accent) !important;
     }
 
-    .delete-button {
-        color: mat.get-color-from-palette($warn);
+    .delete-button,
+    .delete-button-table {
+        color: mat.get-color-from-palette($warn) !important;
     }
 }

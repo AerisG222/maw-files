@@ -5,11 +5,21 @@ table {
 
 .download-button,
 .delete-button {
-    cursor: pointer;
+    letter-spacing: normal;
+
+    & mat-icon {
+        padding-top: 16px;
+        margin-right: 4px;
+    }
 }
 
-.mat-cell,
-.mat-header-cell {
+.mat-mdc-button.download-button-table mat-icon,
+.mat-mdc-button.delete-button-table mat-icon {
+    margin-right: 0 !important;
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
     padding-left: 6px;
     padding-right: 6px;
 }

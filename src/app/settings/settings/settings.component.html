@@ -6,8 +6,8 @@
             <mat-card>
                 <mat-card-title>General</mat-card-title>
                 <mat-card-content>
-                    <h3>Theme</h3>
-                    <mat-form-field appearance="standard">
+                    <mat-card-subtitle>Theme</mat-card-subtitle>
+                    <mat-form-field>
                         <mat-label>Theme</mat-label>
                         <mat-select formControlName="appTheme">
                             <mat-option *ngFor="let theme of themes" [value]="theme.name">{{ theme.name }}</mat-option>

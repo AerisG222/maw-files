@@ -5,11 +5,11 @@
     $warn: map-get($theme, warn);
 
     .upload-button {
-        color: mat.get-color-from-palette($accent);
+        color: mat.get-color-from-palette($accent) !important;
     }
 
     .cancel-button,
     .delete-button {
-        color: mat.get-color-from-palette($warn);
+        color: mat.get-color-from-palette($warn) !important;
     }
 }
