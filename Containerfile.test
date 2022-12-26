@@ -10,7 +10,7 @@ WORKDIR /usr/src/maw-files
 COPY "package*.json" .
 
 ENV NG_CLI_ANALYTICS=off
-RUN npm install
+RUN npm install --force
 
 COPY . .
 
