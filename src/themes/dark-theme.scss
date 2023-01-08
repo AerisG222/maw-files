@@ -5,56 +5,18 @@ $maw-dark-primary: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 $maw-dark-accent:  mat.define-palette(mat.$pink-palette, A200, A100, A400);
 $maw-dark-warn:    mat.define-palette(mat.$red-palette);
 
-// based on: https://github.com/angular/components/blob/master/src/material/core/theming/_palette.scss
-$maw-dark-theme-background: (
-  status-bar: black,
-  app-bar:    map_get(mat.$grey-palette, 900),
-  background: #303030,
-  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
-  card:       map_get(mat.$grey-palette, 800),
-  dialog:     map_get(mat.$grey-palette, 800),
-  disabled-button: rgba(white, 0.12),
-  raised-button: map-get(mat.$grey-palette, 800),
-  focused-button: $light-focused,
-  selected-button: map_get(mat.$grey-palette, 900),
-  selected-disabled-button: map_get(mat.$grey-palette, 800),
-  disabled-button-toggle: black,
-  unselected-chip: map_get(mat.$grey-palette, 700),
-  disabled-list-option: black,
-  tooltip: map_get(mat.$pink-palette, 700),
-);
-
-$maw-dark-theme-foreground: (
-  base:              white,
-  divider:           $light-dividers,
-  dividers:          $light-dividers,
-  disabled:          $light-disabled-text,
-  disabled-button:   rgba(white, 0.3),
-  disabled-text:     $light-disabled-text,
-  elevation:         black,
-  hint-text:         $light-disabled-text,
-  secondary-text:    $light-secondary-text,
-  icon:              white,
-  icons:             white,
-  text:              white,
-  slider-min:        white,
-  slider-off:        rgba(white, 0.3),
-  slider-off-active: rgba(white, 0.3),
-);
-
-$maw-dark-theme: (
+$maw-dark-theme: mat.define-dark-theme((
     color: (
         primary: $maw-dark-primary,
         accent: $maw-dark-accent,
-        warn: $maw-dark-warn,
-        is-dark: true,
-        foreground: $maw-dark-theme-foreground,
-        background: $maw-dark-theme-background
+        warn: $maw-dark-warn
     ),
-    primary: $maw-dark-primary,
-    accent: $maw-dark-accent,
-    warn: $maw-dark-warn,
-    is-dark: true,
-    foreground: $maw-dark-theme-foreground,
-    background: $maw-dark-theme-background
-);
+    typography: mat.define-typography-config(),
+    density: 0
+));
+
+.maw-dark-theme {
+    mat-card {
+        color: #fff;
+    }
+}

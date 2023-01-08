@@ -118,9 +118,17 @@ $maw-pale-night-theme: (
         background: $mat-pale-night-theme-background
     ),
     primary: $maw-pale-night-primary,
-        accent: $maw-pale-night-accent,
-        warn: $maw-pale-night-warn,
-        is-dark: true,
-        foreground: $mat-pale-night-theme-foreground,
-        background: $mat-pale-night-theme-background
+    accent: $maw-pale-night-accent,
+    warn: $maw-pale-night-warn,
+    is-dark: true,
+    foreground: $mat-pale-night-theme-foreground,
+    background: $mat-pale-night-theme-background,
+    typography: mat.define-typography-config(),
+    density: -1
 );
+
+.maw-pale-night-theme {
+    mat-card {
+        color: map-get($maw-pale-night-accent, 50);
+    }
+}
